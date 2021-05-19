@@ -1,0 +1,54 @@
+<?php
+namespace App\Controller\Admin\Log;
+
+use App\Controller\DefaultController;
+use App\Models\ChatLogs;
+use App\Models\StaffLog;
+use App\Models\User;
+use Exception;
+
+class LogChatController extends DefaultController
+{
+    public function post($request, $response)
+    {
+        $input = $request->getParsedBody();
+        $userId = $input['decoded']->sub;
+        
+        $data = json_decode(json_encode($input), false);
+        
+        $this->requireData($data, ['username', 'startdate', 'enddate']);
+        
+        $user = User::where('id', $userId)->select('rank', 'username')->first();
+        if(!$user) throw new Exception('disconnect', 401);
+                
+        if ($user->rank < 8) {
+            throw new Exception('permission', 403);
+        }
+
+        $username = $data->username;
+        $startdate = $data->startdate;
+        $enddate = $data->enddate;
+
+        StaffLog::insert([
+            'pseudo' => $user->username,
+            'action' => 'Recherche chatlog de: ' . $username,
+            'date' => time()
+        ]);
+
+        if (empty($username) || empty($startdate) || !strtotime($startdate) || empty($enddate) || !strtotime($enddate)) {
+            throw new Exception('error', 400);
+        }
+
+        $timestamp = strtotime($startdate);
+        $timestampEnd = strtotime($enddate);
+
+        $chatlogs = ChatLogs::where('user_name', $username)->where('timestamp', '>', $timestamp)->where('timestamp', '<', $timestampEnd)->orderBy('timestamp', 'DESC')->get();
+		
+		$message = [
+			'chatlogs' => $chatlogs
+        ];
+
+        return $this->jsonResponse($response, $message);
+    }
+
+}

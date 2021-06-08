@@ -7,11 +7,13 @@ use App\Models\MessengerFriendships;
 use App\Models\User;
 use App\Models\UserBadges;
 use App\Models\UserStats;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use Exception;
 
 class ProfilController extends DefaultController
 {
-    public function get($request, $response, $args)
+    public function get(Request $request, Response $response, array $args): Response
     {
         $cacheData = $this->cache->get(10);
         if(!empty($cacheData)) return $this->jsonResponse($response, $cacheData);
@@ -80,7 +82,7 @@ class ProfilController extends DefaultController
         return $this->jsonResponse($response, $message);
     }
 
-    public function getBadges($request, $response, $args)
+    public function getBadges(Request $request, Response $response, array $args): Response
     {
         $currentPage = 1;
         if (!empty($_GET['page']) && is_numeric($_GET['page'])) {

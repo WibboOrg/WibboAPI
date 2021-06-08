@@ -5,11 +5,14 @@ use App\Controller\DefaultController;
 use App\Models\Bans;
 use App\Models\StaffLog;
 use App\Models\User;
+use Slim\Http\Request;
+use Slim\Http\Response;
+use App\Helper\Utils;
 use Exception;
 
 class BanController extends DefaultController
 {
-    public function post($request, $response)
+    public function post(Request $request, Response $response, array $args): Response
     {
 		$input = $request->getParsedBody();
 		$userId = $input['decoded']->sub;
@@ -67,7 +70,7 @@ class BanController extends DefaultController
 
         User::where('id', $userTarget->id)->update(['auth_ticket' => '']);
 
-        sendMusCommand('signout', $userTarget->id);
+        Utils::sendMusCommand('signout', $userTarget->id);
 
         StaffLog::insert([
             'pseudo' => $user->username,
@@ -75,9 +78,10 @@ class BanController extends DefaultController
             'date' => time()
         ]);
 
+        return $this->jsonResponse($response, null);
     }
 
-    public function delete($request, $response, $args)
+    public function delete(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
         $userId = $input['decoded']->sub;
@@ -111,9 +115,11 @@ class BanController extends DefaultController
             'action' => 'Débannisement de: ' . $name,
             'date' => time()
         ]);
+
+        return $this->jsonResponse($response, null);
     }
 
-    public function get($request, $response)
+    public function get(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
         $userId = $input['decoded']->sub;

@@ -4,13 +4,16 @@ namespace App\Controller\Utils;
 use App\Controller\DefaultController;
 use App\Models\Forgot;
 use App\Models\User;
+use Slim\Http\Request;
+use Slim\Http\Response;
+use App\Helper\Utils;
 use Exception;
 
 class ForgotController extends DefaultController
 {
-    private $_timeExpire = 48 * 60 * 60;
+    private $timeExpire = 48 * 60 * 60;
 
-    public function verifForgot($request, $response, $args)
+    public function verifForgot(Request $request, Response $response, array $args): Response
     {
         if (empty($args['code'])) {
             throw new Exception('mail.code-invalid', 400);
@@ -21,14 +24,14 @@ class ForgotController extends DefaultController
             throw new Exception('mail.code-invalid', 400);
         }
 
-        $forgotExpire = $forgot->expire + $this->_timeExpire;
+        $forgotExpire = $forgot->expire + $this->timeExpire;
 
         if ($forgotExpire < time()) {
             Forgot::where('pass', $args['code'])->delete();
             throw new Exception('mail.expirer', 400);
         }
 
-        $mdp = $this->createRandomPassword();
+        $mdp = Utils::generateHash(10);
         $newpassword = md5($mdp);
 
         $htmlText = "Salut " . $forgot->users . ", votre nouveau mot de passe est: " . $mdp . " s'il vous plaît changer le après VOTRE connection sur le site.";
@@ -47,7 +50,7 @@ class ForgotController extends DefaultController
         return $this->jsonResponse($response, null);
     }
 
-    public function postForgot($request, $response)
+    public function postForgot(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
         $data = json_decode(json_encode($input), false);
@@ -61,7 +64,7 @@ class ForgotController extends DefaultController
 
         $forgot = Forgot::where('users', $data->username)->where('email', $data->email)->first();
         if ($forgot) {
-            $forgot_expire = $forgot->expire + $this->_timeExpire;
+            $forgot_expire = $forgot->expire + $this->timeExpire;
             if ($forgot_expire > time()) {
                 throw new Exception('mail.in-progress', 400);
             }
@@ -73,7 +76,7 @@ class ForgotController extends DefaultController
             throw new Exception('mail.deny', 400);
         }
 
-        $code = md5($this->GeraHash(10));
+        $code = md5(Utils::generateHash(10));
 
         $username = $data->username;
         $email = $data->email;
@@ -147,35 +150,5 @@ html;
         }
 
         return $this->jsonResponse($response, null);
-    }
-
-    private function createRandomPassword()
-    {
-        $chars = "abcdefghijkmnopqrstuvwxyz023456789ABCDEFGHIJKMNOPQRSTUVWXYZ";
-        srand((double) microtime() * 1000000);
-        $i = 0;
-        $pass = '';
-
-        while ($i <= 7) {
-            $num = rand() % 33;
-            $tmp = substr($chars, $num, 1);
-            $pass = $pass . $tmp;
-            $i++;
-        }
-
-        return $pass;
-    }
-
-    private function GeraHash($qtd)
-    {
-        $Caracteres = 'abcdefghijklmopqrstuvxwyzABCDEFGHIJKLMOPQRSTUVXWYZ0123456789';
-        $QuantidadeCaracteres = strlen($Caracteres);
-        $QuantidadeCaracteres--;
-        $Hash = null;
-        for ($x = 1; $x <= $qtd; $x++) {
-            $Posicao = rand(0, $QuantidadeCaracteres);
-            $Hash .= substr($Caracteres, $Posicao, 1);
-        }
-        return $Hash;
     }
 }

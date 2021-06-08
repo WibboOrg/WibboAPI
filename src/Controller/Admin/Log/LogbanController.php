@@ -4,11 +4,13 @@ namespace App\Controller\Admin\Log;
 use App\Controller\DefaultController;
 use App\Models\Bans;
 use App\Models\User;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use Exception;
 
 class LogbanController extends DefaultController
 {
-    public function post($request, $response)
+    public function post(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
         $userId = $input['decoded']->sub;

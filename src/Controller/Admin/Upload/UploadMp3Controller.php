@@ -3,11 +3,13 @@ namespace App\Controller\Admin\Upload;
 
 use App\Controller\DefaultController;
 use App\Models\User;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use Exception;
 
 class UploadMp3Controller extends DefaultController
 {
-    public function post($request, $response)
+    public function post(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
         $userId = $input['decoded']->sub;
@@ -50,5 +52,7 @@ class UploadMp3Controller extends DefaultController
         if ($result === false || $result !== 'ok') {
             throw new Exception('error', 400);
         }
+
+        return $this->jsonResponse($response, null);
     }
 }

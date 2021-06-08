@@ -2,11 +2,13 @@
 namespace App\Controller\Ranking;
 
 use App\Controller\DefaultController;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use App\Models\User;
 
 class RankingController extends DefaultController
 {   
-    public function getClassement($request, $response)
+    public function getClassement(Request $request, Response $response, array $args): Response
     {
         $cacheData = $this->cache->get(5);
         if(!empty($cacheData)) return $this->jsonResponse($response, $cacheData);
@@ -26,7 +28,7 @@ class RankingController extends DefaultController
         return $this->jsonResponse($response, $message);
     }
 
-    public function getInfluences($request, $response)
+    public function getInfluences(Request $request, Response $response, array $args): Response
     {
         $cacheData = $this->cache->get(5);
         if(!empty($cacheData)) return $this->jsonResponse($response, $cacheData);
@@ -48,7 +50,7 @@ class RankingController extends DefaultController
         return $this->jsonResponse($response, $message);
     }
 
-    public function getTop($request, $response)
+    public function getTop(Request $request, Response $response, array $args): Response
     {
         $cacheData = $this->cache->get(5);
         if(!empty($cacheData)) return $this->jsonResponse($response, $cacheData);
@@ -66,7 +68,7 @@ class RankingController extends DefaultController
         return $this->jsonResponse($response, $message);
     }
 
-    public function getTopRun($request, $response)
+    public function getTopRun(Request $request, Response $response, array $args): Response
     {
         $cacheData = $this->cache->get(5);
         if(!empty($cacheData)) return $this->jsonResponse($response, $cacheData);
@@ -84,7 +86,7 @@ class RankingController extends DefaultController
         return $this->jsonResponse($response, $message);
     }
 
-    public function getTopMazo($request, $response)
+    public function getTopMazo(Request $request, Response $response, array $args): Response
     {
         $cacheData = $this->cache->get(5);
         if(!empty($cacheData)) return $this->jsonResponse($response, $cacheData);

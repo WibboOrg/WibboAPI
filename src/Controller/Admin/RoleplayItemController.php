@@ -4,11 +4,13 @@ namespace App\Controller\Admin;
 use App\Controller\DefaultController;
 use App\Models\RPItems;
 use App\Models\User;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use Exception;
 
 class RoleplayItemController extends DefaultController
 {
-    public function get($request, $response)
+    public function get(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
         $userId = $input['decoded']->sub;
@@ -29,7 +31,7 @@ class RoleplayItemController extends DefaultController
         return $this->jsonResponse($response, $message);
     }
     
-    public function post($request, $response)
+    public function post(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
         $userId = $input['decoded']->sub;
@@ -98,9 +100,11 @@ class RoleplayItemController extends DefaultController
             'allowstack' => $allowstack,
             'category' => $category,
         ]);
+
+        return $this->jsonResponse($response, null);
     }
 
-    public function patch($request, $response, $args)
+    public function patch(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
         $userId = $input['decoded']->sub;
@@ -146,5 +150,7 @@ class RoleplayItemController extends DefaultController
             'allowstack' => $allowstack,
             'category' => $category,
         ]);
+
+        return $this->jsonResponse($response, null);
     }
 }

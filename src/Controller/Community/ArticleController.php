@@ -3,11 +3,13 @@ namespace App\Controller\Community;
 
 use App\Controller\DefaultController;
 use App\Models\News;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use Exception;
 
 class ArticleController extends DefaultController
 {
-    public function getNewList($request, $response, $args)
+    public function getNewList(Request $request, Response $response, array $args): Response
     {
         $totalPage = 0;
         $limitpage = 50;
@@ -34,7 +36,7 @@ class ArticleController extends DefaultController
         return $this->jsonResponse($response, $message);
     }
     
-    public function getNewLast($request, $response, $args)
+    public function getNewLast(Request $request, Response $response, array $args): Response
     {
         $cacheData = $this->cache->get(5);
         if(!empty($cacheData)) return $this->jsonResponse($response, $cacheData);
@@ -50,7 +52,7 @@ class ArticleController extends DefaultController
         return $this->jsonResponse($response, $message);
     }
 
-    public function getNews($request, $response, $args)
+    public function getNews(Request $request, Response $response, array $args): Response
     {
         $cacheData = $this->cache->get(60);
         if(!empty($cacheData)) return $this->jsonResponse($response, $cacheData);

@@ -8,11 +8,13 @@ use App\Models\Groups;
 use App\Models\GroupMembres;
 use App\Models\User;
 use App\Models\UserPhotos;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use Exception;
 
 class CommunityController extends DefaultController
 {
-    public function getGroupe($request, $response, $args)
+    public function getGroupe(Request $request, Response $response, array $args): Response
     {
         $cacheData = $this->cache->get(60);
         if(!empty($cacheData)) return $this->jsonResponse($response, $cacheData);
@@ -40,7 +42,7 @@ class CommunityController extends DefaultController
         return $this->jsonResponse($response, $message);
     }
 
-    public function getStaff($request, $response)
+    public function getStaff(Request $request, Response $response, array $args): Response
     {
         $cacheData = $this->cache->get(60);
         if(!empty($cacheData)) return $this->jsonResponse($response, $cacheData);
@@ -61,7 +63,7 @@ class CommunityController extends DefaultController
         return $this->jsonResponse($response, $message);
     }
 
-    public function getPhotos($request, $response)
+    public function getPhotos(Request $request, Response $response, array $args): Response
     {
         $currentPage = 0;
         if (!empty($_GET['page']) and is_numeric($_GET['page'])) {

@@ -5,11 +5,14 @@ use App\Controller\DefaultController;
 use App\Models\Rooms;
 use App\Models\StaffLog;
 use App\Models\User;
+use Slim\Http\Request;
+use Slim\Http\Response;
+use App\Helper\Utils;
 use Exception;
 
 class TransfertRoomController extends DefaultController
 {
-    public function post($request, $response)
+    public function post(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
         $userId = $input['decoded']->sub;
@@ -47,12 +50,14 @@ class TransfertRoomController extends DefaultController
         }
 
         Rooms::where('id', $roomid)->update(['owner' => $userTarget->username]);
-        sendMusCommand('unload', $room->id);
+        Utils::sendMusCommand('unload', $room->id);
 
         StaffLog::insert([
             'pseudo' => $user->username,
             'action' => 'Transfert de l\'appart: ' . $room->id . ' chez ' . $userTarget->username,
             'date' => time(),
         ]);
+
+        return $this->jsonResponse($response, null);
     }
 }

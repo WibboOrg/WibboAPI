@@ -7,12 +7,13 @@ use App\Models\ForumPosts;
 use App\Models\ForumThreads;
 use App\Models\StaffLog;
 use App\Models\User;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use Exception;
-use App\Service\Cache;
 
 class ForumController extends DefaultController
 {
-    public function getForum($request, $response, $args)
+    public function getForum(Request $request, Response $response, array $args): Response
     {
         $limitpage = 20;
         $ctgr = (is_numeric($args['category'])) ? $args['category'] : 0;
@@ -56,7 +57,7 @@ class ForumController extends DefaultController
         return $this->jsonResponse($response, $message);
     }
 
-    public function viewSujet($request, $response, $args)
+    public function viewSujet(Request $request, Response $response, array $args): Response
     {
         if (empty($args['id']) || !is_numeric($args['id'])) {
             throw new Exception('not-found', 404);
@@ -96,7 +97,7 @@ class ForumController extends DefaultController
         return $this->jsonResponse($response, $message);
     }
 
-    public function editPost($request, $response, $args)
+    public function editPost(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
 
@@ -153,7 +154,7 @@ class ForumController extends DefaultController
         return $this->jsonResponse($response, null);
     }
 
-    public function postSujet($request, $response, $args)
+    public function postSujet(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
 
@@ -242,7 +243,7 @@ class ForumController extends DefaultController
         return $this->jsonResponse($response, $message);
     }
 
-    public function deplaceSujet($request, $response, $args)
+    public function deplaceSujet(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
 
@@ -281,7 +282,7 @@ class ForumController extends DefaultController
         return $this->jsonResponse($response, null);
     }
 
-    public function comment($request, $response, $args)
+    public function comment(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
 
@@ -336,7 +337,7 @@ class ForumController extends DefaultController
         return $this->jsonResponse($response, $post);
     }
 
-    public function deletePost($request, $response, $args)
+    public function deletePost(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
 
@@ -372,7 +373,7 @@ class ForumController extends DefaultController
         return $this->jsonResponse($response, null);
     }
 
-    public function statutSujet($request, $response, $args)
+    public function statutSujet(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
 
@@ -400,7 +401,7 @@ class ForumController extends DefaultController
         return $this->jsonResponse($response, null);
     }
 
-    public function epingleSujet($request, $response, $args)
+    public function epingleSujet(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
 

@@ -5,11 +5,13 @@ use App\Controller\DefaultController;
 use App\Models\StaffLog;
 use App\Models\StaffPage;
 use App\Models\User;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use Exception;
 
 class StaffsController extends DefaultController
 {
-    public function get($request, $response)
+    public function get(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
         $userId = $input['decoded']->sub;
@@ -30,7 +32,7 @@ class StaffsController extends DefaultController
         return $this->jsonResponse($response, $message);
     }
 
-    public function post($request, $response)
+    public function post(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
         $userId = $input['decoded']->sub;
@@ -66,5 +68,7 @@ class StaffsController extends DefaultController
             'action' => 'Mise à jour Staff: ' . $targetId,
             'date' => time(),
         ]);
+
+        return $this->jsonResponse($response, null);
     }
 }

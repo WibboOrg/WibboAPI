@@ -9,15 +9,11 @@ use App\Models\User;
 use App\Models\StaffIp;
 use App\Models\LogLogin;
 use App\Models\Bans;
+use App\Helper\Utils;
 use Exception;
 
 class LoginController extends DefaultController
 {
-    public function debug(Request $request, Response $response, array $args): Response
-    {
-        return $this->jsonResponse($response, getUserIP(), 200);
-    }
-
     public function post(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
@@ -48,12 +44,12 @@ class LoginController extends DefaultController
             'country' => $ipcountry,
             'iat' => time(),
             'exp' => time() + (7 * 24 * 60 * 60),
-            'ip' => getUserIP()
+            'ip' => Utils::getUserIP()
         ];
 
         User::where('id', $user->id)->update([
             'last_offline' => time(),
-            'ip_last' => getUserIP(),
+            'ip_last' => Utils::getUserIP(),
             'ipcountry' => $ipcountry,
             'langue' => 'fr'
         ]);
@@ -61,16 +57,16 @@ class LoginController extends DefaultController
         LogLogin::insert([
             'user_id' => $user->id,
             'date' => time(),
-            'ip' => getUserIP(),
+            'ip' => Utils::getUserIP(),
             'user_agent' => $_SERVER['HTTP_USER_AGENT']
         ]);
 
         return JWT::encode($token, getenv('SECRET_KEY'));
     }
 
-    private function loginUser($username, $password): User
+    private function loginUser(string $username, string $password): User
     {
-        $user = User::where('username', $username)->where('password', '=', hashMdp($password))->select('id')->first();
+        $user = User::where('username', $username)->where('password', '=', Utils::hashMdp($password))->select('id')->first();
 
         if(!$user) {
             throw new Exception('login.fail', 400);
@@ -79,20 +75,20 @@ class LoginController extends DefaultController
         return $user;
     }
 
-    private function checkIpStaff($userId)
+    private function checkIpStaff(int $userId): void
     {
         $protectionstaff = StaffIp::where('id', $userId)->first();
         if (!$protectionstaff) return;
 
-        if ($protectionstaff->ip == getUserIP()) return;
+        if ($protectionstaff->ip == Utils::getUserIP()) return;
         
-        throw new Exception('login.staff|'.getUserIP(), 400);
+        throw new Exception('login.staff|' . Utils::getUserIP(), 400);
     }
 
-    private function checkBan($username)
+    private function checkBan(string $username): void
     {
-        if (!ipInRange(getUserIP(), "45.33.128.0/20") && !ipInRange(getUserIP(), "107.178.36.0/20")) {
-            $ipBan = Bans::select('reason', 'expire')->where('bantype', 'ip')->where('value', getUserIP())->where('expire', '>', time())->first();
+        if (!Utils::ipInRange(Utils::getUserIP(), "45.33.128.0/20") && !Utils::ipInRange(Utils::getUserIP(), "107.178.36.0/20")) {
+            $ipBan = Bans::select('reason', 'expire')->where('bantype', 'ip')->where('value', Utils::getUserIP())->where('expire', '>', time())->first();
             if ($ipBan) {
                 throw new Exception('login.ban|'.$ipBan->reason.'|'.date('d/m/Y|H:i:s', $ipBan->expire), 400);
             }

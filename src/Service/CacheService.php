@@ -3,7 +3,7 @@ namespace App\Service;
 
 class CacheService
 {
-    public function get($minutes, $pageId = 0)
+    public function get(int $minutes, int $pageId = 0): string
     {
         $url = strtok($_SERVER["REQUEST_URI"], '?');
         
@@ -28,7 +28,7 @@ class CacheService
         return $message;
     }
             
-    public function save($message, $pageId = 0)
+    public function save(string $message, int $pageId = 0): void
     {
         $url = strtok($_SERVER["REQUEST_URI"], '?');
         
@@ -48,7 +48,7 @@ class CacheService
         file_put_contents($filepath, json_encode($message));
     }
 
-    public function delete($pageId = 0)
+    public function delete(int $pageId = 0): void
     {
         $url = strtok($_SERVER["REQUEST_URI"], '?');
         

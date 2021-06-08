@@ -3,11 +3,13 @@ namespace App\Controller\Admin\Upload;
 
 use App\Controller\DefaultController;
 use App\Models\User;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use Exception;
 
 class UploadImageController extends DefaultController
 {
-    public function post($request, $response)
+    public function post(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
         $userId = $input['decoded']->sub;

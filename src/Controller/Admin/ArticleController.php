@@ -5,11 +5,13 @@ use App\Controller\DefaultController;
 use App\Models\News;
 use App\Models\StaffLog;
 use App\Models\User;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use Exception;
 
 class ArticleController extends DefaultController
 {
-    public function get($request, $response)
+    public function get(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
         $userId = $input['decoded']->sub;
@@ -30,7 +32,7 @@ class ArticleController extends DefaultController
         return $this->jsonResponse($response, $message);
     }
 
-    public function getNew($request, $response, $args)
+    public function getNew(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
         $userId = $input['decoded']->sub;
@@ -57,7 +59,7 @@ class ArticleController extends DefaultController
         return $this->jsonResponse($response, $message);
     }
 
-    public function post($request, $response)
+    public function post(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
         $userId = $input['decoded']->sub;
@@ -109,9 +111,11 @@ class ArticleController extends DefaultController
             'action' => 'Création d\'un article: ' . $id,
             'date' => time()
         ]);
+
+        return $this->jsonResponse($response, null);
     }
 
-    public function patch($request, $response, $args)
+    public function patch(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
         $userId = $input['decoded']->sub;
@@ -172,9 +176,11 @@ class ArticleController extends DefaultController
             'action' => 'Modification d\'un article: ' . $new->id,
             'date' => time()
         ]);
+
+        return $this->jsonResponse($response, null);
     }
 
-    public function delete($request, $response, $args)
+    public function delete(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
         $userId = $input['decoded']->sub;
@@ -204,5 +210,7 @@ class ArticleController extends DefaultController
 		]);
 		
         $new->delete();
+
+        return $this->jsonResponse($response, null);
     }
 }

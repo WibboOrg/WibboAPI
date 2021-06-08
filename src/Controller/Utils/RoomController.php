@@ -3,11 +3,13 @@ namespace App\Controller\Utils;
 
 use App\Controller\DefaultController;
 use App\Models\Rooms;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use Exception;
 
 class RoomController extends DefaultController
 {
-    public function get($request, $response, $args)
+    public function get(Request $request, Response $response, array $args): Response
     {
         if (empty($args['roomId']) || !is_numeric($args['roomId'])) {
             throw new Exception('not-found', 404);

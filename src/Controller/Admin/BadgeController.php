@@ -5,11 +5,13 @@ use App\Controller\DefaultController;
 use App\Models\StaffLog;
 use App\Models\User;
 use App\Models\UserBadges;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use Exception;
 
 class BadgeController extends DefaultController
 {
-    public function post($request, $response)
+    public function post(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
         $userId = $input['decoded']->sub;
@@ -57,9 +59,11 @@ class BadgeController extends DefaultController
             'action' => 'Envoie du badge: ' . $badgecode . ' à ' . $pseudo,
             'date' => time(),
         ]);
+
+        return $this->jsonResponse($response, null);
     }
 
-    public function delete($request, $response, $args)
+    public function delete(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
         $userId = $input['decoded']->sub;
@@ -96,9 +100,11 @@ class BadgeController extends DefaultController
             'action' => 'Suppression du badge: ' . $badgecode . ' à ' . $userTarget->username,
             'date' => time(),
         ]);
+
+        return $this->jsonResponse($response, null);
     }
 
-    public function count($request, $response)
+    public function count(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
         $userId = $input['decoded']->sub;

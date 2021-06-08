@@ -4,7 +4,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 class MailService
 {
-    public function sendMail(string $email, string $htmlText, string $sujet, bool $logo = false, $server = false)
+    public function sendMail(string $email, string $htmlText, string $sujet, bool $logo = false, bool $server = false): bool
     {
         $mail = new PHPMailer();
         $mail->IsSMTP();
@@ -38,7 +38,7 @@ class MailService
         return $mail->Send();
     }
 
-    public function sendMailServer(string $email, string $htmlText, string $sujet, bool $logo = false)
+    public function sendMailServer(string $email, string $htmlText, string $sujet, bool $logo = false): bool
     {
         $mail = new PHPMailer();
         $mail->IsSMTP();

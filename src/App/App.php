@@ -12,4 +12,3 @@ $app = new \Slim\App($settings);
 require __DIR__ . '/Dependencies.php';
 require __DIR__ . '/Middleware.php';
 require __DIR__ . '/Routes.php';
-require __DIR__ . '/Utils.php';

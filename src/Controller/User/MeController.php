@@ -7,11 +7,13 @@ use App\Models\News;
 use App\Models\User;
 use App\Models\UserBadges;
 use App\Models\UserVip;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use Exception;
 
 class MeController extends DefaultController
 {
-    public function me($request, $response, $args)
+    public function me(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
         $userId = $input['decoded']->sub;
@@ -49,7 +51,7 @@ class MeController extends DefaultController
         return $this->jsonResponse($response, $message);
     }
 
-    private function checkBadgeMiss($userId, $accountCreated)
+    private function checkBadgeMiss($userId, $accountCreated): array
     {
         $newBadges = array();
         

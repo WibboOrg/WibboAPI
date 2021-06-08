@@ -4,20 +4,23 @@ namespace App\Middleware;
 
 use Exception;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Container\ContainerInterface;
+use Illuminate\Database\Capsule\Manager;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Firebase\JWT\JWT;
 use App\Models\Bans;
 use App\Models\User;
 use App\Models\StaffIp;
+use App\Helper\Utils;
 
 class AuthMiddleware
 {
-    private $container;
+    private ContainerInterface $container;
 
-    private $db;
+    private Manager $db;
 
-    public function __construct($container) {
+    public function __construct(ContainerInterface $container) {
         $this->container = $container;
 
         $this->db = $container->get('db');
@@ -51,26 +54,11 @@ class AuthMiddleware
     }
 
     /**
-     * @param int $userId
-     * @return mixed
-     * @throws Exception
-     */
-    private function checkIpStaff($userId)
-    {
-        $protectionstaff = StaffIp::where('id', $userId)->first();
-        if (!$protectionstaff) return;
-
-        if ($protectionstaff->ip == getUserIP()) return;
-        
-        throw new Exception('login.staff|'.getUserIP(), 400);
-    }
-
-    /**
      * @param string $token
      * @return mixed
      * @throws Exception
      */
-    public function checkToken(string $token)
+    public function checkToken(string $token): object
     {
         try {
             $decoded = JWT::decode($token, getenv('SECRET_KEY'), ['HS256']);
@@ -90,10 +78,10 @@ class AuthMiddleware
      * @return void
      * @throws Exception
      */
-    public function checkBan($userId, $userIP)
+    public function checkBan(int $userId, string $userIP): void
     {
-        if (!ipInRange(getUserIP(), "45.33.128.0/20") && !ipInRange(getUserIP(), "107.178.36.0/20")) {
-            $ipBan = Bans::select('id')->where('bantype', 'ip')->where('value', '=', getUserIP())->where('expire', '>', time())->first();
+        if (!Utils::ipInRange(Utils::getUserIP(), "45.33.128.0/20") && !Utils::ipInRange(Utils::getUserIP(), "107.178.36.0/20")) {
+            $ipBan = Bans::select('id')->where('bantype', 'ip')->where('value', '=', Utils::getUserIP())->where('expire', '>', time())->first();
             if ($ipBan) {
                 throw new Exception('disconnect', 401);
             }

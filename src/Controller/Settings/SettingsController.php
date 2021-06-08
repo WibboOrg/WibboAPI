@@ -3,11 +3,15 @@ namespace App\Controller\Settings;
 
 use App\Controller\DefaultController;
 use App\Models\User;
+use Slim\Http\Request;
+use Slim\Http\Response;
+use App\Helper\Utils;
+
 use Exception;
 
 class SettingsController extends DefaultController
 {
-    public function postPassword($request, $response)
+    public function postPassword(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
 
@@ -27,7 +31,7 @@ class SettingsController extends DefaultController
         if (empty($data->oldpassword))
             throw new Exception('settings-password.empty-password', 400);
 
-        if (hashMdp($data->oldpassword) != $user->password)
+        if (Utils::hashMdp($data->oldpassword) != $user->password)
             throw new Exception('settings-password.empty-password', 400);
 
         if (empty($data->newpassword))
@@ -42,12 +46,12 @@ class SettingsController extends DefaultController
         if ($data->newpassword != $data->repassword) 
             throw new Exception('settings-password.same-password', 400);
 
-        User::where('id', $userId)->update(['password' => hashMdp($data->newpassword)]);
+        User::where('id', $userId)->update(['password' => Utils::hashMdp($data->newpassword)]);
         
         return $this->jsonResponse($response, null);
     }
 
-    public function postGeneral($request, $response)
+    public function postGeneral(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
 

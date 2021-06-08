@@ -3,11 +3,13 @@ namespace App\Controller\Utils;
 
 use App\Controller\DefaultController;
 use App\Models\User;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use Exception;
 
 class UtilController extends DefaultController
 {
-    public function getAvatarUrl($request, $response, $args)
+    public function getAvatarUrl(Request $request, Response $response, array $args): Response
     {
         $user = User::where('username', $args['username'])->select('look')->first();
 
@@ -23,7 +25,7 @@ class UtilController extends DefaultController
         return $response->withRedirect("https://cdn.wibbo.org/habbo-imaging/avatarimage?figure=". $user->look.$options);
     }
 
-    public function getSearchUser($request, $response, $args)
+    public function getSearchUser(Request $request, Response $response, array $args): Response
     {
         $users = [];
 

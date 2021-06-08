@@ -7,11 +7,14 @@ use App\Models\User;
 use App\Models\UserBadges;
 use App\Models\UserStats;
 use App\Models\UserVip;
+use Slim\Http\Request;
+use Slim\Http\Response;
+use App\Helper\Utils;
 use Exception;
 
 class ShopController extends DefaultController
 {
-    public function buyWibboPoint($request, $response)
+    public function buyWibboPoint(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
 
@@ -42,13 +45,13 @@ class ShopController extends DefaultController
 
         UserStats::where('id', $userId)->increment('achievement_score', $nombrePoints);
 
-        sendMusCommand('updatepoints', $userId . chr(1) . $nombrePoints);
-        sendMusCommand('addwinwin', $userId . chr(1) . $nombrePoints);
+        Utils::sendMusCommand('updatepoints', $userId . chr(1) . $nombrePoints);
+        Utils::sendMusCommand('addwinwin', $userId . chr(1) . $nombrePoints);
 
         return $this->jsonResponse($response, null);
     }
 
-    public function verifDedipass($request, $response)
+    public function verifDedipass(Request $request, Response $response, array $args): Response
     {
         $status = !empty($_POST['status']) ? preg_replace('/[^a-zA-Z0-9]+/', '', $_POST['status']) : '';
         $code = !empty($_POST['code']) ? preg_replace('/[^a-zA-Z0-9]+/', '', $_POST['code']) : '';
@@ -86,11 +89,13 @@ class ShopController extends DefaultController
 
             UserStats::where('id', $userId)->increment('achievement_score', $virtual_currency);
 
-            sendMusCommand('addwinwin', $userId . chr(1) . $virtual_currency);
+            Utils::sendMusCommand('addwinwin', $userId . chr(1) . $virtual_currency);
         }
+
+        return $this->jsonResponse($response, null);
     }
 
-    public function buyPremium($request, $response)
+    public function buyPremium(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
 
@@ -136,13 +141,13 @@ class ShopController extends DefaultController
 
         UserStats::where('id', $userId)->increment('achievement_score', 200);
 
-        sendMusCommand('updatecredits', $userId);
-        sendMusCommand('addwinwin', $userId . chr(1) . '200');
+        Utils::sendMusCommand('updatecredits', $userId);
+        Utils::sendMusCommand('addwinwin', $userId . chr(1) . '200');
 
         return $this->jsonResponse($response, null);
     }
 
-    public function buyBadgeperso($request, $response)
+    public function buyBadgeperso(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
 
@@ -161,7 +166,7 @@ class ShopController extends DefaultController
         if ($badge)
             throw new Exception('error', 400);
 
-        $avatarImg = getSslPage("https://cdn.wibbo.org/habbo-imaging/avatarimage?figure=" . $user->look . "&gesture=sml&head_direction=3");
+        $avatarImg = Utils::getSslPage("https://cdn.wibbo.org/habbo-imaging/avatarimage?figure=" . $user->look . "&gesture=sml&head_direction=3");
 
         if(!!empty($avatarImg))
             throw new Exception('error', 400);
@@ -215,7 +220,7 @@ class ShopController extends DefaultController
         User::where('id', $userId)->decrement('jetons', 100);
         UserStats::where('id', $userId)->increment('achievement_score', 100);
 
-        sendMusCommand('addwinwin', $userId . chr(1) . '100');
+        Utils::sendMusCommand('addwinwin', $userId . chr(1) . '100');
 
         return $this->jsonResponse($response, null);
     }

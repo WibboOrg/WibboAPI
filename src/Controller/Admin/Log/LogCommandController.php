@@ -4,11 +4,13 @@ namespace App\Controller\Admin\Log;
 use App\Controller\DefaultController;
 use App\Models\CmdLogs;
 use App\Models\User;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use Exception;
 
 class LogCommandController extends DefaultController
 {
-    public function get($request, $response)
+    public function get(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
         $userId = $input['decoded']->sub;
@@ -45,7 +47,7 @@ class LogCommandController extends DefaultController
         return $this->jsonResponse($response, $message);
     }
 
-    public function post($request, $response)
+    public function post(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
         $userId = $input['decoded']->sub;

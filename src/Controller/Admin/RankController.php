@@ -7,11 +7,13 @@ use App\Models\StaffLog;
 use App\Models\StaffPage;
 use App\Models\User;
 use App\Models\UserBadges;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use Exception;
 
 class RankController extends DefaultController
 {
-    public function post($request, $response)
+    public function post(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
         $userId = $input['decoded']->sub;
@@ -150,9 +152,11 @@ class RankController extends DefaultController
             'action' => 'Rank de l\'utilisateur: ' . $userTarget->username,
             'date' => time(),
         ]);
+
+        return $this->jsonResponse($response, null);
     }
 
-    public function delete($request, $response, $args)
+    public function delete(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
         $userId = $input['decoded']->sub;
@@ -197,5 +201,7 @@ class RankController extends DefaultController
             'action' => 'Derank de l\'utilisateur: ' . $username,
             'date' => time(),
         ]);
+
+        return $this->jsonResponse($response, null);
     }
 }

@@ -5,11 +5,13 @@ use App\Controller\DefaultController;
 use App\Models\NavigatorPublic;
 use App\Models\StaffLog;
 use App\Models\User;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use Exception;
 
 class NavigatorController extends DefaultController
 {
-    public function get($request, $response)
+    public function get(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
         $userId = $input['decoded']->sub;
@@ -30,7 +32,7 @@ class NavigatorController extends DefaultController
         return $this->jsonResponse($response, $message);
     }
 
-    public function delete($request, $response, $args)
+    public function delete(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
         $userId = $input['decoded']->sub;
@@ -60,9 +62,11 @@ class NavigatorController extends DefaultController
 		]);
 		
         NavigatorPublic::where('room_id', $id)->delete();
+
+        return $this->jsonResponse($response, null);
     }
     
-    public function post($request, $response)
+    public function post(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
 		$userId = $input['decoded']->sub;
@@ -131,5 +135,7 @@ class NavigatorController extends DefaultController
             'action' => 'Ajoute d\'un appart au navigateur: ' . $roomid,
             'date' => time(),
         ]);
+
+        return $this->jsonResponse($response, null);
     }
 }

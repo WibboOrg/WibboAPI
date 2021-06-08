@@ -4,11 +4,14 @@ namespace App\Controller\Client;
 use App\Controller\DefaultController;
 use App\Models\User;
 use App\Models\UserWebSocket;
+use Slim\Http\Request;
+use Slim\Http\Response;
+use App\Helper\Utils;
 use Exception;
 
 class ClientController extends DefaultController
 {
-    public function getConfig($request, $response, $args)
+    public function getConfig(Request $request, Response $response, array $args): Response
     {
         $config = array();
         $config['cache'] = getenv('CLIENT_CACHE');
@@ -31,18 +34,18 @@ class ClientController extends DefaultController
         return $this->jsonResponse($response, $config);
     }
 
-    public function getData($request, $response, $args)
+    public function getData(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
         $userId = $input['decoded']->sub;
 
-        $ticket = ticketRefresh();
+        $ticket = Utils::ticketRefresh();
         $ipcountry = (!empty($_SERVER["HTTP_CF_IPCOUNTRY"]) ? $_SERVER["HTTP_CF_IPCOUNTRY"] : '');
 
         User::where('id', $userId)->update([
             'auth_ticket' => $ticket,
             'last_offline' => time(),
-            'ip_last' => getUserIP(),
+            'ip_last' => Utils::getUserIP(),
             'ipcountry' => $ipcountry,
         ]);
 
@@ -53,7 +56,7 @@ class ClientController extends DefaultController
         return $this->jsonResponse($response, $data);
     }
 
-    public function getSsoTicketWeb($request, $response, $args)
+    public function getSsoTicketWeb(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
         $userId = $input['decoded']->sub;
@@ -62,7 +65,7 @@ class ClientController extends DefaultController
 
         if(!$user) throw new Exception('disconnect', 401);
 
-        $ticketWeb = ticketRefresh();
+        $ticketWeb = Utils::ticketRefresh();
 
         UserWebSocket::updateOrCreate(
             ['user_id' => $userId],

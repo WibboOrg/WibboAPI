@@ -31,7 +31,11 @@ class ClientController extends DefaultController
 
         $config['WSUrl'] = getenv('CLIENT_WS');
 
-        return $this->jsonResponse($response, $config);
+        $message = [
+            'config' => $config
+        ];
+
+        return $this->jsonResponse($response, $message);
     }
 
     public function getData(Request $request, Response $response, array $args): Response
@@ -49,11 +53,11 @@ class ClientController extends DefaultController
             'ipcountry' => $ipcountry,
         ]);
 
-        $data = [
+        $message = [
             'SSOTicket' => $ticket
         ];
 
-        return $this->jsonResponse($response, $data);
+        return $this->jsonResponse($response, $message);
     }
 
     public function getSsoTicketWeb(Request $request, Response $response, array $args): Response
@@ -75,10 +79,10 @@ class ClientController extends DefaultController
                 'langue' => 'fr',
             ]);
 
-        $data = array(
+        $message = array(
             'SSOTicketweb' => $ticketWeb
         );
 
-        return $this->jsonResponse($response, $data);
+        return $this->jsonResponse($response, $message);
     }
 }

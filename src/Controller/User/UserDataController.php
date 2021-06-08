@@ -19,6 +19,10 @@ class UserDataController extends DefaultController
         if(!$user) 
             throw new Exception('disconnect', 401);
 
-        return $this->jsonResponse($response, $user, 200);
+        $message = [
+            'user' => $user
+        ];
+
+        return $this->jsonResponse($response, $message);
     }
 }

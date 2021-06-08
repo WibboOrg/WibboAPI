@@ -48,7 +48,7 @@ class ShopController extends DefaultController
         Utils::sendMusCommand('updatepoints', $userId . chr(1) . $nombrePoints);
         Utils::sendMusCommand('addwinwin', $userId . chr(1) . $nombrePoints);
 
-        return $this->jsonResponse($response, null);
+        return $this->jsonResponse($response, []);
     }
 
     public function verifDedipass(Request $request, Response $response, array $args): Response
@@ -92,7 +92,7 @@ class ShopController extends DefaultController
             Utils::sendMusCommand('addwinwin', $userId . chr(1) . $virtual_currency);
         }
 
-        return $this->jsonResponse($response, null);
+        return $this->jsonResponse($response, []);
     }
 
     public function buyPremium(Request $request, Response $response, array $args): Response
@@ -144,7 +144,7 @@ class ShopController extends DefaultController
         Utils::sendMusCommand('updatecredits', $userId);
         Utils::sendMusCommand('addwinwin', $userId . chr(1) . '200');
 
-        return $this->jsonResponse($response, null);
+        return $this->jsonResponse($response, []);
     }
 
     public function buyBadgeperso(Request $request, Response $response, array $args): Response
@@ -222,7 +222,7 @@ class ShopController extends DefaultController
 
         Utils::sendMusCommand('addwinwin', $userId . chr(1) . '100');
 
-        return $this->jsonResponse($response, null);
+        return $this->jsonResponse($response, []);
     }
 
 }

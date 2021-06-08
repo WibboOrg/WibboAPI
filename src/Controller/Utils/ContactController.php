@@ -43,6 +43,6 @@ class ContactController extends DefaultController
             throw new Exception('error', 400);
         }
 
-        return $this->jsonResponse($response, null);
+        return $this->jsonResponse($response, []);
     }
 }

@@ -1,5 +1,5 @@
 <?php 
-use Psr\Container\ContainerInterface;
+use Slim\Container;
 use App\Handler\ApiError;
 use App\Handler\NotFound;
 use App\Handler\NotAllowed;
@@ -9,7 +9,7 @@ use App\Service\MailService;
 
 $container = $app->getContainer();
 
-$container['db'] = function (ContainerInterface $container): Manager {
+$container['db'] = function (Container $container): Manager {
     $capsule = new Manager();
     $capsule->addConnection($container['settings']['db'], "default");
 

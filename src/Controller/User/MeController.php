@@ -51,7 +51,7 @@ class MeController extends DefaultController
         return $this->jsonResponse($response, $message);
     }
 
-    private function checkBadgeMiss($userId, $accountCreated): array
+    private function checkBadgeMiss(int $userId, int $accountCreated): array
     {
         $newBadges = array();
         

@@ -3,7 +3,7 @@ namespace App\Service;
 
 class CacheService
 {
-    public function get(int $minutes, int $pageId = 0): string
+    public function get(int $minutes, int $pageId = 0): array
     {
         $url = strtok($_SERVER["REQUEST_URI"], '?');
         
@@ -12,13 +12,13 @@ class CacheService
         $cacheFile = 'Cache' . $url . $page . '.json';
 
         if (!file_exists($cacheFile)) {
-            return '';
+            return [];
         }
 
         $cacheFileTime = filemtime($cacheFile) - time();
 
         if ($cacheFileTime < ($minutes * 60) && $minutes != 0) {
-            return '';
+            return [];
         }
 
         header("Cache-Control: max-age=" . $cacheFileTime);
@@ -28,7 +28,7 @@ class CacheService
         return $message;
     }
             
-    public function save(string $message, int $pageId = 0): void
+    public function save(array $message, int $pageId = 0): void
     {
         $url = strtok($_SERVER["REQUEST_URI"], '?');
         

@@ -11,7 +11,7 @@ use Exception;
 
 class ForgotController extends DefaultController
 {
-    private $timeExpire = 48 * 60 * 60;
+    private int $timeExpire = 48 * 60 * 60;
 
     public function verifForgot(Request $request, Response $response, array $args): Response
     {
@@ -47,7 +47,7 @@ class ForgotController extends DefaultController
             throw new Exception('error', 400);
         }
 
-        return $this->jsonResponse($response, null);
+        return $this->jsonResponse($response, []);
     }
 
     public function postForgot(Request $request, Response $response, array $args): Response
@@ -149,6 +149,6 @@ html;
             throw new Exception('error', 400);
         }
 
-        return $this->jsonResponse($response, null);
+        return $this->jsonResponse($response, []);
     }
 }

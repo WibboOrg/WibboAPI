@@ -22,7 +22,7 @@ class LoginController extends DefaultController
             'Authorization' => 'Bearer ' . $jwt,
         ];
 
-        return $this->jsonResponse($response, $message, 200);
+        return $this->jsonResponse($response, $message);
     }
 
     private function login(array $input): string

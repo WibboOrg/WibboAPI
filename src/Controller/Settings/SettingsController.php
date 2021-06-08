@@ -48,7 +48,7 @@ class SettingsController extends DefaultController
 
         User::where('id', $userId)->update(['password' => Utils::hashMdp($data->newpassword)]);
         
-        return $this->jsonResponse($response, null);
+        return $this->jsonResponse($response, []);
     }
 
     public function postGeneral(Request $request, Response $response, array $args): Response
@@ -73,6 +73,6 @@ class SettingsController extends DefaultController
             'accept_trading' => $troc,
         ]);
 
-        return $this->jsonResponse($response, null);
+        return $this->jsonResponse($response, []);
     }
 }

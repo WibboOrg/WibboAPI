@@ -63,7 +63,7 @@ class NavigatorController extends DefaultController
 		
         NavigatorPublic::where('room_id', $id)->delete();
 
-        return $this->jsonResponse($response, null);
+        return $this->jsonResponse($response, []);
     }
     
     public function post(Request $request, Response $response, array $args): Response
@@ -136,6 +136,6 @@ class NavigatorController extends DefaultController
             'date' => time(),
         ]);
 
-        return $this->jsonResponse($response, null);
+        return $this->jsonResponse($response, []);
     }
 }

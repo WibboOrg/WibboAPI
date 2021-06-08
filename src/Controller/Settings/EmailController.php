@@ -12,7 +12,7 @@ use Exception;
 
 class EmailController extends DefaultController
 {
-    private $timeExpire = 48 * 60 * 60;
+    private int $timeExpire = 48 * 60 * 60;
 
     public function getMail(Request $request, Response $response, array $args): Response
     {

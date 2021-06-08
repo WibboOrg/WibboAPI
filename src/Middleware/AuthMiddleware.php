@@ -4,23 +4,22 @@ namespace App\Middleware;
 
 use Exception;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Container\ContainerInterface;
+use Slim\Container;
 use Illuminate\Database\Capsule\Manager;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Firebase\JWT\JWT;
 use App\Models\Bans;
 use App\Models\User;
-use App\Models\StaffIp;
 use App\Helper\Utils;
 
 class AuthMiddleware
 {
-    private ContainerInterface $container;
+    public Container $container;
 
-    private Manager $db;
+    public Manager $db;
 
-    public function __construct(ContainerInterface $container) {
+    public function __construct(Container $container) {
         $this->container = $container;
 
         $this->db = $container->get('db');

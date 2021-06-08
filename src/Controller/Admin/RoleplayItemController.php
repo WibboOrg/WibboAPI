@@ -101,7 +101,7 @@ class RoleplayItemController extends DefaultController
             'category' => $category,
         ]);
 
-        return $this->jsonResponse($response, null);
+        return $this->jsonResponse($response, []);
     }
 
     public function patch(Request $request, Response $response, array $args): Response
@@ -151,6 +151,6 @@ class RoleplayItemController extends DefaultController
             'category' => $category,
         ]);
 
-        return $this->jsonResponse($response, null);
+        return $this->jsonResponse($response, []);
     }
 }

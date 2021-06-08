@@ -60,7 +60,7 @@ class BadgeController extends DefaultController
             'date' => time(),
         ]);
 
-        return $this->jsonResponse($response, null);
+        return $this->jsonResponse($response, []);
     }
 
     public function delete(Request $request, Response $response, array $args): Response
@@ -101,7 +101,7 @@ class BadgeController extends DefaultController
             'date' => time(),
         ]);
 
-        return $this->jsonResponse($response, null);
+        return $this->jsonResponse($response, []);
     }
 
     public function count(Request $request, Response $response, array $args): Response

@@ -69,6 +69,6 @@ class StaffsController extends DefaultController
             'date' => time(),
         ]);
 
-        return $this->jsonResponse($response, null);
+        return $this->jsonResponse($response, []);
     }
 }

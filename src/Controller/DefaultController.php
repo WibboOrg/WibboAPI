@@ -3,14 +3,17 @@ namespace App\Controller;
 
 use Slim\Container;
 use Slim\Http\Response;
+use Illuminate\Database\Capsule\Manager;
+use App\Service\CacheService;
+use App\Service\MailService;
 use Exception;
 
 class DefaultController
 {
-    public $container;
-    public $db;
-    public $cache;
-    public $mail;
+    public Container $container;
+    public Manager $db;
+    public CacheService $cache;
+    public MailService $mail;
 
     public function __construct(Container $container)
     {
@@ -22,8 +25,8 @@ class DefaultController
 
         $this->mail = $container->get('mailService');
     }
-
-    public function jsonResponse(Response $response, $message): Response
+    
+    public function jsonResponse(Response $response, array $message): Response
     {
         /*$result = [
             'code' => $code,

@@ -153,7 +153,7 @@ class RankController extends DefaultController
             'date' => time(),
         ]);
 
-        return $this->jsonResponse($response, null);
+        return $this->jsonResponse($response, []);
     }
 
     public function delete(Request $request, Response $response, array $args): Response
@@ -202,6 +202,6 @@ class RankController extends DefaultController
             'date' => time(),
         ]);
 
-        return $this->jsonResponse($response, null);
+        return $this->jsonResponse($response, []);
     }
 }

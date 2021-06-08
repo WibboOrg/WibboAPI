@@ -151,7 +151,7 @@ class ForumController extends DefaultController
 
         ForumPosts::where('id', '=', $args['id'])->update(['message' => $data->message]);
 
-        return $this->jsonResponse($response, null);
+        return $this->jsonResponse($response, []);
     }
 
     public function postSujet(Request $request, Response $response, array $args): Response
@@ -279,7 +279,7 @@ class ForumController extends DefaultController
 
         ForumThreads::where('id', '=', $args['id'])->update(['categorie' => $data->category]);
 
-        return $this->jsonResponse($response, null);
+        return $this->jsonResponse($response, []);
     }
 
     public function comment(Request $request, Response $response, array $args): Response
@@ -334,7 +334,11 @@ class ForumController extends DefaultController
             'lastpost_date' => time(),
             'posts' => $posts]);
 
-        return $this->jsonResponse($response, $post);
+        $message = [
+            'post' => $post
+        ];
+
+        return $this->jsonResponse($response, $message);
     }
 
     public function deletePost(Request $request, Response $response, array $args): Response
@@ -370,7 +374,7 @@ class ForumController extends DefaultController
             ForumThreads::where('id', $post->threadid)->decrement('posts');
         }
 
-        return $this->jsonResponse($response, null);
+        return $this->jsonResponse($response, []);
     }
 
     public function statutSujet(Request $request, Response $response, array $args): Response
@@ -398,7 +402,7 @@ class ForumController extends DefaultController
         else
             ForumThreads::where('id', '=', $args['id'])->update(['statut' => 1]);
 
-        return $this->jsonResponse($response, null);
+        return $this->jsonResponse($response, []);
     }
 
     public function epingleSujet(Request $request, Response $response, array $args): Response
@@ -440,6 +444,6 @@ class ForumController extends DefaultController
             ForumThreads::where('id', '=', $args['id'])->update(['type' => 1]);
         }
 
-        return $this->jsonResponse($response, null);
+        return $this->jsonResponse($response, []);
     }
 }

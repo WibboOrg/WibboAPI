@@ -13,13 +13,21 @@ class MapController extends DefaultController
     {
         $lastNews = News::select('id', 'link_keyword', 'topstory_image', 'title', 'snippet', 'timestamp')->get();
 
-        return $this->jsonResponse($response, $lastNews);
+        $message = [
+            'lastNews' => $lastNews
+        ];
+
+        return $this->jsonResponse($response, $message);
     }
 
     public function getForums(Request $request, Response $response, array $args): Response
     {
-        $post = ForumThreads::select('id')->orderBy('lastpost_date', 'DESC')->limit(50000)->get();
+        $posts = ForumThreads::select('id')->orderBy('lastpost_date', 'DESC')->limit(50000)->get();
 
-        return $this->jsonResponse($response, $post);
+        $message = [
+            'posts' => $posts
+        ];
+
+        return $this->jsonResponse($response, $message);
     }
 }

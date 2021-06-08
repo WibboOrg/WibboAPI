@@ -1,13 +1,13 @@
 {
   "name": "jasondhose/wibboapi",
-  "description": "API server of Wibbo.org",
+  "description": "API server for Wibbo",
   "require": {
-      "slim/slim": "^3.0",
-      "illuminate/database": "^5.2",
-      "phpmailer/phpmailer": "^6.1.4",
-      "firebase/php-jwt": "^5.2",
-      "palanik/corsslim": "dev-slim3",
-      "vlucas/phpdotenv": "^4.1"
+    "slim/slim": "^3.0",
+    "illuminate/database": "^5.2",
+    "phpmailer/phpmailer": "^6.1.4",
+    "firebase/php-jwt": "^5.2",
+    "palanik/corsslim": "dev-slim3",
+    "vlucas/phpdotenv": "^4.1"
   },
   "autoload": {
     "psr-4": {

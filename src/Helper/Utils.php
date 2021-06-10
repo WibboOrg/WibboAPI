@@ -47,14 +47,7 @@ class Utils
 
     public static function ticketRefresh(): string
     {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $charactersLength = strlen($characters);
-        $randomString = '';
-        for ($i = 0; $i < 10; $i++) {
-            $randomString .= $characters[rand(0, $charactersLength - 1)];
-        }
-
-        return "ticket-" . md5($randomString);
+        return "ticket-" . md5(self::generateHash(rand(8, 12))) . "-ticket";
     }
 
     public static function getSslPage(string $url): string

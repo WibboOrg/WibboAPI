@@ -59,6 +59,7 @@ $app->group('/api/v1', function() use($app) {
 
     $app->put('/forgot/{code}', '\App\Controller\Utils\ForgotController:verifForgot');
     $app->post('/forgot', '\App\Controller\Utils\ForgotController:postForgot');
+    $app->get('/forgot', '\App\Controller\Utils\ForgotController:getForgot');
 
     $app->post('/callback_dedi', '\App\Controller\Shop\ShopController:verifDedipass');
 

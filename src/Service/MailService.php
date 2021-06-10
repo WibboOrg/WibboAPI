@@ -37,30 +37,4 @@ class MailService
 
         return $mail->Send();
     }
-
-    public function sendMailServer(string $email, string $htmlText, string $sujet, bool $logo = false): bool
-    {
-        $mail = new PHPMailer();
-        $mail->IsSMTP();
-        $mail->SMTPAuth = true;
-        $mail->SMTPSecure = '';
-        $mail->Host = getenv('MAIL_HOST');
-        $mail->Port = getenv('MAIL_PORT');
-        $mail->Username = getenv('MAIL_USERNAME');
-        $mail->Password = getenv('MAIL_PASSWORD');
-        $mail->From = getenv('MAIL_USERNAME');
-        $mail->FromName = "Wibbo Hotel";
-        $mail->AddAddress(getenv('MAIL_USERNAME'));
-        $mail->AddReplyTo($email, "Support");
-        $mail->IsHTML(true);
-        $mail->CharSet = 'UTF-8';
-        $mail->Subject = $sujet;
-        $mail->Body = $htmlText;
-        if ($logo) {
-            $mail->addEmbeddedImage('logo.png', 'wibbologo');
-            $mail->Encoding = "base64";
-        }
-
-        return $mail->Send();
-    }
 }

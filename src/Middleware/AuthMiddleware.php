@@ -47,8 +47,6 @@ class AuthMiddleware
 
         $this->checkBan($userId, $userIP);
 
-        // $this->checkIpStaff($userId);
-
         return $next($request->withParsedBody($object), $response);
     }
 

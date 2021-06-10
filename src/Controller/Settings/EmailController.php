@@ -168,9 +168,9 @@ class EmailController extends DefaultController
 
             $code = md5(Utils::generateHash(10));
             $expire = time() + $this->timeExpire;
-            $messagenohtml = "Salut " . $user->username . ", va sur ce lien <a href=\"https://wibbo.org/settings/email/" . $code . "\">https://wibbo.org/settings/email/" . $code . "</a> pour valider ton email. Attention ce code de validation est valide que jusqu'aux " . date("d-m-Y à H:i:s", $expire);
+            $textHtml = "Salut " . $user->username . ", va sur ce lien <a href=\"https://wibbo.org/settings/email/" . $code . "\">https://wibbo.org/settings/email/" . $code . "</a> pour valider ton email. Attention ce code de validation est valide que jusqu'aux " . date("d-m-Y à H:i:s", $expire);
 
-            if (!$this->mail->sendMail($mails->email, $messagenohtml, 'Active ton compte Wibbo'))
+            if (!$this->mail->sendMail($mails->email, $textHtml, 'Active ton compte Wibbo'))
                 throw new Exception('error', 400);
 
             Emails::insert([

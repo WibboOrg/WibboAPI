@@ -37,7 +37,7 @@ class DefaultController
         return $response->withJson($message, 200);
     }
 
-    public function requireData($data, $keyList)
+    public function requireData(object $data, array $keyList)
     {
         foreach ($keyList as $key)
         {

@@ -120,7 +120,7 @@ class RankController extends DefaultController
                 break;
             case 'wired':
                 User::where('id', $userTarget->id)->update(['rank' => '3']);
-                StaffPage::insert(['userid' => $userTarget->id, 'rank' => '4', 'function' => 'Pro Wired']);
+                StaffPage::insert(['userid' => $userTarget->id, 'rank' => '1', 'function' => 'Pro Wired']);
                 UserBadges::insert([
                     'user_id' => $userTarget->id,
                     'badge_id' => "WIBARC",

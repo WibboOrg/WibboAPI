@@ -39,7 +39,7 @@ class IpstaffController extends DefaultController
 
         $data = json_decode(json_encode($input), false);
 
-        $this->requireData($data, ['id', 'ipstaff']);
+        $this->requireData($data, ['id', 'ip']);
 
         $user = User::where('id', $userId)->select('rank', 'username')->first();
         if(!$user) throw new Exception('disconnect', 401);
@@ -49,7 +49,7 @@ class IpstaffController extends DefaultController
         }
 
         $id = $data->id;
-        $ip = $data->ipstaff;
+        $ip = $data->ip;
 
         $staff = StaffIp::where('id', $id)->first();
 

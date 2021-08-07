@@ -45,11 +45,15 @@ class EmailController extends DefaultController
         $input = $request->getParsedBody();
         $userId = $input['decoded']->sub;
 
+        $data = json_decode(json_encode($input), false);
+
+        $this->requireData($data, ['mail', 'remail']);
+
         $user = User::select('username', 'mail', 'mail_valide')->where('id', $userId)->first();
 
         if(!$user) throw new Exception('disconnect', 401);
 
-        $email = $request->getParam('mail');
+        $email = $data->mail;
         $emailCheck = preg_match("/^[a-z0-9_\.-]+@([a-z0-9]+([\-]+[a-z0-9]+)*\.)+[a-z]{2,7}$/i", $email);
         if (strlen($email) < 6 || $emailCheck !== 1 || Utils::junkMail($email))
             throw new Exception('mail.invalid', 400);
@@ -85,7 +89,7 @@ class EmailController extends DefaultController
 
         else if ($user->mail_valide == 1) {
             
-            if ($email != $request->getParam('remail'))
+            if ($email != $data->remail)
                 throw new Exception('mail.same', 400);
 
             if ($email == $user->mail)

@@ -44,7 +44,7 @@ class CommunityController extends DefaultController
 
     public function getStaff(Request $request, Response $response, array $args): Response
     {
-        $cacheData = $this->cache->get(60);
+        $cacheData = $this->cache->get(2);
         if(!empty($cacheData)) return $this->jsonResponse($response, $cacheData);
 
         $staff = StaffPage::join('users', 'cms_page_staff.userid', '=', 'users.id')

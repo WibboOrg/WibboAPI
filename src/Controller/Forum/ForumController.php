@@ -19,10 +19,10 @@ class ForumController extends DefaultController
         $ctgr = (is_numeric($args['category'])) ? $args['category'] : 0;
         $search = (!empty($_GET['search'])) ? urldecode($_GET['search']) : '';
 
-        if ($ctgr == 0)
-            $total = ForumThreads::count();
-        else if(!empty($search))
+        if(!empty($search))
             $total = 1;//ForumThreads::where('title', 'LIKE', $search)->count();
+        else if ($ctgr == 0)
+            $total = ForumThreads::count();
         else 
             $total = ForumThreads::where('type', 1)->where('categorie', $ctgr)->count();
 
@@ -39,10 +39,10 @@ class ForumController extends DefaultController
         }
 
         $postPin = [];
-        if ($ctgr == 0)
-            $post = ForumThreads::orderBy('lastpost_date', 'DESC')->forPage($currentPage, $limitpage)->get();
-        else if(!empty($search))
+        if(!empty($search))
             $post = ForumThreads::where('title', 'LIKE', '%' . str_replace(array('%', '_'), array('\%', '\_'), $search) . '%')->orderBy('lastpost_date', 'DESC')->forPage($currentPage, $limitpage)->get();
+        else if ($ctgr == 0)
+            $post = ForumThreads::orderBy('lastpost_date', 'DESC')->forPage($currentPage, $limitpage)->get();
         else {
             $post = ForumThreads::where('categorie', $ctgr)->where('type', 1)->orderBy('lastpost_date', 'DESC')->forPage($currentPage, $limitpage)->get();
             $postPin = ForumThreads::where('categorie', $ctgr)->where('type', 2)->orderBy('lastpost_date', 'DESC')->forPage($currentPage, $limitpage)->get();
@@ -126,8 +126,6 @@ class ForumController extends DefaultController
         if (!$sujet) {
             throw new Exception('error', 400);
         }
-
-        $ctgr = $sujet->categorie;
 
         if ($post->id_auteur != $userId && $user->rank < 6) {
             throw new Exception('permission', 400);

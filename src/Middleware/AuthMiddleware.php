@@ -59,7 +59,7 @@ class AuthMiddleware
     {
         try {
             $decoded = JWT::decode($token, getenv('SECRET_KEY'), ['HS256']);
-            if (is_object($decoded) && !empty($decoded->sub)) {// && ($decoded->ip == getUserIP() || $decoded->ip == '127.0.0.1')) {
+            if (is_object($decoded) && !empty($decoded->sub)) {// && ($decoded->ip == Utils::getUserIP() || $decoded->ip == '127.0.0.1')) {
                 return $decoded;
             }
             throw new Exception('disconnect', 401);

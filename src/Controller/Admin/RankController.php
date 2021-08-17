@@ -25,7 +25,7 @@ class RankController extends DefaultController
         $user = User::where('id', $userId)->select('rank', 'username')->first();
         if(!$user) throw new Exception('disconnect', 401);
                 
-        if ($user->rank < 12) {
+        if ($user->rank < 8) {
             throw new Exception('permission', 403);
         }
 
@@ -51,6 +51,10 @@ class RankController extends DefaultController
 
         switch ($poste) {
             case 'admin':
+                if ($user->rank < 12) {
+                    throw new Exception('permission', 403);
+                }
+
                 User::where('id', $userTarget->id)->update(['rank' => '8']);
                 StaffPage::insert(['userid' => $userTarget->id, 'rank' => '6', 'function' => 'Administrateur']);
                 StaffIp::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
@@ -164,7 +168,7 @@ class RankController extends DefaultController
         $user = User::where('id', $userId)->select('rank', 'username')->first();
         if(!$user) throw new Exception('disconnect', 401);
                 
-        if ($user->rank < 12) {
+        if ($user->rank < 8) {
             throw new Exception('permission', 403);
         }
 
@@ -181,6 +185,10 @@ class RankController extends DefaultController
 
         if ($userTarget->rank > 12) {
             throw new Exception('permission', 400);
+        }
+
+        if ($user->rank < 12 && $userTarget->rank >= 8) {
+            throw new Exception('permission', 403);
         }
 
         if ($userTarget->rank > 2) {

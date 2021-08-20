@@ -127,7 +127,7 @@ class RankController extends DefaultController
                 StaffPage::insert(['userid' => $userTarget->id, 'rank' => '1', 'function' => 'Pro Wired']);
                 UserBadges::insert([
                     'user_id' => $userTarget->id,
-                    'badge_id' => "WIBARC",
+                    'badge_id' => "PRWRD1",
                     'badge_slot' => '0',
                 ]);
                 break;
@@ -203,6 +203,7 @@ class RankController extends DefaultController
         UserBadges::where('user_id', $userTarget->id)->where('badge_id', 'wibbo.helpeur')->delete();
         UserBadges::where('user_id', $userTarget->id)->where('badge_id', 'GPHWIB')->delete();
         UserBadges::where('user_id', $userTarget->id)->where('badge_id', 'ZEERSWS')->delete();
+        UserBadges::where('user_id', $userTarget->id)->where('badge_id', 'PRWRD1')->delete();
 
         StaffLog::insert([
             'pseudo' => $user->username,

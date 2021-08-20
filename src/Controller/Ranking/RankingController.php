@@ -13,9 +13,9 @@ class RankingController extends DefaultController
         $cacheData = $this->cache->get(5);
         if(!empty($cacheData)) return $this->jsonResponse($response, $cacheData);
         
-        $winwin = User::join('user_stats', 'users.id', '=', 'user_stats.id')->orderBy('user_stats.achievement_score', 'DESC')->limit(20)->select('users.id', 'users.username', 'users.look', 'user_stats.achievement_score')->get();
-        $jetons = User::orderBy('jetons', 'DESC')->limit(20)->select('id', 'username', 'look', 'jetons')->get();
-        $wibbopoint = User::orderBy('vip_points', 'DESC')->limit(20)->select('id', 'username', 'look', 'vip_points')->get();
+        $winwin = User::join('user_stats', 'users.id', '=', 'user_stats.id')->where('users.is_banned', '0')->orderBy('user_stats.achievement_score', 'DESC')->limit(20)->select('users.id', 'users.username', 'users.look', 'user_stats.achievement_score')->get();
+        $jetons = User::orderBy('jetons', 'DESC')->where('users.is_banned', '0')->limit(20)->select('id', 'username', 'look', 'jetons')->get();
+        $wibbopoint = User::orderBy('vip_points', 'DESC')->where('users.is_banned', '0')->limit(20)->select('id', 'username', 'look', 'vip_points')->get();
 
         $message = [
             'winwin' => $winwin,
@@ -33,11 +33,11 @@ class RankingController extends DefaultController
         $cacheData = $this->cache->get(5);
         if(!empty($cacheData)) return $this->jsonResponse($response, $cacheData);
 
-        $respects = User::join('user_stats', 'users.id', '=', 'user_stats.id')->orderBy('user_stats.respect', 'DESC')->limit(20)
+        $respects = User::join('user_stats', 'users.id', '=', 'user_stats.id')->where('users.is_banned', '0')->orderBy('user_stats.respect', 'DESC')->limit(20)
                         ->select('users.id', 'users.username', 'users.look', 'user_stats.respect')->get();
-        $connexions = User::join('user_stats', 'users.id', '=', 'user_stats.id')->where('users.rank', '<', '13')->orderBy('user_stats.online_time', 'DESC')->limit(20)
+        $connexions = User::join('user_stats', 'users.id', '=', 'user_stats.id')->where('users.is_banned', '0')->where('users.rank', '<', '13')->orderBy('user_stats.online_time', 'DESC')->limit(20)
                         ->select('users.id', 'users.username', 'users.look', 'user_stats.online_time')->get();
-        $moisvip = User::orderBy('mois_vip', 'DESC')->limit(20)->select('id', 'username', 'look', 'mois_vip')->get();
+        $moisvip = User::orderBy('mois_vip', 'DESC')->where('users.is_banned', '0')->limit(20)->select('id', 'username', 'look', 'mois_vip')->get();
 
         $message = [
             'respects' => $respects,
@@ -55,8 +55,8 @@ class RankingController extends DefaultController
         $cacheData = $this->cache->get(5);
         if(!empty($cacheData)) return $this->jsonResponse($response, $cacheData);
 
-        $month = User::where('game_points_month', '>', '0')->orderBy('game_points_month', 'DESC')->limit(10)->select('users.id', 'username', 'look', 'game_points_month')->get();
-        $top = User::where('game_points', '>', '0')->orderBy('game_points', 'DESC')->limit(5)->select('id', 'username', 'look', 'game_points')->get();
+        $month = User::where('game_points_month', '>', '0')->where('users.is_banned', '0')->orderBy('game_points_month', 'DESC')->limit(10)->select('users.id', 'username', 'look', 'game_points_month')->get();
+        $top = User::where('game_points', '>', '0')->where('users.is_banned', '0')->orderBy('game_points', 'DESC')->limit(5)->select('id', 'username', 'look', 'game_points')->get();
 
         $message = [
             'top' => $month,
@@ -73,8 +73,8 @@ class RankingController extends DefaultController
         $cacheData = $this->cache->get(5);
         if(!empty($cacheData)) return $this->jsonResponse($response, $cacheData);
 
-        $month = User::where('run_points_month', '>', '0')->orderBy('run_points_month', 'DESC')->limit(10)->select('users.id', 'username', 'look', 'run_points_month')->get();
-        $top = User::where('run_points', '>', '0')->orderBy('run_points', 'DESC')->limit(5)->select('id', 'username', 'look', 'run_points')->get();
+        $month = User::where('run_points_month', '>', '0')->where('users.is_banned', '0')->orderBy('run_points_month', 'DESC')->limit(10)->select('users.id', 'username', 'look', 'run_points_month')->get();
+        $top = User::where('run_points', '>', '0')->where('users.is_banned', '0')->orderBy('run_points', 'DESC')->limit(5)->select('id', 'username', 'look', 'run_points')->get();
 
         $message = [
             'top' => $month,
@@ -91,8 +91,8 @@ class RankingController extends DefaultController
         $cacheData = $this->cache->get(5);
         if(!empty($cacheData)) return $this->jsonResponse($response, $cacheData);
 
-        $top = User::where('mazo', '>', '0')->where('rank', '<', '6')->orderBy('mazo', 'DESC')->limit(10)->select('id', 'username', 'look', 'mazo')->get();
-        $best = User::where('mazoscore', '>', '0')->orderBy('mazoscore', 'DESC')->limit(5)->select('id', 'username', 'look', 'mazoscore')->get();
+        $top = User::where('mazo', '>', '0')->where('users.is_banned', '0')->where('rank', '<', '6')->orderBy('mazo', 'DESC')->limit(10)->select('id', 'username', 'look', 'mazo')->get();
+        $best = User::where('mazoscore', '>', '0')->where('users.is_banned', '0')->orderBy('mazoscore', 'DESC')->limit(5)->select('id', 'username', 'look', 'mazoscore')->get();
 
         $message = [
             'top' => $top,

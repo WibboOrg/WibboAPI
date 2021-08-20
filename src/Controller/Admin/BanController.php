@@ -68,7 +68,7 @@ class BanController extends DefaultController
             ]);
         }
 
-        User::where('id', $userTarget->id)->update(['auth_ticket' => '']);
+        User::where('id', $userTarget->id)->update(['auth_ticket' => '', 'is_banned' => 1]);
 
         Utils::sendMusCommand('signout', $userTarget->id);
 
@@ -99,6 +99,12 @@ class BanController extends DefaultController
             throw new Exception('error', 400);
         }
 
+        $userTarget = User::where('username', $name)->select('id')->first();
+
+        if (!$userTarget) {
+            throw new Exception('admin.user-notfound', 400);
+        }
+
         $ban = Bans::where('value', $name)->where('bantype', 'user')->where('expire', '>', time())->select('added_by')->first();
         if (!$ban) {
             throw new Exception('error', 400);
@@ -109,6 +115,8 @@ class BanController extends DefaultController
         }
 
         Bans::where('value', $name)->where('bantype', 'user')->where('expire', '>', time())->update(['expire' => time()]);
+
+        User::where('id', $userTarget->id)->update(['is_banned' => 0]);
 
         StaffLog::insert([
             'pseudo' => $user->username,

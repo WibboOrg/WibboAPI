@@ -84,11 +84,11 @@ class ArticleController extends DefaultController
         $keyword = $data->keyword;
 
         if (empty($title) || empty($desc) || empty($url) || empty($content) || empty($author) || empty($datetime) || empty($keyword)) {
-            throw new Exception('error', 400);
+            throw new Exception('error1', 400);
         }
 
         if (($timestamp = strtotime($datetime)) === false) {
-            throw new Exception('error', 400);
+            throw new Exception('error2', 400);
         }
 
         if ($timestamp < time()) {

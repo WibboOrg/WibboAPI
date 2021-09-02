@@ -14,7 +14,12 @@ class ContactController extends DefaultController
         $input = $request->getParsedBody();
         $data = json_decode(json_encode($input), false);
 
-        $this->requireData($data, ['email', 'sujet', 'message', 'recaptchaToken']);
+        $this->requireData($data, ['username', 'email', 'sujet', 'message', 'recaptchaToken']);
+
+        $username = $data->username;
+        $filterUsername = preg_replace("/[^a-z\d\-=\?!@:\.]/i", "", $username);
+        if ($filterUsername !== $username)
+            $username = null;
 
         $sujet = $data->sujet;
         if (strlen($sujet) < 3 || strlen($sujet) > 100) {
@@ -39,7 +44,11 @@ class ContactController extends DefaultController
             throw new Exception('mail.invalid', 400);
         }
 
-        if (!$this->mail->sendMail($email, $message, "[WIBBO SUPPORT] ${$sujet}", false, true)) {
+        if($username != null) {
+            $message .= "<br><br>-$username";
+        }
+
+        if (!$this->mail->sendMail($email, $message, "[SUPPORT] $sujet", false, true)) {
             throw new Exception('error', 400);
         }
 

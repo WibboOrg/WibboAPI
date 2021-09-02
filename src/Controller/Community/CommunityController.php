@@ -49,7 +49,7 @@ class CommunityController extends DefaultController
 
         $staff = StaffPage::join('users', 'cms_page_staff.userid', '=', 'users.id')
             ->select('users.id', 'cms_page_staff.rank', 'cms_page_staff.function', 'cms_page_staff.social_insta', 'cms_page_staff.social_discord', 'users.username', 'users.look', 'users.motto', 'users.last_offline', 'users.online')
-            ->get();
+            ->orderBy('users.online', 'DESC')->get();
 
         $boxstaff = PageStaff::orderBy('id', 'ASC')->select('rank', 'rank_nom', 'color', 'colonne')->get();
 

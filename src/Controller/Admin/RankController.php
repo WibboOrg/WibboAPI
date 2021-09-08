@@ -104,9 +104,9 @@ class RankController extends DefaultController
                     'badge_slot' => '0',
                 ]);
                 break;
-            case 'spec':
+            case 'graphiste':
                 User::where('id', $userTarget->id)->update(['rank' => '3']);
-                StaffPage::insert(['userid' => $userTarget->id, 'rank' => '7', 'function' => 'Spécial']);
+                StaffPage::insert(['userid' => $userTarget->id, 'rank' => '4', 'function' => 'Graphiste']);
                 UserBadges::insert([
                     'user_id' => $userTarget->id,
                     'badge_id' => "GPHWIB",

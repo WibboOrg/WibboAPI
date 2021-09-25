@@ -107,6 +107,7 @@ class RankController extends DefaultController
             case 'graphiste':
                 User::where('id', $userTarget->id)->update(['rank' => '3']);
                 StaffPage::insert(['userid' => $userTarget->id, 'rank' => '4', 'function' => 'Graphiste']);
+                StaffIp::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
                 UserBadges::insert([
                     'user_id' => $userTarget->id,
                     'badge_id' => "GPHWIB",
@@ -116,6 +117,7 @@ class RankController extends DefaultController
             case 'arch':
                 User::where('id', $userTarget->id)->update(['rank' => '3']);
                 StaffPage::insert(['userid' => $userTarget->id, 'rank' => '1', 'function' => 'Architect']);
+                StaffIp::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
                 UserBadges::insert([
                     'user_id' => $userTarget->id,
                     'badge_id' => "WIBARC",
@@ -125,6 +127,7 @@ class RankController extends DefaultController
             case 'wired':
                 User::where('id', $userTarget->id)->update(['rank' => '3']);
                 StaffPage::insert(['userid' => $userTarget->id, 'rank' => '1', 'function' => 'Pro Wired']);
+                StaffIp::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
                 UserBadges::insert([
                     'user_id' => $userTarget->id,
                     'badge_id' => "PRWRD1",
@@ -134,6 +137,7 @@ class RankController extends DefaultController
             case 'croupier':
                 User::where('id', $userTarget->id)->update(['rank' => '3']);
                 StaffPage::insert(['userid' => $userTarget->id, 'rank' => '5', 'function' => 'Croupier']);
+                StaffIp::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
                 UserBadges::insert([
                     'user_id' => $userTarget->id,
                     'badge_id' => "CRPOFFI",
@@ -143,6 +147,7 @@ class RankController extends DefaultController
             case 'radio':
                 User::where('id', $userTarget->id)->update(['rank' => '3']);
                 StaffPage::insert(['userid' => $userTarget->id, 'rank' => '8', 'function' => 'Animateur radio']);
+                StaffIp::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
                 UserBadges::insert([
                     'user_id' => $userTarget->id,
                     'badge_id' => "ZEERSWS",

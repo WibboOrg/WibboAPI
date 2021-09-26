@@ -60,12 +60,13 @@ class StaffsController extends DefaultController
         StaffPage::where('userid', $targetId)->update([
             'function' => $function,
             'social_insta' => $insta,
-            'social_discord' => $discord,
+            //'social_discord' => $discord,
         ]);
 
         StaffLog::insert([
             'pseudo' => $user->username,
-            'action' => 'Mise à jour Staff: ' . $targetId,
+            //'action' => 'Mise à jour du staff : ' . $targetId,
+            'action' => 'Mise à jour du staff : ' . $staff->username,
             'date' => time(),
         ]);
 

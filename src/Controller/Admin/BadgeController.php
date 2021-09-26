@@ -56,7 +56,7 @@ class BadgeController extends DefaultController
 
         StaffLog::insert([
             'pseudo' => $user->username,
-            'action' => 'Envoie du badge: ' . $badgecode . ' à ' . $pseudo,
+            'action' => 'Envoie du badge ' . $badgecode . ' à ' . $pseudo,
             'date' => time(),
         ]);
 
@@ -97,7 +97,7 @@ class BadgeController extends DefaultController
 
         StaffLog::insert([
             'pseudo' => $user->username,
-            'action' => 'Suppression du badge: ' . $badgecode . ' à ' . $userTarget->username,
+            'action' => 'Suppression du badge ' . $badgecode . ' à ' . $userTarget->username,
             'date' => time(),
         ]);
 

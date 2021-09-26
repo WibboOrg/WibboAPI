@@ -74,7 +74,7 @@ class BanController extends DefaultController
 
         StaffLog::insert([
             'pseudo' => $user->username,
-            'action' => 'Bannisement de: ' . $name,
+            'action' => 'Bannisement de ' . $name,
             'date' => time()
         ]);
 

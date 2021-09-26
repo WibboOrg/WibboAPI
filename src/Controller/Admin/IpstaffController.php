@@ -67,7 +67,7 @@ class IpstaffController extends DefaultController
 
         StaffLog::insert([
             'pseudo' => $user->username,
-            'action' => 'Changement IP de: ' . $staff->username,
+            'action' => 'Changement de l\'IP de: ' . $staff->username,
             'date' => time(),
         ]);
 

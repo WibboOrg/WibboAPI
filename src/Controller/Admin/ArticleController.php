@@ -108,7 +108,7 @@ class ArticleController extends DefaultController
 
         StaffLog::insert([
             'pseudo' => $user->username,
-            'action' => 'Création d\'un article: ' . $id,
+            'action' => 'Création de l\'article: ' . $id,
             'date' => time()
         ]);
 
@@ -173,7 +173,7 @@ class ArticleController extends DefaultController
 
         StaffLog::insert([
             'pseudo' => $user->username,
-            'action' => 'Modification d\'un article: ' . $new->id,
+            'action' => 'Modification de l\'article: ' . $new->id,
             'date' => time()
         ]);
 
@@ -188,7 +188,7 @@ class ArticleController extends DefaultController
         $user = User::where('id', $userId)->select('rank', 'username')->first();
         if(!$user) throw new Exception('disconnect', 401);
                 
-        if ($user->rank < 13) {
+        if ($user->rank < 12) {
             throw new Exception('permission', 403);
         }
 
@@ -205,7 +205,7 @@ class ArticleController extends DefaultController
 
         StaffLog::insert([
             'pseudo' => $user->username,
-            'action' => 'Supression d\'un article: ' . $new->id,
+            'action' => 'Supression de l\'article: ' . $new->id,
             'date' => time()
 		]);
 		

@@ -56,7 +56,7 @@ class RankController extends DefaultController
                 }
 
                 User::where('id', $userTarget->id)->update(['rank' => '8']);
-                StaffPage::insert(['userid' => $userTarget->id, 'rank' => '6', 'function' => 'Administrateur']);
+                StaffPage::insert(['userid' => $userTarget->id, 'rank' => '6', 'function' => 'Administrat']);
                 StaffIp::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
                 UserBadges::insert([
                     'user_id' => $userTarget->id,
@@ -66,7 +66,7 @@ class RankController extends DefaultController
                 break;
             case 'animateur':
                 User::where('id', $userTarget->id)->update(['rank' => '7']);
-                StaffPage::insert(['userid' => $userTarget->id, 'rank' => '8', 'function' => 'Animateur']);
+                StaffPage::insert(['userid' => $userTarget->id, 'rank' => '8', 'function' => 'Animat']);
                 StaffIp::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
                 UserBadges::insert([
                     'user_id' => $userTarget->id,
@@ -76,7 +76,7 @@ class RankController extends DefaultController
                 break;
             case 'animateur-casino':
                 User::where('id', $userTarget->id)->update(['rank' => '7']);
-                StaffPage::insert(['userid' => $userTarget->id, 'rank' => '5', 'function' => 'Animateur casino']);
+                StaffPage::insert(['userid' => $userTarget->id, 'rank' => '5', 'function' => 'Animat casino']);
                 StaffIp::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
                 UserBadges::insert([
                     'user_id' => $userTarget->id,
@@ -86,7 +86,7 @@ class RankController extends DefaultController
                 break;
             case 'modo':
                 User::where('id', $userTarget->id)->update(['rank' => '6']);
-                StaffPage::insert(['userid' => $userTarget->id, 'rank' => '3', 'function' => 'Modérateur']);
+                StaffPage::insert(['userid' => $userTarget->id, 'rank' => '3', 'function' => 'Modérat']);
                 StaffIp::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
                 UserBadges::insert([
                     'user_id' => $userTarget->id,
@@ -96,7 +96,7 @@ class RankController extends DefaultController
                 break;
             case 'helpeur':
                 User::where('id', $userTarget->id)->update(['rank' => '4']);
-                StaffPage::insert(['userid' => $userTarget->id, 'rank' => '2', 'function' => 'Helpeur']);
+                StaffPage::insert(['userid' => $userTarget->id, 'rank' => '2', 'function' => 'Helpeu']);
                 StaffIp::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
                 UserBadges::insert([
                     'user_id' => $userTarget->id,
@@ -116,7 +116,7 @@ class RankController extends DefaultController
                 break;
             case 'arch':
                 User::where('id', $userTarget->id)->update(['rank' => '3']);
-                StaffPage::insert(['userid' => $userTarget->id, 'rank' => '1', 'function' => 'Architect']);
+                StaffPage::insert(['userid' => $userTarget->id, 'rank' => '1', 'function' => 'Architecte']);
                 StaffIp::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
                 UserBadges::insert([
                     'user_id' => $userTarget->id,
@@ -136,7 +136,7 @@ class RankController extends DefaultController
                 break;
             case 'croupier':
                 User::where('id', $userTarget->id)->update(['rank' => '3']);
-                StaffPage::insert(['userid' => $userTarget->id, 'rank' => '5', 'function' => 'Croupier']);
+                StaffPage::insert(['userid' => $userTarget->id, 'rank' => '5', 'function' => 'Croupi']);
                 StaffIp::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
                 UserBadges::insert([
                     'user_id' => $userTarget->id,
@@ -146,7 +146,7 @@ class RankController extends DefaultController
                 break;
             case 'radio':
                 User::where('id', $userTarget->id)->update(['rank' => '3']);
-                StaffPage::insert(['userid' => $userTarget->id, 'rank' => '8', 'function' => 'Animateur radio']);
+                StaffPage::insert(['userid' => $userTarget->id, 'rank' => '8', 'function' => 'Animat radio']);
                 StaffIp::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
                 UserBadges::insert([
                     'user_id' => $userTarget->id,

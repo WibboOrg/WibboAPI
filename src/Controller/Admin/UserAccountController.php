@@ -72,19 +72,19 @@ class UserAccountController extends DefaultController
         if (isset($username)) {
             StaffLog::insert([
                 'pseudo' => $user->username,
-                'action' => 'Recherche double compte de: ' . $username,
+                'action' => 'Recherche les doubles compte de : ' . $username,
                 'date' => time(),
             ]);
         } else {
             StaffLog::insert([
                 'pseudo' => $user->username,
-                'action' => 'Recherche double compte de: ' . $ip,
+                'action' => 'Recherche les doubles compte sur l\'IP : ' . $ip,
                 'date' => time(),
             ]);
         }
 
         foreach ($users as $user) {
-            if ($user->username == 'Zeers' || $user->username == 'Jason') {
+            if ($user->username == 'Seonsaengnim' || $user->username == 'Jason') {
                 throw new Exception('error', 400);
             }
         }

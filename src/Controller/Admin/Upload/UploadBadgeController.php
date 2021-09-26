@@ -39,12 +39,15 @@ class UploadBadgeController extends DefaultController
 
         $size = getimagesize($files['file']->file);
         if ($size[1] > 41 || $size[0] > 41) {
-            throw new Exception('error', 400);
+            //throw new Exception('error', 400);
+            throw new Exception('L\'image ne respect pas les dimensions habituelles (40X40)', 400);
         }
 
         $extension_upload = substr(strrchr($uploadFileName, '.'), 1);
         if ($extension_upload != 'gif') {
-            throw new Exception('error', 400);
+            //throw new Exception('error', 400);
+            throw new Exception('L\'image n\'est pas sous la format .gif...', 400);
+
         }
 
         $data = array(

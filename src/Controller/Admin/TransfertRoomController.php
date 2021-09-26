@@ -54,7 +54,7 @@ class TransfertRoomController extends DefaultController
 
         StaffLog::insert([
             'pseudo' => $user->username,
-            'action' => 'Transfert de l\'appartment n°: ' . $room->id . ' chez ' . $userTarget->username,
+            'action' => 'Transfert de l\'appartment n°: ' . $room->id. ' chez ' . $userTarget->username,
             'date' => time(),
         ]);
 

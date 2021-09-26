@@ -142,7 +142,7 @@ class ForumController extends DefaultController
         if ($post->id_auteur != $userId && $user->rank >= 6) {
             StaffLog::insert([
                 'pseudo' => $user->username,
-                'action' => 'Forum edit commentaire: ' . $args['id'],
+                'action' => 'Édition sur le forum du commentaire : ' . $args['id'],
                 'date' => time(),
             ]);
         }
@@ -270,7 +270,7 @@ class ForumController extends DefaultController
         if ($sujet->author != $user->username && $user->rank >= 6) {
             StaffLog::insert([
                 'pseudo' => $user->username,
-                'action' => 'Forum deplacement sujet: ' . $args['id'],
+                'action' => 'Déplacement du sujet : ' . $args['id'],
                 'date' => time(),
             ]);
         }
@@ -427,7 +427,7 @@ class ForumController extends DefaultController
         if ($sujet->type == 1 && $args['flag'] == "true") {
             StaffLog::insert([
                 'pseudo' => $user->username,
-                'action' => 'Forum épinglé sujet: ' . $args['id'],
+                'action' => 'Topic épinglé n°: ' . $args['id'],
                 'date' => time(),
             ]);
 
@@ -435,7 +435,7 @@ class ForumController extends DefaultController
         } else if ($sujet->type == 2 && $args['flag'] == "false") {
             StaffLog::insert([
                 'pseudo' => $user->username,
-                'action' => 'Forum déépinglé sujet: ' . $args['id'],
+                'action' => 'Forum déépinglé n°: ' . $args['id'],
                 'date' => time(),
             ]);
 

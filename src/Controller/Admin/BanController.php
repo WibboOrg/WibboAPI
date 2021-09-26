@@ -112,6 +112,12 @@ class BanController extends DefaultController
 
         if (($ban->added_by == "Kodamas" || $ban->added_by == "Jason" || $ban->added_by == "Hollow") && $user->rank < 12) {
             throw new Exception('permission', 400);
+
+            StaffLog::insert([
+                'pseudo' => $user->username,
+                'action' => 'Tentative de bannisement de ' . $username,
+                'date' => time(),
+            ]);
         }
 
         Bans::where('value', $name)->where('bantype', 'user')->where('expire', '>', time())->update(['expire' => time()]);

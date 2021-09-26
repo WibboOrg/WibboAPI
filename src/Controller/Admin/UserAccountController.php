@@ -84,7 +84,7 @@ class UserAccountController extends DefaultController
         }
 
         foreach ($users as $user) {
-            if ($user->username == 'Seonsaengnim' || $user->username == 'Jason') {
+            if ($user->username == 'Seonsaengnim' || $user->username == 'Jason' || $user->username == 'Kodamas') {
                 throw new Exception('error', 400);
             }
         }

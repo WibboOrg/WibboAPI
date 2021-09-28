@@ -57,7 +57,7 @@ class NavigatorController extends DefaultController
 
         StaffLog::insert([
             'pseudo' => $user->username,
-            'action' => 'Supression d\'un appart au navigateur: ' . $roomid,
+            'action' => 'Supression d\'un appart au navigateur: ' . $nav->id,
             'date' => time(),
 		]);
 		

@@ -31,7 +31,7 @@ class UploadCatalogueController extends DefaultController
 
         $extension_upload = substr(strrchr($uploadFileName, '.'), 1);
         if ($extension_upload != 'png') {
-            throw new Exception('L\'image doit être au format PNG', 400);
+            throw new Exception('error', 400);
         }
 
         $data = array(

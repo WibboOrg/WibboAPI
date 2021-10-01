@@ -154,11 +154,23 @@ class RankController extends DefaultController
                     'badge_slot' => '0',
                 ]);
                 break;
+            case 'joueur':
+                User::where('id', $userTarget->id)->update(['rank' => '1']);
+                StaffPage::where('userid', $userTarget->id)->delete();
+                UserBadges::where('user_id', $userTarget->id)->where('badge_id', 'ADM')->delete();
+                UserBadges::where('user_id', $userTarget->id)->where('badge_id', 'CRPOFFI')->delete();
+                UserBadges::where('user_id', $userTarget->id)->where('badge_id', 'WIBARC')->delete();
+                UserBadges::where('user_id', $userTarget->id)->where('badge_id', 'wibbo.helpeur')->delete();
+                UserBadges::where('user_id', $userTarget->id)->where('badge_id', 'GPHWIB')->delete();
+                UserBadges::where('user_id', $userTarget->id)->where('badge_id', 'ZEERSWS')->delete();
+                UserBadges::where('user_id', $userTarget->id)->where('badge_id', 'PRWRD1')->delete();
+                StaffIp::where('id', $userTarget->id)->delete();
+                break;
         }
 
         StaffLog::insert([
             'pseudo' => $user->username,
-            'action' => 'Rank de l\'utilisateur: ' . $userTarget->username,
+            'action' => 'Rank de l\'utilisateur: ' . $username,
             'date' => time(),
         ]);
 

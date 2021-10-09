@@ -135,7 +135,7 @@ $app->group('/api/v1', function() use($app) {
         $app->get('/navigator', '\App\Controller\Admin\NavigatorController:get');
         $app->delete('/navigator/{id}', '\App\Controller\Admin\NavigatorController:delete');
     
-        $app->post('/user-ban', '\App\Controller\Admin\Log\LogbanController:post');
+        $app->post('/user-ban', '\App\Controller\Admin\Log\LogBanController:post');
         $app->post('/user-flagme', '\App\Controller\Admin\Log\LogFlagmeController:post');
         $app->post('/user-chatlog', '\App\Controller\Admin\Log\LogChatController:post');
         $app->post('/user-command', '\App\Controller\Admin\Log\LogCommandController:post');

@@ -25,10 +25,10 @@ class ProfilController extends DefaultController
             throw new Exception('not-found', 404);
         }
 
-        $accountBan = Bans::select('id')->where('bantype', 'user')->where('value', '=', $profil->username)->where('expire', '>', time())->first();
-        if ($accountBan) {
-            throw new Exception('not-found', 404);
-        }
+        // $accountBan = Bans::select('id')->where('bantype', 'user')->where('value', '=', $profil->username)->where('expire', '>', time())->first();
+        // if ($accountBan) {
+        //     throw new Exception('not-found', 404);
+        // }
 
         $stats = UserStats::where('id', $profil->id)->select('respect', 'achievement_score', 'online_time')->first();
 

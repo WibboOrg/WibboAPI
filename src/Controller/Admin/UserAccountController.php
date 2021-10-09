@@ -32,11 +32,11 @@ class UserAccountController extends DefaultController
         $ip = "";
 		$machineid = "";
 
-        if (filter_var($ip, FILTER_VALIDATE_IP) === false && filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) === false) {
-            $username = $search;
+        if (filter_var($ip, FILTER_VALIDATE_IP) !== false || filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) !== false) {
+            $ip = $search;
         }
         else {
-            $ip = $search; 
+            $username = $search; 
         }
 		
         if (empty($ip) && empty($username)) {

@@ -146,7 +146,7 @@ class RankController extends DefaultController
                 break;
             case 'radio':
                 User::where('id', $userTarget->id)->update(['rank' => '3']);
-                StaffPage::insert(['userid' => $userTarget->id, 'rank' => '8', 'function' => 'Animat radio']);
+                StaffPage::insert(['userid' => $userTarget->id, 'rank' => '7', 'function' => 'Animat radio']);
                 StaffIp::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
                 UserBadges::insert([
                     'user_id' => $userTarget->id,

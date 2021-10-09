@@ -8,7 +8,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use Exception;
 
-class LogbanController extends DefaultController
+class LogBanController extends DefaultController
 {
     public function post(Request $request, Response $response, array $args): Response
     {

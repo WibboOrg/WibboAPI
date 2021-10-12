@@ -74,6 +74,8 @@ $app->group('/api/v1', function() use($app) {
         $app->get('/news-last', '\App\Controller\Community\ArticleController:getNewLast');
     });
 
+    $app->post('/jobstaff', '\App\Controller\Community\JobStaffController:post');
+
     $app->group('/classement', function() use($app) {
         $app->get('/gamer', '\App\Controller\Ranking\RankingController:getTop');
         $app->get('/joueur', '\App\Controller\Ranking\RankingController:getClassement');

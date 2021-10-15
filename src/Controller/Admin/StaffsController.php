@@ -43,7 +43,7 @@ class StaffsController extends DefaultController
 
         $user = User::where('id', $userId)->select('rank', 'username')->first();
         if(!$user) throw new Exception('disconnect', 401);
-                
+        
         if ($user->rank < 8) {
             throw new Exception('permission', 403);
         }
@@ -65,8 +65,7 @@ class StaffsController extends DefaultController
 
         StaffLog::insert([
             'pseudo' => $user->username,
-            //'action' => 'Mise à jour du staff : ' . $targetId,
-            'action' => 'Mise à jour du staff : ' . $staff->username,
+            'action' => 'Mise à jour du staff : ' . $targetId,
             'date' => time(),
         ]);
 

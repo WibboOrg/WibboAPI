@@ -22,7 +22,7 @@ class LogCommandController extends DefaultController
             throw new Exception('permission', 403);
         }
 
-        $limitPage = 100;
+        $limitPage = 500;
         $total = CmdLogs::count();
 
         $totalPage = ceil($total / $limitPage);

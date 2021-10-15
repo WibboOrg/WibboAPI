@@ -26,7 +26,6 @@ class LogCommandController extends DefaultController
         $total = CmdLogs::count();
 
         $totalPage = ceil($total / $limitPage);
-
         if (!empty($_GET['page']) && is_numeric($_GET['page'])) {
             $currentPage = intval($_GET['page']);
 

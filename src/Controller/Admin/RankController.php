@@ -154,6 +154,18 @@ class RankController extends DefaultController
                     'badge_slot' => '0',
                 ]);
                 break;
+
+            case 'communication':
+                    User::where('id', $userTarget->id)->update(['rank' => '3']);
+                    StaffPage::insert(['userid' => $userTarget->id, 'rank' => '7', 'function' => 'Agent de communication']);
+                    StaffIp::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
+                    UserBadges::insert([
+                        'user_id' => $userTarget->id,
+                        'badge_id' => "",
+                        'badge_slot' => '0',
+                    ]);
+                break;
+                
             case 'joueur':
                 User::where('id', $userTarget->id)->update(['rank' => '1']);
                 StaffPage::where('userid', $userTarget->id)->delete();

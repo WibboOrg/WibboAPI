@@ -49,6 +49,8 @@ class RankController extends DefaultController
             throw new Exception('error', 400);
         }
 
+        $isDerank = false;
+
         switch ($poste) {
             case 'admin':
                 if ($user->rank < 12) {
@@ -157,7 +159,7 @@ class RankController extends DefaultController
 
             case 'communication':
                     User::where('id', $userTarget->id)->update(['rank' => '3']);
-                    StaffPage::insert(['userid' => $userTarget->id, 'rank' => '7', 'function' => 'Agent de communication']);
+                    StaffPage::insert(['userid' => $userTarget->id, 'rank' => '9', 'function' => 'Agent de communication']);
                     StaffIp::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
                     UserBadges::insert([
                         'user_id' => $userTarget->id,
@@ -167,6 +169,14 @@ class RankController extends DefaultController
                 break;
                 
             case 'joueur':
+                if ($userTarget->rank > 12) {
+                    throw new Exception('permission', 400);
+                }
+        
+                if ($user->rank < 12 && $userTarget->rank >= 8) {
+                    throw new Exception('permission', 403);
+                }
+        
                 User::where('id', $userTarget->id)->update(['rank' => '1']);
                 StaffPage::where('userid', $userTarget->id)->delete();
                 UserBadges::where('user_id', $userTarget->id)->where('badge_id', 'ADM')->delete();
@@ -177,12 +187,14 @@ class RankController extends DefaultController
                 UserBadges::where('user_id', $userTarget->id)->where('badge_id', 'ZEERSWS')->delete();
                 UserBadges::where('user_id', $userTarget->id)->where('badge_id', 'PRWRD1')->delete();
                 StaffIp::where('id', $userTarget->id)->delete();
+
+                $isDerank = true;
                 break;
         }
 
         StaffLog::insert([
             'pseudo' => $user->username,
-            'action' => 'Rank de l\'utilisateur: ' . $username,
+            'action' => (($isDerank) ? 'Rank' : 'Derank') . ' de l\'utilisateur: ' . $username,
             'date' => time(),
         ]);
 

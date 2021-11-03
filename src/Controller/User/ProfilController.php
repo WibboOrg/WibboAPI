@@ -7,11 +7,9 @@ use App\Models\MessengerFriendships;
 use App\Models\User;
 use App\Models\UserBadges;
 use App\Models\UserStats;
-use App\Models\Bans;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Exception;
-
 class ProfilController extends DefaultController
 {
     public function get(Request $request, Response $response, array $args): Response
@@ -24,11 +22,6 @@ class ProfilController extends DefaultController
         if (!$profil) {
             throw new Exception('not-found', 404);
         }
-
-        // $accountBan = Bans::select('id')->where('bantype', 'user')->where('value', '=', $profil->username)->where('expire', '>', time())->first();
-        // if ($accountBan) {
-        //     throw new Exception('not-found', 404);
-        // }
 
         $stats = UserStats::where('id', $profil->id)->select('respect', 'achievement_score', 'online_time')->first();
 

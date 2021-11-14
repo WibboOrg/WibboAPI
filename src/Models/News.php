@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class News extends Model
 {
-    protected $table = 'site_news';
+    protected $table = 'cms_news';
 
     public $timestamps = false;
     

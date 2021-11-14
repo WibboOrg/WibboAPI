@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserVip extends Model
 {
-    protected $table = 'user_vip';
+    protected $table = 'user_premium';
 
     public $timestamps = false;
 }

@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CmdLogs extends Model
 {
-    protected $table = 'cmdlogs';
+    protected $table = 'log_command';
 
     public $timestamps = false;
 }

@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class LogFlagme extends Model
 {
-    protected $table = 'logs_flagme';
+    protected $table = 'log_flagme';
 
     public $timestamps = false;
 }

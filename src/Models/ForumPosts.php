@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ForumPosts extends Model
 {
-    protected $table = 'cms_forum_posts';
+    protected $table = 'cms_forum_post';
 
     public $timestamps = false;
     

@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SystemStats extends Model
 {
-    protected $table = 'system_stats';
+    protected $table = 'emulator_stats';
 
     public $timestamps = false;
 }

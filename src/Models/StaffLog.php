@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class StaffLog extends Model
 {
-    protected $table = 'cms_stafflog';
+    protected $table = 'log_staff';
 
     public $timestamps = false;
 }

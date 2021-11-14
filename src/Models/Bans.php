@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Bans extends Model
 {
-    protected $table = 'bans';
+    protected $table = 'ban';
 
     public $timestamps = false;
 }

@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class NavigatorPublic extends Model
 {
-    protected $table = 'navigator_publics';
+    protected $table = 'navigator_public';
 
     public $timestamps = false;
 }

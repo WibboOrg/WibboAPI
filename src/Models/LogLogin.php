@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class LogLogin extends Model
 {
-    protected $table = 'logs_login';
+    protected $table = 'log_login';
 
     public $timestamps = false;
     

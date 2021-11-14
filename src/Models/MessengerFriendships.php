@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class MessengerFriendships extends Model
 {
-    protected $table = 'messenger_friendships';
+    protected $table = 'messenger_friendship';
 
     public $timestamps = false;
 }

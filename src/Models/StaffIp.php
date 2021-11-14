@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class StaffIp extends Model
 {
-    protected $table = 'staff_ip';
+    protected $table = 'cms_staff_protect';
 
     public $timestamps = false;
 }

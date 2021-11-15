@@ -73,7 +73,7 @@ class CommunityController extends DefaultController
         $cacheData = $this->cache->get(10, $currentPage);
         if(!empty($cacheData)) return $this->jsonResponse($response, $cacheData);
 
-        $photos = UserPhoto::select('photo', 'username', 'look', 'time')->join('user', 'user_photo.user_id', '=', 'user.id')->groupBy('user_photo.user_id')->orderBy('user_photo.time', 'desc')->where('user.online', '1')->forPage($currentPage, 20)->get();
+        $photos = UserPhoto::select('photo', 'username', 'look', 'time')->join('user', 'user_photo.user_id', '=', 'user.id')->groupBy('user_photo.user_id')->orderBy('user_photo.time', 'desc')->where('user.is_banned', '0')->forPage($currentPage, 20)->get();
 
         $message = [
             'photos' => $photos

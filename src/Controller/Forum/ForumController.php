@@ -195,7 +195,7 @@ class ForumController extends DefaultController
             throw new Exception('forum.mail-valid', 400);
         }
 
-        if ($data->category == 8 && $user->rank < 6) {
+        if ($data->category == 8 && $user->rank < 8) {
             throw new Exception('forum.staff', 400);
         }
 

@@ -2,7 +2,7 @@
 namespace App\Controller\Admin\Log;
 
 use App\Controller\DefaultController;
-use App\Models\StaffLog;
+use App\Models\LogStaff;
 use App\Models\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -22,7 +22,7 @@ class LogStaffController extends DefaultController
             throw new Exception('permission', 403);
         }
 
-        $logs = StaffLog::orderBy('id', 'DESC')->limit(100)->get();
+        $logs = LogStaff::orderBy('id', 'DESC')->limit(100)->get();
 		
 		$message = [
 			'logs' => $logs

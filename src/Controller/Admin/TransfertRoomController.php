@@ -2,8 +2,8 @@
 namespace App\Controller\Admin;
 
 use App\Controller\DefaultController;
-use App\Models\Rooms;
-use App\Models\StaffLog;
+use App\Models\Room;
+use App\Models\LogStaff;
 use App\Models\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -35,7 +35,7 @@ class TransfertRoomController extends DefaultController
             throw new Exception('error', 400);
         }
 
-        $room = Rooms::where('id', $roomid)->select('id', 'owner')->first();
+        $room = Room::where('id', $roomid)->select('id', 'owner')->first();
         if (!$room) {
             throw new Exception('error', 400);
         }
@@ -49,10 +49,10 @@ class TransfertRoomController extends DefaultController
             throw new Exception('admin.user-notfound', 400);
         }
 
-        Rooms::where('id', $roomid)->update(['owner' => $userTarget->username]);
+        Room::where('id', $roomid)->update(['owner' => $userTarget->username]);
         Utils::sendMusCommand('unload', $room->id);
 
-        StaffLog::insert([
+        LogStaff::insert([
             'pseudo' => $user->username,
             'action' => 'Transfert de l\'appartment n°: ' . $room->id. ' chez ' . $userTarget->username,
             'date' => time(),

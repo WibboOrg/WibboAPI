@@ -2,7 +2,7 @@
 namespace App\Controller\Admin\Upload;
 
 use App\Controller\DefaultController;
-use App\Models\StaffLog;
+use App\Models\LogStaff;
 use App\Models\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -70,7 +70,7 @@ class UploadBadgeController extends DefaultController
             throw new Exception('error', 400);
         }
 
-        StaffLog::insert([
+        LogStaff::insert([
             'pseudo' => $user->username,
             'action' => 'Upload du badge: ' . $code,
             'date' => time(),

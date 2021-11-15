@@ -2,7 +2,7 @@
 namespace App\Controller\Admin\Log;
 
 use App\Controller\DefaultController;
-use App\Models\Bans;
+use App\Models\Ban;
 use App\Models\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -38,7 +38,7 @@ class LogBanController extends DefaultController
             throw new Exception('admin.user-notfound', 400);
         }
 
-        $bans = Bans::where('value', $userTarget->username)->where('bantype', 'user')->orWhere('value', $userTarget->ip_last)->where('bantype', 'ip')->orderBy('id', 'DESC')->get();
+        $bans = Ban::where('value', $userTarget->username)->where('bantype', 'user')->orWhere('value', $userTarget->ip_last)->where('bantype', 'ip')->orderBy('id', 'DESC')->get();
 		
 		$message = [
 			'bans' => $bans

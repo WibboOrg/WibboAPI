@@ -3,9 +3,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class BoutiqueLog extends Model
+class Ban extends Model
 {
-    protected $table = 'log_shop';
+    protected $table = 'ban';
 
     public $timestamps = false;
 }

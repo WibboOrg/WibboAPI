@@ -3,10 +3,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PageStaff extends Model
+class MessengerFriendship extends Model
 {
-    protected $table = 'cms_category_staff';
+    protected $table = 'messenger_friendship';
 
     public $timestamps = false;
-    
 }

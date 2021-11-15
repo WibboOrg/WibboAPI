@@ -3,7 +3,7 @@ namespace App\Controller\Admin;
 
 use App\Controller\DefaultController;
 use App\Models\News;
-use App\Models\StaffLog;
+use App\Models\LogStaff;
 use App\Models\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -106,7 +106,7 @@ class ArticleController extends DefaultController
             'author_id' => $userId,
         ]);
 
-        StaffLog::insert([
+        LogStaff::insert([
             'pseudo' => $user->username,
             'action' => 'Création de l\'article: ' . $id,
             'date' => time()
@@ -171,7 +171,7 @@ class ArticleController extends DefaultController
             'timestamp' => $timestamp,
         ]);
 
-        StaffLog::insert([
+        LogStaff::insert([
             'pseudo' => $user->username,
             'action' => 'Modification de l\'article: ' . $new->id,
             'date' => time()
@@ -203,7 +203,7 @@ class ArticleController extends DefaultController
             throw new Exception('error', 400);
         }
 
-        StaffLog::insert([
+        LogStaff::insert([
             'pseudo' => $user->username,
             'action' => 'Supression de l\'article: ' . $new->id,
             'date' => time()

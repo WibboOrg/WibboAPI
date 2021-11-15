@@ -3,9 +3,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SystemStats extends Model
+class StaffProtect extends Model
 {
-    protected $table = 'emulator_stats';
+    protected $table = 'cms_staff_protect';
 
     public $timestamps = false;
 }

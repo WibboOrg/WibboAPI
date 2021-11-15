@@ -2,8 +2,8 @@
 namespace App\Controller\Admin;
 
 use App\Controller\DefaultController;
-use App\Models\Bans;
-use App\Models\StaffLog;
+use App\Models\Ban;
+use App\Models\LogStaff;
 use App\Models\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -47,7 +47,7 @@ class BanController extends DefaultController
             throw new Exception('permission', 400);
         }
 
-        Bans::insert([
+        Ban::insert([
             'bantype' => 'user',
             'value' => $userTarget->username,
             'reason' => $reason,
@@ -58,7 +58,7 @@ class BanController extends DefaultController
 
         if($type == 2)
         {
-            Bans::insert([
+            Ban::insert([
                 'bantype' => 'ip',
                 'value' => $userTarget->ip_last,
                 'reason' => $reason,
@@ -72,7 +72,7 @@ class BanController extends DefaultController
 
         Utils::sendMusCommand('signout', $userTarget->id);
 
-        StaffLog::insert([
+        LogStaff::insert([
             'pseudo' => $user->username,
             'action' => 'Bannisement de ' . $name,
             'date' => time()
@@ -105,7 +105,7 @@ class BanController extends DefaultController
             throw new Exception('admin.user-notfound', 400);
         }
 
-        $ban = Bans::where('value', $name)->where('bantype', 'user')->where('expire', '>', time())->select('added_by')->first();
+        $ban = Ban::where('value', $name)->where('bantype', 'user')->where('expire', '>', time())->select('added_by')->first();
         if (!$ban) {
             throw new Exception('error', 400);
         }
@@ -113,18 +113,18 @@ class BanController extends DefaultController
         if (($ban->added_by == "Kodamas" || $ban->added_by == "Jason" || $ban->added_by == "Hollow") && $user->rank < 12) {
             throw new Exception('permission', 400);
 
-            StaffLog::insert([
+            LogStaff::insert([
                 'pseudo' => $user->username,
                 'action' => 'Tentative de bannisement de ' . $name,
                 'date' => time(),
             ]);
         }
 
-        Bans::where('value', $name)->where('bantype', 'user')->where('expire', '>', time())->update(['expire' => time()]);
+        Ban::where('value', $name)->where('bantype', 'user')->where('expire', '>', time())->update(['expire' => time()]);
 
         User::where('id', $userTarget->id)->update(['is_banned' => 0]);
 
-        StaffLog::insert([
+        LogStaff::insert([
             'pseudo' => $user->username,
             'action' => 'Débannisement de: ' . $name,
             'date' => time()
@@ -145,7 +145,7 @@ class BanController extends DefaultController
             throw new Exception('permission', 403);
         }
 
-        $bans = Bans::orderBy('id', 'DESC')->limit(100)->get();
+        $bans = Ban::orderBy('id', 'DESC')->limit(100)->get();
 		
 		$message = [
 			'bans' => $bans

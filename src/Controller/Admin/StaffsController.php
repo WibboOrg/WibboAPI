@@ -2,8 +2,8 @@
 namespace App\Controller\Admin;
 
 use App\Controller\DefaultController;
-use App\Models\StaffLog;
-use App\Models\StaffPage;
+use App\Models\LogStaff;
+use App\Models\Staff;
 use App\Models\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -23,7 +23,7 @@ class StaffsController extends DefaultController
             throw new Exception('permission', 403);
         }
 
-        $staffs = StaffPage::Join('users', 'cms_page_staff.userid', 'users.id')->select('users.username', 'cms_page_staff.*')->get();
+        $staffs = Staff::Join('user', 'cms_staff.userid', 'user.id')->select('user.username', 'cms_staff.*')->get();
 
         $message = [
 			'staffs' => $staffs
@@ -57,13 +57,13 @@ class StaffsController extends DefaultController
             throw new Exception('error', 400);
         }
 
-        StaffPage::where('userid', $targetId)->update([
+        Staff::where('userid', $targetId)->update([
             'function' => $function,
             'social_insta' => $insta,
             //'social_discord' => $discord,
         ]);
 
-        StaffLog::insert([
+        LogStaff::insert([
             'pseudo' => $user->username,
             'action' => 'Mise à jour du staff : ' . $targetId,
             'date' => time(),

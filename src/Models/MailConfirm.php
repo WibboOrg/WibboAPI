@@ -3,9 +3,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MessengerFriendships extends Model
+class MailConfirm extends Model
 {
-    protected $table = 'messenger_friendship';
+    protected $table = 'cms_mail_confirm';
 
     public $timestamps = false;
 }

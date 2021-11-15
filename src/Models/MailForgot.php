@@ -3,9 +3,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Emails extends Model
+class MailForgot extends Model
 {
-    protected $table = 'cms_mail_confirm';
+    protected $table = 'cms_mail_forgot';
 
     public $timestamps = false;
 }

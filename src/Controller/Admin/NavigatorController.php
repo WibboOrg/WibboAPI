@@ -3,7 +3,7 @@ namespace App\Controller\Admin;
 
 use App\Controller\DefaultController;
 use App\Models\NavigatorPublic;
-use App\Models\StaffLog;
+use App\Models\LogStaff;
 use App\Models\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -55,7 +55,7 @@ class NavigatorController extends DefaultController
             throw new Exception('error', 400);
         }
 
-        StaffLog::insert([
+        LogStaff::insert([
             'pseudo' => $user->username,
             'action' => 'Supression d\'un appart au navigateur: ' . $nav->id,
             'date' => time(),
@@ -130,7 +130,7 @@ class NavigatorController extends DefaultController
             'enabled' => '1',
         ]);
 
-        StaffLog::insert([
+        LogStaff::insert([
             'pseudo' => $user->username,
             'action' => 'Ajoute d\'un appart au navigateur: ' . $roomid,
             'date' => time(),

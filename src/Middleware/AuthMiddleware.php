@@ -9,7 +9,7 @@ use Illuminate\Database\Capsule\Manager;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Firebase\JWT\JWT;
-use App\Models\Bans;
+use App\Models\Ban;
 use App\Models\User;
 use App\Helper\Utils;
 
@@ -78,12 +78,12 @@ class AuthMiddleware
     public function checkBan(int $userId, string $userIP): void
     {
         if (!Utils::ipInRange(Utils::getUserIP(), "45.33.128.0/20") && !Utils::ipInRange(Utils::getUserIP(), "107.178.36.0/20")) {
-            $ipBan = Bans::select('id')->where('bantype', 'ip')->where('value', '=', Utils::getUserIP())->where('expire', '>', time())->first();
+            $ipBan = Ban::select('id')->where('bantype', 'ip')->where('value', '=', Utils::getUserIP())->where('expire', '>', time())->first();
             if ($ipBan) {
                 throw new Exception('disconnect', 401);
             }
             
-            $ipBanToken = Bans::select('id')->where('bantype', 'ip')->where('value', '=', $userIP)->where('expire', '>', time())->first();
+            $ipBanToken = Ban::select('id')->where('bantype', 'ip')->where('value', '=', $userIP)->where('expire', '>', time())->first();
             if ($ipBanToken) {
                 throw new Exception('disconnect', 401);
             }
@@ -94,7 +94,7 @@ class AuthMiddleware
             throw new Exception('disconnect', 401);
         }
 
-        $accountBan = Bans::select('id')->where('bantype', 'user')->where('value', '=', $user->username)->where('expire', '>', time())->first();
+        $accountBan = Ban::select('id')->where('bantype', 'user')->where('value', '=', $user->username)->where('expire', '>', time())->first();
         if ($accountBan) {
             throw new Exception('disconnect', 401);
         }

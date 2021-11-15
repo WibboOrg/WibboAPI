@@ -2,10 +2,10 @@
 namespace App\Controller\Forum;
 
 use App\Controller\DefaultController;
-use App\Models\Forum;
-use App\Models\ForumPosts;
-use App\Models\ForumThreads;
-use App\Models\StaffLog;
+use App\Models\ForumCategory;
+use App\Models\ForumPost;
+use App\Models\ForumThread;
+use App\Models\LogStaff;
 use App\Models\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -20,11 +20,11 @@ class ForumController extends DefaultController
         $search = (!empty($_GET['search'])) ? urldecode($_GET['search']) : '';
 
         if(!empty($search))
-            $total = 1;//ForumThreads::where('title', 'LIKE', $search)->count();
+            $total = 1;//ForumThread::where('title', 'LIKE', $search)->count();
         else if ($ctgr == 0)
-            $total = ForumThreads::count();
+            $total = ForumThread::count();
         else 
-            $total = ForumThreads::where('type', 1)->where('categorie', $ctgr)->count();
+            $total = ForumThread::where('type', 1)->where('categorie', $ctgr)->count();
 
         $totalPage = ceil($total / $limitpage);
 
@@ -40,12 +40,12 @@ class ForumController extends DefaultController
 
         $postPin = [];
         if(!empty($search))
-            $post = ForumThreads::where('title', 'LIKE', '%' . str_replace(array('%', '_'), array('\%', '\_'), $search) . '%')->orderBy('lastpost_date', 'DESC')->forPage($currentPage, $limitpage)->get();
+            $post = ForumThread::where('title', 'LIKE', '%' . str_replace(array('%', '_'), array('\%', '\_'), $search) . '%')->orderBy('lastpost_date', 'DESC')->forPage($currentPage, $limitpage)->get();
         else if ($ctgr == 0)
-            $post = ForumThreads::orderBy('lastpost_date', 'DESC')->forPage($currentPage, $limitpage)->get();
+            $post = ForumThread::orderBy('lastpost_date', 'DESC')->forPage($currentPage, $limitpage)->get();
         else {
-            $post = ForumThreads::where('categorie', $ctgr)->where('type', 1)->orderBy('lastpost_date', 'DESC')->forPage($currentPage, $limitpage)->get();
-            $postPin = ForumThreads::where('categorie', $ctgr)->where('type', 2)->orderBy('lastpost_date', 'DESC')->forPage($currentPage, $limitpage)->get();
+            $post = ForumThread::where('categorie', $ctgr)->where('type', 1)->orderBy('lastpost_date', 'DESC')->forPage($currentPage, $limitpage)->get();
+            $postPin = ForumThread::where('categorie', $ctgr)->where('type', 2)->orderBy('lastpost_date', 'DESC')->forPage($currentPage, $limitpage)->get();
         }
 
         $message = [
@@ -64,12 +64,12 @@ class ForumController extends DefaultController
         }
 
         $limitpage = 10;
-        $sujet = ForumThreads::where('id', $args['id'])->first();
+        $sujet = ForumThread::where('id', $args['id'])->first();
         if (!$sujet) {
             throw new Exception('not-found', 404);
         }
 
-        $total = ForumPosts::where('threadid', $args['id'])->count();
+        $total = ForumPost::where('threadid', $args['id'])->count();
         $totalPage = ceil($total / $limitpage);
 
         if (!empty($_GET['page']) && is_numeric($_GET['page'])) {
@@ -84,9 +84,9 @@ class ForumController extends DefaultController
             $currentPage = 1;
         }
 
-        ForumThreads::where('id', $args['id'])->increment('views');
+        ForumThread::where('id', $args['id'])->increment('views');
 
-        $topicmessage = ForumPosts::select('users.look', 'users.username', 'users.rank', 'cms_forum_posts.id', 'cms_forum_posts.id_auteur', 'cms_forum_posts.message', 'cms_forum_posts.date')->join('users', 'cms_forum_posts.id_auteur', '=', 'users.id')->where('threadid', $sujet->id)->orderBy('id', 'ASC')->forPage($currentPage, $limitpage)->get();
+        $topicmessage = ForumPost::select('user.look', 'user.username', 'user.rank', 'cms_forum_post.id', 'cms_forum_post.id_auteur', 'cms_forum_post.message', 'cms_forum_post.date')->join('user', 'cms_forum_post.id_auteur', '=', 'user.id')->where('threadid', $sujet->id)->orderBy('id', 'ASC')->forPage($currentPage, $limitpage)->get();
 
         $message = [
             'sujet' => $sujet,
@@ -115,13 +115,13 @@ class ForumController extends DefaultController
             throw new Exception('error', 400);
         }
 
-        $post = ForumPosts::where('id', '=', $args['id'])->first();
+        $post = ForumPost::where('id', '=', $args['id'])->first();
 
         if (!$post) {
             throw new Exception('error', 400);
         }
 
-        $sujet = ForumThreads::where('id', '=', $post->threadid)->first();
+        $sujet = ForumThread::where('id', '=', $post->threadid)->first();
 
         if (!$sujet) {
             throw new Exception('error', 400);
@@ -140,14 +140,14 @@ class ForumController extends DefaultController
         }
 
         if ($post->id_auteur != $userId && $user->rank >= 6) {
-            StaffLog::insert([
+            LogStaff::insert([
                 'pseudo' => $user->username,
                 'action' => 'Édition sur le forum du commentaire : ' . $args['id'],
                 'date' => time(),
             ]);
         }
 
-        ForumPosts::where('id', '=', $args['id'])->update(['message' => $data->message]);
+        ForumPost::where('id', '=', $args['id'])->update(['message' => $data->message]);
 
         return $this->jsonResponse($response, []);
     }
@@ -170,7 +170,7 @@ class ForumController extends DefaultController
             throw new Exception('error', 400);
         }
 
-        $cat = Forum::where('id', $data->category);
+        $cat = ForumCategory::where('id', $data->category);
         if (!$cat) {
             throw new Exception('error', 400);
         }
@@ -203,12 +203,12 @@ class ForumController extends DefaultController
             throw new Exception('forum.staff', 400);
         }
 
-        $last = ForumThreads::orderBy('date', 'DESC')->limit(1)->first();
+        $last = ForumThread::orderBy('date', 'DESC')->limit(1)->first();
         if ($last->author == $user->username && $user->rank < 6) {
             throw new Exception('forum.wait', 400);
         }
 
-        $thread = ForumThreads::create([
+        $thread = ForumThread::create([
             'type' => 1,
             'title' => $data->sujet,
             'author' => $user->username,
@@ -223,7 +223,7 @@ class ForumController extends DefaultController
 
         $threadId = $thread->id;
 
-        $post = ForumPosts::create([
+        $post = ForumPost::create([
             'threadid' => $threadId,
             'message' => $data->message,
             'author' => $user->username,
@@ -234,7 +234,7 @@ class ForumController extends DefaultController
             'motto' => $user->motto,
         ]);
 
-        ForumThreads::where('id', '=', $threadId)->update(['main_post' => $post->id]);
+        ForumThread::where('id', '=', $threadId)->update(['main_post' => $post->id]);
 
         $message = ['id' => $threadId];
 
@@ -259,7 +259,7 @@ class ForumController extends DefaultController
             throw new Exception('error', 400);
         }
 
-        $sujet = ForumThreads::where('id', $args['id'])->first();
+        $sujet = ForumThread::where('id', $args['id'])->first();
         if (!$sujet) {
             throw new Exception('error', 400);
         }
@@ -268,14 +268,14 @@ class ForumController extends DefaultController
         }
 
         if ($sujet->author != $user->username && $user->rank >= 6) {
-            StaffLog::insert([
+            LogStaff::insert([
                 'pseudo' => $user->username,
                 'action' => 'Déplacement du sujet : ' . $args['id'],
                 'date' => time(),
             ]);
         }
 
-        ForumThreads::where('id', '=', $args['id'])->update(['categorie' => $data->category]);
+        ForumThread::where('id', '=', $args['id'])->update(['categorie' => $data->category]);
 
         return $this->jsonResponse($response, []);
     }
@@ -298,7 +298,7 @@ class ForumController extends DefaultController
             throw new Exception('error', 400);
         }
 
-        $sujet = ForumThreads::where('id', $args['id'])->limit(1)->first();
+        $sujet = ForumThread::where('id', $args['id'])->limit(1)->first();
         if (!$sujet) {
             throw new Exception('error', 400);
         }
@@ -317,7 +317,7 @@ class ForumController extends DefaultController
         }
 
         $posts = $sujet->posts + 1;
-        $post = ForumPosts::create([
+        $post = ForumPost::create([
             'threadid' => $args['id'],
             'message' => $data->message,
             'author' => $user->username,
@@ -327,7 +327,7 @@ class ForumController extends DefaultController
             'id_auteur' => $userId,
             'rank' => $user->rank]);
 
-        ForumThreads::where('id', '=', $args['id'])->update([
+        ForumThread::where('id', '=', $args['id'])->update([
             'lastpost_author' => $user->username,
             'lastpost_date' => time(),
             'posts' => $posts]);
@@ -352,7 +352,7 @@ class ForumController extends DefaultController
         if (empty($args['id']) || !is_numeric($args['id']))
             throw new Exception('error', 400);
 
-        $post = ForumPosts::where('id', '=', $args['id'])->first();
+        $post = ForumPost::where('id', '=', $args['id'])->first();
 
         if (!$post)
             throw new Exception('error', 400);
@@ -360,16 +360,16 @@ class ForumController extends DefaultController
         if ($user->rank < 8 && $userId != $post->id_auteur)
             throw new Exception('permission', 400);
 
-        $sujet = ForumThreads::where('id', $post->threadid)->first();
+        $sujet = ForumThread::where('id', $post->threadid)->first();
         if (!$sujet)
             throw new Exception('error', 400);
 
         if ($sujet->main_post == $post->id) {
-            ForumPosts::where('threadid', $sujet->id)->delete();
-            ForumThreads::where('id', $post->threadid)->delete();
+            ForumPost::where('threadid', $sujet->id)->delete();
+            ForumThread::where('id', $post->threadid)->delete();
         } else {
-            ForumPosts::where('id', '=', $args['id'])->delete();
-            ForumThreads::where('id', $post->threadid)->decrement('posts');
+            ForumPost::where('id', '=', $args['id'])->delete();
+            ForumThread::where('id', $post->threadid)->decrement('posts');
         }
 
         return $this->jsonResponse($response, []);
@@ -388,7 +388,7 @@ class ForumController extends DefaultController
         if (empty($args['id']) || !is_numeric($args['id']))
             throw new Exception('error', 400);
         
-        $thread = ForumThreads::where('id', '=', $args['id'])->first();
+        $thread = ForumThread::where('id', '=', $args['id'])->first();
         if (!$thread)
             throw new Exception('error', 400);
 
@@ -396,9 +396,9 @@ class ForumController extends DefaultController
             throw new Exception('permission', 400);
 
         if ($thread->statut == 1)
-            ForumThreads::where('id', '=', $args['id'])->update(['statut' => 0]);
+            ForumThread::where('id', '=', $args['id'])->update(['statut' => 0]);
         else
-            ForumThreads::where('id', '=', $args['id'])->update(['statut' => 1]);
+            ForumThread::where('id', '=', $args['id'])->update(['statut' => 1]);
 
         return $this->jsonResponse($response, []);
     }
@@ -417,7 +417,7 @@ class ForumController extends DefaultController
         if (empty($args['id']) || !is_numeric($args['id']))
             throw new Exception('error', 400);
         
-        $sujet = ForumThreads::where('id', '=', $args['id'])->first();
+        $sujet = ForumThread::where('id', '=', $args['id'])->first();
         if (!$sujet)
             throw new Exception('error', 400);
 
@@ -425,21 +425,21 @@ class ForumController extends DefaultController
             throw new Exception('permission', 400);
 
         if ($sujet->type == 1 && $args['flag'] == "true") {
-            StaffLog::insert([
+            LogStaff::insert([
                 'pseudo' => $user->username,
                 'action' => 'Topic épinglé n°: ' . $args['id'],
                 'date' => time(),
             ]);
 
-            ForumThreads::where('id', '=', $args['id'])->update(['type' => 2]);
+            ForumThread::where('id', '=', $args['id'])->update(['type' => 2]);
         } else if ($sujet->type == 2 && $args['flag'] == "false") {
-            StaffLog::insert([
+            LogStaff::insert([
                 'pseudo' => $user->username,
                 'action' => 'Forum déépinglé n°: ' . $args['id'],
                 'date' => time(),
             ]);
 
-            ForumThreads::where('id', '=', $args['id'])->update(['type' => 1]);
+            ForumThread::where('id', '=', $args['id'])->update(['type' => 1]);
         }
 
         return $this->jsonResponse($response, []);

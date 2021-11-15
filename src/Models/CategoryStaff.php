@@ -3,9 +3,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ChatLogs extends Model
+class CategoryStaff extends Model
 {
-    protected $table = 'log_chat_pub';
+    protected $table = 'cms_category_staff';
 
     public $timestamps = false;
+    
 }

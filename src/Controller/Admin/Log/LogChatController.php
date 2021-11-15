@@ -2,8 +2,8 @@
 namespace App\Controller\Admin\Log;
 
 use App\Controller\DefaultController;
-use App\Models\ChatLogs;
-use App\Models\StaffLog;
+use App\Models\LogChat;
+use App\Models\LogStaff;
 use App\Models\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -31,7 +31,7 @@ class LogChatController extends DefaultController
         $startdate = $data->startdate;
         $enddate = $data->enddate;
 
-        StaffLog::insert([
+        LogStaff::insert([
             'pseudo' => $user->username,
             'action' => 'Recherche chatlog de: ' . $username,
             'date' => time()
@@ -44,7 +44,7 @@ class LogChatController extends DefaultController
         $timestamp = strtotime($startdate);
         $timestampEnd = strtotime($enddate);
 
-        $chatlogs = ChatLogs::where('user_name', $username)->where('timestamp', '>', $timestamp)->where('timestamp', '<', $timestampEnd)->orderBy('timestamp', 'DESC')->get();
+        $chatlogs = LogChat::where('user_name', $username)->where('timestamp', '>', $timestamp)->where('timestamp', '<', $timestampEnd)->orderBy('timestamp', 'DESC')->get();
 		
 		$message = [
 			'chatlogs' => $chatlogs

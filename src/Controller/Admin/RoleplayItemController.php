@@ -2,7 +2,7 @@
 namespace App\Controller\Admin;
 
 use App\Controller\DefaultController;
-use App\Models\RPItems;
+use App\Models\RoleplayItem;
 use App\Models\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -22,7 +22,7 @@ class RoleplayItemController extends DefaultController
             throw new Exception('permission', 403);
         }
 
-        $items = RPItems::get();
+        $items = RoleplayItem::get();
 
 		$message = [
 			'items' => $items
@@ -91,7 +91,7 @@ class RoleplayItemController extends DefaultController
             throw new Exception('error', 400);
         }
 
-        $id = RPItems::insertGetId([
+        $id = RoleplayItem::insertGetId([
             'name' => $nom,
             'desc' => $desc,
             'price' => $price,
@@ -137,12 +137,12 @@ class RoleplayItemController extends DefaultController
             throw new Exception('error', 400);
         }
 
-        $item = RPItems::where('id', $id)->first();
+        $item = RoleplayItem::where('id', $id)->first();
         if (!$item) {
             throw new Exception('error', 400);
         }
 
-        RPItems::where('id', $id)->update([
+        RoleplayItem::where('id', $id)->update([
             'desc' => $desc,
             'price' => $price,
             'type' => $type,

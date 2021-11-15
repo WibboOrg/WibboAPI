@@ -2,7 +2,7 @@
 namespace App\Controller\User;
 
 use App\Controller\DefaultController;
-use App\Models\Bans;
+use App\Models\Ban;
 use App\Models\User;
 use App\Models\UserStats;
 use Firebase\JWT\JWT;
@@ -55,7 +55,7 @@ class RegisterController extends DefaultController
         }
 
         if (!Utils::ipInRange(Utils::getUserIP(), "45.33.128.0/20") && !Utils::ipInRange(Utils::getUserIP(), "107.178.36.0/20")) {
-            $ipBan = Bans::select('reason', 'expire')->where('bantype', 'ip')->where('value', Utils::getUserIP())->where('expire', '>', time())->first();
+            $ipBan = Ban::select('reason', 'expire')->where('bantype', 'ip')->where('value', Utils::getUserIP())->where('expire', '>', time())->first();
             if ($ipBan) {
                 throw new Exception('login.ban|'.$ipBan->reason.'|'.date('d/m/Y|H:i:s', $ipBan->expire), 400);
             }

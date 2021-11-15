@@ -3,9 +3,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Bans extends Model
+class RoleplayItem extends Model
 {
-    protected $table = 'ban';
+    protected $table = 'roleplay_item';
 
     public $timestamps = false;
 }

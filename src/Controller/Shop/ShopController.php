@@ -2,11 +2,11 @@
 namespace App\Controller\Shop;
 
 use App\Controller\DefaultController;
-use App\Models\BoutiqueLog;
+use App\Models\LogShop;
 use App\Models\User;
-use App\Models\UserBadges;
+use App\Models\UserBadge;
 use App\Models\UserStats;
-use App\Models\UserVip;
+use App\Models\UserPremium;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use App\Helper\Utils;
@@ -32,7 +32,7 @@ class ShopController extends DefaultController
         if (!is_numeric($nombrePoints) || $nombrePoints < 50 || $user->jetons < $nombrePoints) 
             throw new Exception('shop.jetons-missing', 400);
 
-        BoutiqueLog::insert([
+        LogShop::insert([
             'userid' => $userId,
             'date' => time(),
             'prix' => $nombrePoints,
@@ -79,7 +79,7 @@ class ShopController extends DefaultController
 
             User::where('id', $userId)->increment('jetons', $virtual_currency);
 
-            BoutiqueLog::insert([
+            LogShop::insert([
                 'userid' => $userId,
                 'date' => time(),
                 'prix' => $virtual_currency,
@@ -114,7 +114,7 @@ class ShopController extends DefaultController
         $date = time();
         $mois = time() + (60 * 60 * 24 * 31);
 
-        BoutiqueLog::insert([
+        LogShop::insert([
             'userid' => $userId,
             'date' => time(),
             'prix' => '200',
@@ -122,7 +122,7 @@ class ShopController extends DefaultController
             'type' => '6',
         ]);
 
-        UserVip::insert([
+        UserPremium::insert([
             'user_id' => $userId,
             'subscription_id' => 'wibbo_vip',
             'timestamp_activated' => $date,
@@ -134,7 +134,7 @@ class ShopController extends DefaultController
         User::where('id', $userId)->increment('credits', 10000000);
         User::where('id', $userId)->increment('mois_vip');
 
-        UserBadges::insert([
+        UserBadge::insert([
             'user_id' => $userId,
             'badge_id' => 'WPREMIUM',
         ]);
@@ -162,7 +162,7 @@ class ShopController extends DefaultController
 
         $badgecode = "perso_" . $userId . "_" . rand(0, 9999999);
 
-        $badge = UserBadges::where('user_id', $userId)->where('badge_id', $badgecode)->first();
+        $badge = UserBadge::where('user_id', $userId)->where('badge_id', $badgecode)->first();
         if ($badge)
             throw new Exception('error', 400);
 
@@ -203,13 +203,13 @@ class ShopController extends DefaultController
         if ($result === FALSE || $result !== 'ok')
             throw new Exception('error', 400);
 
-        UserBadges::insert([
+        UserBadge::insert([
             'user_id' => $userId,
             'badge_id' => $badgecode,
             'badge_slot' => '0',
         ]);
 
-        BoutiqueLog::insert([
+        LogShop::insert([
             'userid' => $userId,
             'date' => time(),
             'prix' => 100,

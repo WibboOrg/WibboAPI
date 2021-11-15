@@ -6,9 +6,9 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use Firebase\JWT\JWT;
 use App\Models\User;
-use App\Models\StaffIp;
+use App\Models\StaffProtect;
 use App\Models\LogLogin;
-use App\Models\Bans;
+use App\Models\Ban;
 use App\Helper\Utils;
 use Exception;
 
@@ -77,7 +77,7 @@ class LoginController extends DefaultController
 
     private function checkIpStaff(int $userId): void
     {
-        $protectionstaff = StaffIp::where('id', $userId)->first();
+        $protectionstaff = StaffProtect::where('id', $userId)->first();
         if (!$protectionstaff) return;
 
         if ($protectionstaff->ip == Utils::getUserIP()) return;
@@ -88,13 +88,13 @@ class LoginController extends DefaultController
     private function checkBan(string $username): void
     {
         if (!Utils::ipInRange(Utils::getUserIP(), "45.33.128.0/20") && !Utils::ipInRange(Utils::getUserIP(), "107.178.36.0/20")) {
-            $ipBan = Bans::select('reason', 'expire')->where('bantype', 'ip')->where('value', Utils::getUserIP())->where('expire', '>', time())->first();
+            $ipBan = Ban::select('reason', 'expire')->where('bantype', 'ip')->where('value', Utils::getUserIP())->where('expire', '>', time())->first();
             if ($ipBan) {
                 throw new Exception('login.ban|'.$ipBan->reason.'|'.date('d/m/Y|H:i:s', $ipBan->expire), 400);
             }
         }
 
-        $accountBan = Bans::select('reason', 'expire')->where('bantype', 'user')->where('value', $username)->where('expire', '>', time())->first();
+        $accountBan = Ban::select('reason', 'expire')->where('bantype', 'user')->where('value', $username)->where('expire', '>', time())->first();
         if ($accountBan) {
             throw new Exception('login.ban|'.$accountBan->reason.'|'.date('d/m/Y|H:i:s', $accountBan->expire), 400);
         }

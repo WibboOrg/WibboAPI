@@ -3,7 +3,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ForumPosts extends Model
+class ForumPost extends Model
 {
     protected $table = 'cms_forum_post';
 

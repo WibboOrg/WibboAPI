@@ -2,7 +2,7 @@
 namespace App\Controller\Admin\Log;
 
 use App\Controller\DefaultController;
-use App\Models\BoutiqueLog;
+use App\Models\LogShop;
 use App\Models\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -22,7 +22,7 @@ class LogShopController extends DefaultController
 			throw new Exception('permission', 403);
         }
 
-        $shopLogs = BoutiqueLog::join('users', 'users.id', 'cms_boutique_logs.userid')->orderBy('date', 'DESC')->select('users.username', 'cms_boutique_logs.achat', 'cms_boutique_logs.date')->limit(100)->get();
+        $shopLogs = LogShop::join('user', 'user.id', 'log_shop.userid')->orderBy('date', 'DESC')->select('user.username', 'log_shop.achat', 'log_shop.date')->limit(100)->get();
 	
 		$message = [
 			'achat' => $shopLogs
@@ -59,7 +59,7 @@ class LogShopController extends DefaultController
             throw new Exception('admin.user-notfound', 400);
         }
 
-		$achat = BoutiqueLog::where('userid', $userTarget->id)->orderBy('date', 'DESC')->get();
+		$achat = LogShop::where('userid', $userTarget->id)->orderBy('date', 'DESC')->get();
 		
 		$message = [
             'achat' => $achat

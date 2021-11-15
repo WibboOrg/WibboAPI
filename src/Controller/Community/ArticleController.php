@@ -61,7 +61,7 @@ class ArticleController extends DefaultController
             throw new Exception('not-found', 404);
         }
 
-        $new = News::leftjoin('users', 'site_news.author_id', '=', 'users.id')->where('site_news.id', $args['id'])->select('site_news.*', 'users.username', 'users.look')->first();
+        $new = News::leftjoin('user', 'cms_news.author_id', '=', 'user.id')->where('cms_news.id', $args['id'])->select('cms_news.*', 'user.username', 'user.look')->first();
         if (!$new) {
             throw new Exception('not-found', 404);
         }

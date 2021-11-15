@@ -2,9 +2,9 @@
 namespace App\Controller\Admin;
 
 use App\Controller\DefaultController;
-use App\Models\StaffLog;
+use App\Models\LogStaff;
 use App\Models\User;
-use App\Models\UserBadges;
+use App\Models\UserBadge;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Exception;
@@ -42,19 +42,19 @@ class BadgeController extends DefaultController
                 continue;
             }
 
-            $badge = UserBadges::where('user_id', $userTarget->id)->where('badge_id', $badgecode)->first();
+            $badge = UserBadge::where('user_id', $userTarget->id)->where('badge_id', $badgecode)->first();
             if ($badge) {
                 continue;
             }
 
-            UserBadges::insert([
+            UserBadge::insert([
                 'user_id' => $userTarget->id,
                 'badge_id' => $badgecode,
                 'badge_slot' => '0',
             ]);
         }
 
-        StaffLog::insert([
+        LogStaff::insert([
             'pseudo' => $user->username,
             'action' => 'Envoie du badge ' . $badgecode . ' à ' . $pseudo,
             'date' => time(),
@@ -88,14 +88,14 @@ class BadgeController extends DefaultController
             throw new Exception('admin.user-notfound', 400);
         }
 
-        $badge = UserBadges::where('user_id', $userTarget->id)->where('badge_id', $badgecode)->first();
+        $badge = UserBadge::where('user_id', $userTarget->id)->where('badge_id', $badgecode)->first();
         if (!$badge) {
             throw new Exception('error', 400);
         }
 
-        UserBadges::where('user_id', $userTarget->id)->where('badge_id', $badgecode)->delete();
+        UserBadge::where('user_id', $userTarget->id)->where('badge_id', $badgecode)->delete();
 
-        StaffLog::insert([
+        LogStaff::insert([
             'pseudo' => $user->username,
             'action' => 'Suppression du badge ' . $badgecode . ' à ' . $userTarget->username,
             'date' => time(),
@@ -126,7 +126,7 @@ class BadgeController extends DefaultController
             throw new Exception('error', 400);
         }
 
-        $badgecount = UserBadges::where('badge_id', $badge)->count();
+        $badgecount = UserBadge::where('badge_id', $badge)->count();
 
 		$message = [
 			'count' => $badgecount

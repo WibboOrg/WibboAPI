@@ -3,9 +3,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Forum extends Model
+class EmulatorStats extends Model
 {
-    protected $table = 'cms_fourm_category';
+    protected $table = 'emulator_stats';
 
     public $timestamps = false;
 }

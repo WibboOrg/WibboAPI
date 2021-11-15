@@ -3,9 +3,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CmdLogs extends Model
+class GuildMembership extends Model
 {
-    protected $table = 'log_command';
+    protected $table = 'guild_membership';
 
     public $timestamps = false;
 }

@@ -2,8 +2,8 @@
 namespace App\Controller\Admin;
 
 use App\Controller\DefaultController;
-use App\Models\StaffIp;
-use App\Models\StaffLog;
+use App\Models\StaffProtect;
+use App\Models\LogStaff;
 use App\Models\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -23,7 +23,7 @@ class IpstaffController extends DefaultController
             throw new Exception('permission', 403);
         }
 
-        $staffs = StaffIp::where('hide', '0')->where('ip', '!=', '')->get();
+        $staffs = StaffProtect::where('hide', '0')->where('ip', '!=', '')->get();
 		
 		$message = [
 			'staffs' => $staffs
@@ -51,7 +51,7 @@ class IpstaffController extends DefaultController
         $id = $data->id;
         $ip = $data->ip;
 
-        $staff = StaffIp::where('id', $id)->first();
+        $staff = StaffProtect::where('id', $id)->first();
 
         if (!$staff) {
             throw new Exception('error', 400);
@@ -61,11 +61,11 @@ class IpstaffController extends DefaultController
             throw new Exception('error', 400);
         }
 
-        StaffIp::where('id', $id)->update([
+        StaffProtect::where('id', $id)->update([
             'ip' => $ip,
         ]);
 
-        StaffLog::insert([
+        LogStaff::insert([
             'pseudo' => $user->username,
             'action' => 'Changement de l\'IP de: ' . $staff->username,
             'date' => time(),

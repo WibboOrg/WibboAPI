@@ -3,9 +3,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class StaffIp extends Model
+class Staff extends Model
 {
-    protected $table = 'cms_staff_protect';
+    protected $table = 'cms_staff';
 
     public $timestamps = false;
 }

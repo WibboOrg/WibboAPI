@@ -2,12 +2,12 @@
 namespace App\Controller\Community;
 
 use App\Controller\DefaultController;
-use App\Models\PageStaff;
-use App\Models\StaffPage;
+use App\Models\CategoryStaff;
+use App\Models\Staff;
 use App\Models\Groups;
-use App\Models\GroupMembres;
+use App\Models\GuildMembership;
 use App\Models\User;
-use App\Models\UserPhotos;
+use App\Models\UserPhoto;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Exception;
@@ -25,7 +25,7 @@ class CommunityController extends DefaultController
         $group = Groups::where('id', $args['groupId'])->first();
         if (!$group) throw new Exception('not-found', 404);
 
-        $memberCount = GroupMembres::where('group_id', $args['groupId'])->count();
+        $memberCount = GuildMembership::where('group_id', $args['groupId'])->count();
         
         $owner = User::where('id', $group->owner_id)->select('username', 'look')->first();
 
@@ -47,11 +47,11 @@ class CommunityController extends DefaultController
         $cacheData = $this->cache->get(2);
         if(!empty($cacheData)) return $this->jsonResponse($response, $cacheData);
 
-        $staff = StaffPage::join('users', 'cms_page_staff.userid', '=', 'users.id')
-            ->select('users.id', 'cms_page_staff.rank', 'cms_page_staff.function', 'cms_page_staff.social_insta', 'cms_page_staff.social_discord', 'users.username', 'users.look', 'users.motto', 'users.last_offline', 'users.online')
-            ->orderBy('users.online', 'DESC')->get();
+        $staff = Staff::join('user', 'cms_staff.userid', '=', 'user.id')
+            ->select('user.id', 'cms_staff.rank', 'cms_staff.function', 'cms_staff.social_insta', 'cms_staff.social_discord', 'user.username', 'user.look', 'user.motto', 'user.last_offline', 'user.online')
+            ->get();
 
-        $boxstaff = PageStaff::orderBy('id', 'ASC')->select('rank', 'rank_nom')->get();
+        $boxstaff = CategoryStaff::orderBy('id', 'ASC')->select('rank', 'rank_nom')->get();
 
         $message = [
             'staff' => $staff,
@@ -73,7 +73,7 @@ class CommunityController extends DefaultController
         $cacheData = $this->cache->get(10, $currentPage);
         if(!empty($cacheData)) return $this->jsonResponse($response, $cacheData);
 
-        $photos = UserPhotos::select('photo', 'username', 'look', 'time')->join('users', 'user_photos.user_id', '=', 'users.id')->groupBy('user_photos.user_id')->orderBy('user_photos.time', 'desc')->where('users.online', '1')->forPage($currentPage, 20)->get();
+        $photos = UserPhoto::select('photo', 'username', 'look', 'time')->join('user', 'user_photo.user_id', '=', 'user.id')->groupBy('user_photo.user_id')->orderBy('user_photo.time', 'desc')->where('user.online', '1')->forPage($currentPage, 20)->get();
 
         $message = [
             'photos' => $photos

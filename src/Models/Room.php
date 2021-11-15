@@ -3,9 +3,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserBadges extends Model
+class Room extends Model
 {
-    protected $table = 'user_badge';
+    protected $table = 'room';
 
     public $timestamps = false;
 }

@@ -2,7 +2,7 @@
 namespace App\Controller\Admin;
 
 use App\Controller\DefaultController;
-use App\Models\StaffLog;
+use App\Models\LogStaff;
 use App\Models\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -70,13 +70,13 @@ class UserAccountController extends DefaultController
         }
 
         if (isset($username)) {
-            StaffLog::insert([
+            LogStaff::insert([
                 'pseudo' => $user->username,
                 'action' => 'Recherche les doubles compte de : ' . $username,
                 'date' => time(),
             ]);
         } else {
-            StaffLog::insert([
+            LogStaff::insert([
                 'pseudo' => $user->username,
                 'action' => 'Recherche les doubles compte sur l\'IP : ' . $ip,
                 'date' => time(),

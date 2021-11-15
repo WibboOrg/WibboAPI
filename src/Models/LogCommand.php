@@ -3,9 +3,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RPItems extends Model
+class LogCommand extends Model
 {
-    protected $table = 'roleplay_item';
+    protected $table = 'log_command';
 
     public $timestamps = false;
 }

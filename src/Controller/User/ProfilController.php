@@ -3,9 +3,9 @@ namespace App\Controller\User;
 
 use App\Controller\DefaultController;
 use App\Models\Groups;
-use App\Models\MessengerFriendships;
+use App\Models\MessengerFriendship;
 use App\Models\User;
-use App\Models\UserBadges;
+use App\Models\UserBadge;
 use App\Models\UserStats;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -29,7 +29,7 @@ class ProfilController extends DefaultController
             throw new Exception('not-found', 404);
         }
 
-        $badgeCount = UserBadges::where('user_id', $profil->id)->count();
+        $badgeCount = UserBadge::where('user_id', $profil->id)->count();
 
         $totalPage = 0;
 
@@ -39,27 +39,27 @@ class ProfilController extends DefaultController
 
         $groupe = Groups::where('owner_id', $profil->id)->orderBy('id')->get();
 
-        $countcoeur = MessengerFriendships::where('user_one_id', $profil->id)->where('relation', '1')->count();
-        $countami   = MessengerFriendships::where('user_one_id', $profil->id)->where('relation', '2')->count();
-        $countdead  = MessengerFriendships::where('user_one_id', $profil->id)->where('relation', '3')->count();
+        $countcoeur = MessengerFriendship::where('user_one_id', $profil->id)->where('relation', '1')->count();
+        $countami   = MessengerFriendship::where('user_one_id', $profil->id)->where('relation', '2')->count();
+        $countdead  = MessengerFriendship::where('user_one_id', $profil->id)->where('relation', '3')->count();
 
         $randomcoeur = null;
         $randomami = null;
         $randomdead = null;
 
         if ($countcoeur > 0) {
-            $randomcoeur = MessengerFriendships::where('user_one_id', $profil->id)->where('relation', '1')->leftJoin('users', 'messenger_friendships.user_two_id', '=', 'users.id')
-                ->inRandomOrder()->limit(1)->select('users.username')->first();
+            $randomcoeur = MessengerFriendship::where('user_one_id', $profil->id)->where('relation', '1')->leftJoin('user', 'messenger_friendship.user_two_id', '=', 'user.id')
+                ->inRandomOrder()->limit(1)->select('user.username')->first();
         }
 
         if ($countami > 0) {
-            $randomami = MessengerFriendships::where('user_one_id', $profil->id)->where('relation', '2')->leftJoin('users', 'messenger_friendships.user_two_id', '=', 'users.id')
-                ->inRandomOrder()->limit(1)->select('users.username')->first();
+            $randomami = MessengerFriendship::where('user_one_id', $profil->id)->where('relation', '2')->leftJoin('user', 'messenger_friendship.user_two_id', '=', 'user.id')
+                ->inRandomOrder()->limit(1)->select('user.username')->first();
         }
 
         if ($countdead > 0) {
-            $randomdead = MessengerFriendships::where('user_one_id', $profil->id)->where('relation', '3')->leftJoin('users', 'messenger_friendships.user_two_id', '=', 'users.id')
-                ->inRandomOrder()->limit(1)->select('users.username')->first();
+            $randomdead = MessengerFriendship::where('user_one_id', $profil->id)->where('relation', '3')->leftJoin('user', 'messenger_friendship.user_two_id', '=', 'user.id')
+                ->inRandomOrder()->limit(1)->select('user.username')->first();
         }
 
         $message = [
@@ -91,7 +91,7 @@ class ProfilController extends DefaultController
         if (empty($args['userId']) || !is_numeric($args['userId'])) 
             return $this->jsonResponse($response, ['badgescode' => []]);
 
-        $badgeList = UserBadges::where('user_id', $args['userId'])->select('badge_id')->forPage($currentPage, 40)->get();
+        $badgeList = UserBadge::where('user_id', $args['userId'])->select('badge_id')->forPage($currentPage, 40)->get();
 
         $message = [
             'badgescode' => $badgeList

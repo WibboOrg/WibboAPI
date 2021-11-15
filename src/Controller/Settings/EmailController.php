@@ -2,7 +2,7 @@
 namespace App\Controller\Settings;
 
 use App\Controller\DefaultController;
-use App\Models\Emails;
+use App\Models\MailConfirm;
 use App\Models\User;
 use App\Models\UserStats;
 use Slim\Http\Request;
@@ -23,11 +23,11 @@ class EmailController extends DefaultController
 
         if(!$user) throw new Exception('disconnect', 401);
 
-        $mail = Emails::where('user_id', '=', $userId)->first();
+        $mail = MailConfirm::where('user_id', '=', $userId)->first();
         if ($mail) {
             $temps = $mail->temps + $this->timeExpire;
             if (time() > $temps) {
-                Emails::where('user_id', '=', $userId)->delete();
+                MailConfirm::where('user_id', '=', $userId)->delete();
                 
                 throw new Exception('mail.expirer', 400);
             }
@@ -58,7 +58,7 @@ class EmailController extends DefaultController
         if (strlen($email) < 6 || $emailCheck !== 1 || Utils::junkMail($email))
             throw new Exception('mail.invalid', 400);
             
-        $mails = Emails::where('user_id', '=', $userId)->first();
+        $mails = MailConfirm::where('user_id', '=', $userId)->first();
         if ($mails)
             throw new Exception('mail.in-progress', 400);
 
@@ -77,7 +77,7 @@ class EmailController extends DefaultController
             if (!$this->mail->sendMail($email, $messageText, 'Active ton compte Wibbo'))
                 throw new Exception('error', 400);
 
-            Emails::insert([
+            MailConfirm::insert([
                 'user_id' => $userId,
                 'codedevalidation' => $code,
                 'email' => $email,
@@ -106,7 +106,7 @@ class EmailController extends DefaultController
             if (!$this->mail->sendMail($user->mail, $messageText, 'Active ton compte Wibbo')) 
                 throw new Exception('error', 400);
                 
-            Emails::insert([
+            MailConfirm::insert([
                 'user_id' => $userId,
                 'codedevalidation' => $code,
                 'email' => $email,
@@ -129,14 +129,14 @@ class EmailController extends DefaultController
         $input = $request->getParsedBody();
         $userId = $input['decoded']->sub;
 
-        $mails = Emails::where('user_id', '=', $userId)->first();
+        $mails = MailConfirm::where('user_id', '=', $userId)->first();
 
         if (!$mails)
             throw new Exception('mail.expirer', 400);
 
         $temps = $mails->temps + $this->timeExpire;
         if (time() > $temps) {
-            Emails::where('user_id', '=', $userId)->delete();
+            MailConfirm::where('user_id', '=', $userId)->delete();
 
             throw new Exception('mail.expirer', 400);
         }
@@ -146,7 +146,7 @@ class EmailController extends DefaultController
 
         $userCheck = User::where('mail', $mails->email)->where('mail_valide', '1')->select('id')->first();
         if ($userCheck) {
-            Emails::where('user_id', '=', $userId)->delete();
+            MailConfirm::where('user_id', '=', $userId)->delete();
 
             throw new Exception('mail.exist', 400);
         }
@@ -164,11 +164,11 @@ class EmailController extends DefaultController
 
             if($user->online) Utils::sendMusCommand('addwinwin', $userId . chr(1) . '200');
 
-            Emails::where('user_id', '=', $userId)->delete();
+            MailConfirm::where('user_id', '=', $userId)->delete();
         } 
         else if ($mails->type == '1') 
         {
-            Emails::where('user_id', '=', $userId)->delete();
+            MailConfirm::where('user_id', '=', $userId)->delete();
 
             $code = md5(Utils::generateHash(10));
             $expire = time() + $this->timeExpire;
@@ -177,7 +177,7 @@ class EmailController extends DefaultController
             if (!$this->mail->sendMail($mails->email, $textHtml, 'Active ton compte Wibbo'))
                 throw new Exception('error', 400);
 
-            Emails::insert([
+            MailConfirm::insert([
                 'user_id' => $userId,
                 'codedevalidation' => $code,
                 'email' => $mails->email,
@@ -190,7 +190,7 @@ class EmailController extends DefaultController
         else 
         {
             User::where('id', '=', $userId)->update(['mail' => $mails->email]);
-            Emails::where('user_id', '=', $userId)->delete();
+            MailConfirm::where('user_id', '=', $userId)->delete();
         }
 
         $message = [

@@ -3,9 +3,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Photos extends Model
+class LogShop extends Model
 {
-    protected $table = 'user_photo';
+    protected $table = 'log_shop';
 
     public $timestamps = false;
 }

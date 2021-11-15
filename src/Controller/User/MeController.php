@@ -2,11 +2,11 @@
 namespace App\Controller\User;
 
 use App\Controller\DefaultController;
-use App\Models\ForumThreads;
+use App\Models\ForumThread;
 use App\Models\News;
 use App\Models\User;
-use App\Models\UserBadges;
-use App\Models\UserVip;
+use App\Models\UserBadge;
+use App\Models\UserPremium;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Exception;
@@ -25,12 +25,12 @@ class MeController extends DefaultController
         $badgeMessage = $this->checkBadgeMiss($userId, $user->account_created);
 
         $timevipexpire = 0;
-        $vip = UserVip::where('user_id', $userId)->orderBy('timestamp_expire', 'DESC')->first();
+        $vip = UserPremium::where('user_id', $userId)->orderBy('timestamp_expire', 'DESC')->first();
         if ($vip) {
             if ($vip->timestamp_expire <= time()) {
-                UserVip::where('user_id', $userId)->delete();
+                UserPremium::where('user_id', $userId)->delete();
 
-                UserBadges::where('badge_id', 'WPREMIUM')->where('user_id', $userId)->delete();
+                UserBadge::where('badge_id', 'WPREMIUM')->where('user_id', $userId)->delete();
 
                 User::where('id', $userId)->where('rank', '2')->update(['rank' => '1']);
             }
@@ -39,7 +39,7 @@ class MeController extends DefaultController
         }
 
         $news = News::select('id', 'topstory_image', 'title', 'snippet', 'link_keyword')->where('timestamp', '<=', time())->orderBy('timestamp', 'DESC')->limit(5)->get();
-        $lastforumthread = ForumThreads::join('users', 'cms_forum_threads.author', '=', 'users.username')->select('cms_forum_threads.id', 'cms_forum_threads.title', 'cms_forum_threads.lastpost_author', 'cms_forum_threads.lastpost_date', 'users.look')->where('cms_forum_threads.type', 1)->orderBy('cms_forum_threads.lastpost_date', 'DESC')->limit(10)->get();
+        $lastforumthread = ForumThread::join('user', 'cms_forum_thread.author', '=', 'user.username')->select('cms_forum_thread.id', 'cms_forum_thread.title', 'cms_forum_thread.lastpost_author', 'cms_forum_thread.lastpost_date', 'user.look')->where('cms_forum_thread.type', 1)->orderBy('cms_forum_thread.lastpost_date', 'DESC')->limit(10)->get();
 
         $message = [
             'vip_time' => $timevipexpire,
@@ -55,8 +55,8 @@ class MeController extends DefaultController
     {
         $newBadges = array();
         
-        if (!UserBadges::where('user_id', $userId)->where('badge_id', 'VIPFREE')->first()) {
-            UserBadges::insert(['badge_id' => 'VIPFREE', 'user_id' => $userId]);
+        if (!UserBadge::where('user_id', $userId)->where('badge_id', 'VIPFREE')->first()) {
+            UserBadge::insert(['badge_id' => 'VIPFREE', 'user_id' => $userId]);
             $newBadges[] = "VIPFREE";
         }
 
@@ -65,11 +65,11 @@ class MeController extends DefaultController
           return $newBadges;
 
         for ($i = 0; $i < $yearUser; $i++) {
-            if (UserBadges::where('user_id', $userId)->where('badge_id', 'WBI' . ($yearUser - $i))->first()) {
+            if (UserBadge::where('user_id', $userId)->where('badge_id', 'WBI' . ($yearUser - $i))->first()) {
                 break;
             }
 
-            UserBadges::insert(['badge_id' => 'WBI' . ($yearUser - $i), 'user_id' => $userId]);
+            UserBadge::insert(['badge_id' => 'WBI' . ($yearUser - $i), 'user_id' => $userId]);
             $newBadges[] = 'WBI' . ($yearUser - $i);
         }
 

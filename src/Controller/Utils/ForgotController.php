@@ -2,7 +2,7 @@
 namespace App\Controller\Utils;
 
 use App\Controller\DefaultController;
-use App\Models\Forgot;
+use App\Models\MailForgot;
 use App\Models\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -29,7 +29,7 @@ class ForgotController extends DefaultController
             throw new Exception('mail.code-invalid', 400);
         }
 
-        $forgot = Forgot::where('pass', $args['code'])->first();
+        $forgot = MailForgot::where('pass', $args['code'])->first();
         if (!$forgot) {
             throw new Exception('mail.code-invalid', 400);
         }
@@ -37,7 +37,7 @@ class ForgotController extends DefaultController
         $forgotExpire = $forgot->expire + $this->timeExpire;
 
         if ($forgotExpire < time()) {
-            Forgot::where('pass', $args['code'])->delete();
+            MailForgot::where('pass', $args['code'])->delete();
             throw new Exception('mail.expirer', 400);
         }
 
@@ -51,7 +51,7 @@ class ForgotController extends DefaultController
                 'password' => $newpassword,
             ]);
 
-            Forgot::where('pass', $args['code'])->delete();
+            MailForgot::where('pass', $args['code'])->delete();
 
         } else {
             throw new Exception('error', 400);
@@ -72,13 +72,13 @@ class ForgotController extends DefaultController
             throw new Exception('mail.invalid', 400);
         }
 
-        $forgot = Forgot::where('users', $data->username)->where('email', $data->email)->first();
+        $forgot = MailForgot::where('users', $data->username)->where('email', $data->email)->first();
         if ($forgot) {
             $forgot_expire = $forgot->expire + $this->timeExpire;
             if ($forgot_expire > time()) {
                 throw new Exception('mail.in-progress', 400);
             }
-            Forgot::where('users', $data->username)->where('email', $data->email)->delete();
+            MailForgot::where('users', $data->username)->where('email', $data->email)->delete();
         }
 
         $user = User::where('username', $data->username)->where('mail', $data->email)->where('mail_valide', '1')->first();
@@ -99,7 +99,7 @@ class ForgotController extends DefaultController
         $htmlText = str_replace('{{email}}', $email, $htmlText);
 
         if ($this->mail->sendMail($email, $htmlText, $sujet, true)) {
-            Forgot::insert([
+            MailForgot::insert([
                 'pass' => $code,
                 'users' => $data->username,
                 'email' => $data->email,

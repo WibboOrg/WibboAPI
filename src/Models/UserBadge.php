@@ -3,9 +3,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class StaffPage extends Model
+class UserBadge extends Model
 {
-    protected $table = 'cms_staff';
+    protected $table = 'user_badge';
 
     public $timestamps = false;
 }

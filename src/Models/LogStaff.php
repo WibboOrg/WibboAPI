@@ -3,7 +3,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class StaffLog extends Model
+class LogStaff extends Model
 {
     protected $table = 'log_staff';
 

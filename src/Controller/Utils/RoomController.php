@@ -2,7 +2,7 @@
 namespace App\Controller\Utils;
 
 use App\Controller\DefaultController;
-use App\Models\Rooms;
+use App\Models\Room;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Exception;
@@ -17,7 +17,7 @@ class RoomController extends DefaultController
 
         $roomId = $args['roomId'];
 
-        $room = Rooms::select('caption', 'owner', 'description')->where('id', $roomId)->first();
+        $room = Room::select('caption', 'owner', 'description')->where('id', $roomId)->first();
 
         if (!$room) {
             throw new Exception('not-found', 404);

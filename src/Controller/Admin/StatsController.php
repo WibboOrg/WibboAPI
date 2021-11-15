@@ -2,7 +2,7 @@
 namespace App\Controller\Admin;
 
 use App\Controller\DefaultController;
-use App\Models\SystemStats;
+use App\Models\EmulatorStats;
 use App\Models\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -23,11 +23,11 @@ class StatsController extends DefaultController
         }
 
         $startTime = time() - 24 * 60 * 60;
-        $statsNow = SystemStats::where('time', '>', $startTime)->orderBy('time', 'ASC')->get();
+        $statsNow = EmulatorStats::where('time', '>', $startTime)->orderBy('time', 'ASC')->get();
 
         $firstTime = time() - (8 * 24 * 60 * 60);
         $lastTime = time() - (7 * 24 * 60 * 60);
-        $statsLastWeek = SystemStats::where('time', '>', $firstTime)->where('time', '<', $lastTime)->orderBy('time', 'ASC')->get();
+        $statsLastWeek = EmulatorStats::where('time', '>', $firstTime)->where('time', '<', $lastTime)->orderBy('time', 'ASC')->get();
 		
 		$message = [
 			'now' => $statsNow,

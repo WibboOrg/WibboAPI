@@ -2,7 +2,7 @@
 namespace App\Controller\Admin\Log;
 
 use App\Controller\DefaultController;
-use App\Models\CmdLogs;
+use App\Models\LogCommand;
 use App\Models\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -23,7 +23,7 @@ class LogCommandController extends DefaultController
         }
 
         $limitPage = 500;
-        $total = CmdLogs::count();
+        $total = LogCommand::count();
 
         $totalPage = ceil($total / $limitPage);
         if (!empty($_GET['page']) && is_numeric($_GET['page'])) {
@@ -36,7 +36,7 @@ class LogCommandController extends DefaultController
             $currentPage = 1;
         }
 
-        $cmdlogs = CmdLogs::orderBy('timestamp', 'DESC')->forPage($currentPage, $limitPage)->get();
+        $cmdlogs = LogCommand::orderBy('timestamp', 'DESC')->forPage($currentPage, $limitPage)->get();
 
 		$message = [
             'totalPage' => $totalPage,
@@ -73,7 +73,7 @@ class LogCommandController extends DefaultController
         $timestamp = strtotime($startdate);
         $timestampEnd = strtotime($enddate);
 
-        $cmd = CmdLogs::where('user_name', $username)->where('timestamp', '>', $timestamp)->where('timestamp', '<', $timestampEnd)->orderBy('timestamp', 'DESC')->limit(100)->get();
+        $cmd = LogCommand::where('user_name', $username)->where('timestamp', '>', $timestamp)->where('timestamp', '<', $timestampEnd)->orderBy('timestamp', 'DESC')->limit(100)->get();
 	
 		$message = [
 			'cmd' => $cmd

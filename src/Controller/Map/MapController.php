@@ -3,7 +3,7 @@ namespace App\Controller\Map;
 
 use App\Controller\DefaultController;
 use App\Models\News;
-use App\Models\ForumThreads;
+use App\Models\ForumThread;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -22,7 +22,7 @@ class MapController extends DefaultController
 
     public function getForums(Request $request, Response $response, array $args): Response
     {
-        $posts = ForumThreads::select('id')->orderBy('lastpost_date', 'DESC')->limit(50000)->get();
+        $posts = ForumThread::select('id')->orderBy('lastpost_date', 'DESC')->limit(50000)->get();
 
         $message = [
             'posts' => $posts

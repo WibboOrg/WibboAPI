@@ -3,7 +3,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ForumThreads extends Model
+class ForumThread extends Model
 {
     protected $table = 'cms_forum_thread';
 

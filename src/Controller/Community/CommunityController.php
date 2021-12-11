@@ -2,7 +2,6 @@
 namespace App\Controller\Community;
 
 use App\Controller\DefaultController;
-use App\Models\CategoryStaff;
 use App\Models\Staff;
 use App\Models\Groups;
 use App\Models\GuildMembership;
@@ -51,11 +50,8 @@ class CommunityController extends DefaultController
             ->select('user.id', 'cms_staff.rank', 'cms_staff.function', 'cms_staff.social_insta', 'cms_staff.social_discord', 'user.username', 'user.look', 'user.motto', 'user.last_offline', 'user.online')
             ->get();
 
-        $boxstaff = CategoryStaff::orderBy('id', 'ASC')->select('rank', 'rank_nom')->get();
-
         $message = [
-            'staff' => $staff,
-            'boxstaff' => $boxstaff
+            'staff' => $staff
         ];
 
         $this->cache->save($message);

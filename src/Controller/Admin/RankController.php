@@ -52,13 +52,27 @@ class RankController extends DefaultController
         $isDerank = false;
 
         switch ($poste) {
+            case 'co-gestion':
+                if ($user->rank < 12) {
+                    throw new Exception('permission', 403);
+                }
+
+                User::where('id', $userTarget->id)->update(['rank' => '11']);
+                Staff::insert(['userid' => $userTarget->id, 'rank' => '6', 'function' => '']); //mettre manuellement la fonction
+                StaffProtect::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
+                UserBadge::insert([
+                    'user_id' => $userTarget->id,
+                    'badge_id' => "ADM",
+                    'badge_slot' => '0',
+                ]);
+                break;
             case 'admin':
                 if ($user->rank < 12) {
                     throw new Exception('permission', 403);
                 }
 
                 User::where('id', $userTarget->id)->update(['rank' => '8']);
-                Staff::insert(['userid' => $userTarget->id, 'rank' => '6', 'function' => 'Administrat']);
+                Staff::insert(['userid' => $userTarget->id, 'rank' => '6', 'function' => '']);//mettre manuellement la fonction
                 StaffProtect::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
                 UserBadge::insert([
                     'user_id' => $userTarget->id,
@@ -68,7 +82,7 @@ class RankController extends DefaultController
                 break;
             case 'animateur':
                 User::where('id', $userTarget->id)->update(['rank' => '7']);
-                Staff::insert(['userid' => $userTarget->id, 'rank' => '8', 'function' => 'Animat']);
+                Staff::insert(['userid' => $userTarget->id, 'rank' => '8', 'function' => '']); //mettre manuellement la fonction
                 StaffProtect::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
                 UserBadge::insert([
                     'user_id' => $userTarget->id,
@@ -78,7 +92,7 @@ class RankController extends DefaultController
                 break;
             case 'animateur-casino':
                 User::where('id', $userTarget->id)->update(['rank' => '7']);
-                Staff::insert(['userid' => $userTarget->id, 'rank' => '5', 'function' => 'Animat casino']);
+                Staff::insert(['userid' => $userTarget->id, 'rank' => '5', 'function' => '']); //mettre manuellement la fonction
                 StaffProtect::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
                 UserBadge::insert([
                     'user_id' => $userTarget->id,
@@ -88,7 +102,7 @@ class RankController extends DefaultController
                 break;
             case 'modo':
                 User::where('id', $userTarget->id)->update(['rank' => '6']);
-                Staff::insert(['userid' => $userTarget->id, 'rank' => '3', 'function' => 'Modérat']);
+                Staff::insert(['userid' => $userTarget->id, 'rank' => '3', 'function' => '']); //mettre manuellement la fonction
                 StaffProtect::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
                 UserBadge::insert([
                     'user_id' => $userTarget->id,
@@ -98,7 +112,7 @@ class RankController extends DefaultController
                 break;
             case 'helpeur':
                 User::where('id', $userTarget->id)->update(['rank' => '4']);
-                Staff::insert(['userid' => $userTarget->id, 'rank' => '2', 'function' => 'Helpeu']);
+                Staff::insert(['userid' => $userTarget->id, 'rank' => '2', 'function' => '']); //mettre manuellement la fonction
                 StaffProtect::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
                 UserBadge::insert([
                     'user_id' => $userTarget->id,
@@ -108,7 +122,7 @@ class RankController extends DefaultController
                 break;
             case 'graphiste':
                 User::where('id', $userTarget->id)->update(['rank' => '3']);
-                Staff::insert(['userid' => $userTarget->id, 'rank' => '4', 'function' => 'Graphiste']);
+                Staff::insert(['userid' => $userTarget->id, 'rank' => '4', 'function' => '']); //mettre manuellement la fonction
                 StaffProtect::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
                 UserBadge::insert([
                     'user_id' => $userTarget->id,
@@ -118,7 +132,7 @@ class RankController extends DefaultController
                 break;
             case 'arch':
                 User::where('id', $userTarget->id)->update(['rank' => '3']);
-                Staff::insert(['userid' => $userTarget->id, 'rank' => '1', 'function' => 'Architecte']);
+                Staff::insert(['userid' => $userTarget->id, 'rank' => '1', 'function' => '']); //mettre manuellement la fonction
                 StaffProtect::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
                 UserBadge::insert([
                     'user_id' => $userTarget->id,
@@ -128,7 +142,7 @@ class RankController extends DefaultController
                 break;
             case 'wired':
                 User::where('id', $userTarget->id)->update(['rank' => '3']);
-                Staff::insert(['userid' => $userTarget->id, 'rank' => '1', 'function' => 'Pro Wired']);
+                Staff::insert(['userid' => $userTarget->id, 'rank' => '1', 'function' => '']); //mettre manuellement la fonction
                 StaffProtect::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
                 UserBadge::insert([
                     'user_id' => $userTarget->id,
@@ -138,7 +152,7 @@ class RankController extends DefaultController
                 break;
             case 'croupier':
                 User::where('id', $userTarget->id)->update(['rank' => '3']);
-                Staff::insert(['userid' => $userTarget->id, 'rank' => '5', 'function' => 'Croupi']);
+                Staff::insert(['userid' => $userTarget->id, 'rank' => '5', 'function' => '']); //mettre manuellement la fonction
                 StaffProtect::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
                 UserBadge::insert([
                     'user_id' => $userTarget->id,
@@ -148,7 +162,7 @@ class RankController extends DefaultController
                 break;
             case 'radio':
                 User::where('id', $userTarget->id)->update(['rank' => '3']);
-                Staff::insert(['userid' => $userTarget->id, 'rank' => '7', 'function' => 'Animat radio']);
+                Staff::insert(['userid' => $userTarget->id, 'rank' => '7', 'function' => '']); //mettre manuellement la fonction
                 StaffProtect::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
                 UserBadge::insert([
                     'user_id' => $userTarget->id,
@@ -159,11 +173,11 @@ class RankController extends DefaultController
 
             case 'communication':
                     User::where('id', $userTarget->id)->update(['rank' => '3']);
-                    Staff::insert(['userid' => $userTarget->id, 'rank' => '9', 'function' => 'Agent de communication']);
+                    Staff::insert(['userid' => $userTarget->id, 'rank' => '9', 'function' => '']); //mettre manuellement la fonction
                     StaffProtect::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
                     UserBadge::insert([
                         'user_id' => $userTarget->id,
-                        'badge_id' => "",
+                        'badge_id' => "WIBBOCOM",
                         'badge_slot' => '0',
                     ]);
                 break;
@@ -186,6 +200,7 @@ class RankController extends DefaultController
                 UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'GPHWIB')->delete();
                 UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'ZEERSWS')->delete();
                 UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'PRWRD1')->delete();
+                UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'WIBBOCOM')->delete();
                 StaffProtect::where('id', $userTarget->id)->delete();
 
                 $isDerank = true;

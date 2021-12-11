@@ -27,7 +27,7 @@ class CacheService
 
         return $message;
     }
-            
+    
     public function save(array $message, int $pageId = 0): void
     {
         $url = strtok($_SERVER["REQUEST_URI"], '?');

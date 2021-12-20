@@ -45,7 +45,7 @@ $app->group('/api/v1', function() use($app) {
         $app->get('/forums', '\App\Controller\Map\MapController:getForums');
     });
 
-    $app->post('/login', '\App\Controller\User\LoginController:post');
+    $app->post('/login', '\App\Controller\Auth\AuthController:post');
     
     $app->get('/avatar-url/{username}', '\App\Controller\Utils\UtilController:getAvatarUrl');
     $app->get('/search-user/{username}', '\App\Controller\Utils\UtilController:getSearchUser');

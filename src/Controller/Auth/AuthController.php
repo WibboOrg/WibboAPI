@@ -1,5 +1,5 @@
 <?php
-namespace App\Controller\User;
+namespace App\Controller\Auth;
 
 use App\Controller\DefaultController;
 use Slim\Http\Request;
@@ -12,7 +12,7 @@ use App\Models\Ban;
 use App\Helper\Utils;
 use Exception;
 
-class LoginController extends DefaultController
+class AuthController extends DefaultController
 {
     public function post(Request $request, Response $response, array $args): Response
     {
@@ -33,7 +33,7 @@ class LoginController extends DefaultController
 
         $user = $this->loginUser($data->username, $data->password);
 
-        $this->checkBan($data->username);
+        $this->checkBan($data->username, $user->is_banned, ($user->is_banned == 1));
 
         $ipcountry = (!empty($_SERVER["HTTP_CF_IPCOUNTRY"]) ? $_SERVER["HTTP_CF_IPCOUNTRY"] : '');
 
@@ -66,7 +66,7 @@ class LoginController extends DefaultController
 
     private function loginUser(string $username, string $password): User
     {
-        $user = User::where('username', $username)->where('password', '=', Utils::hashMdp($password))->select('id')->first();
+        $user = User::where('username', $username)->where('password', '=', Utils::hashMdp($password))->select('id', 'is_banned')->first();
 
         if(!$user) {
             throw new Exception('login.fail', 400);
@@ -85,7 +85,7 @@ class LoginController extends DefaultController
         throw new Exception('login.staff|' . Utils::getUserIP(), 400);
     }
 
-    private function checkBan(string $username): void
+    private function checkBan(string $username, int $userId, bool $isBanned): void
     {
         if (!Utils::ipInRange(Utils::getUserIP(), "45.33.128.0/20") && !Utils::ipInRange(Utils::getUserIP(), "107.178.36.0/20")) {
             $ipBan = Ban::select('reason', 'expire')->where('bantype', 'ip')->where('value', Utils::getUserIP())->where('expire', '>', time())->first();
@@ -97,6 +97,11 @@ class LoginController extends DefaultController
         $accountBan = Ban::select('reason', 'expire')->where('bantype', 'user')->where('value', $username)->where('expire', '>', time())->first();
         if ($accountBan) {
             throw new Exception('login.ban|'.$accountBan->reason.'|'.date('d/m/Y|H:i:s', $accountBan->expire), 400);
+        }
+
+        if($isBanned)
+        {
+            User::where('id', $userId)->update(['is_banned' => 0]);
         }
     }
 }

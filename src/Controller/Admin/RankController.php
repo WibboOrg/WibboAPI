@@ -209,7 +209,7 @@ class RankController extends DefaultController
 
         LogStaff::insert([
             'pseudo' => $user->username,
-            'action' => (($isDerank) ? 'Rank' : 'Derank') . ' de l\'utilisateur: ' . $username,
+            'action' => ((!$isDerank) ? 'Rank' : 'Derank') . ' de l\'utilisateur: ' . $username,
             'date' => time(),
         ]);
 

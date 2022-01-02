@@ -33,7 +33,7 @@ class AuthController extends DefaultController
 
         $user = $this->loginUser($data->username, $data->password);
 
-        $this->checkBan($data->username, $user->is_banned, ($user->is_banned == 1));
+        $this->checkBan($data->username, $user->id, ($user->is_banned == '1'));
 
         $ipcountry = (!empty($_SERVER["HTTP_CF_IPCOUNTRY"]) ? $_SERVER["HTTP_CF_IPCOUNTRY"] : '');
 
@@ -101,7 +101,7 @@ class AuthController extends DefaultController
 
         if($isBanned)
         {
-            User::where('id', $userId)->update(['is_banned' => 0]);
+            User::where('id', $userId)->update(['is_banned' => '0']);
         }
     }
 }

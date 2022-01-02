@@ -68,7 +68,7 @@ class BanController extends DefaultController
             ]);
         }
 
-        User::where('id', $userTarget->id)->update(['auth_ticket' => '', 'is_banned' => 1]);
+        User::where('id', $userTarget->id)->update(['auth_ticket' => '', 'is_banned' => '1']);
 
         Utils::sendMusCommand('signout', $userTarget->id);
 
@@ -122,7 +122,7 @@ class BanController extends DefaultController
 
         Ban::where('value', $name)->where('bantype', 'user')->where('expire', '>', time())->update(['expire' => time()]);
 
-        User::where('id', $userTarget->id)->update(['is_banned' => 0]);
+        User::where('id', $userTarget->id)->update(['is_banned' => '0']);
 
         LogStaff::insert([
             'pseudo' => $user->username,

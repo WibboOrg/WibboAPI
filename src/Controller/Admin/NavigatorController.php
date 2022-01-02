@@ -86,7 +86,7 @@ class NavigatorController extends DefaultController
         $roomid = $data->roomid;
         $categorie = $data->category;
 
-        if (!is_numeric($roomid) || !is_numeric($categorie)) {
+        if (!is_numeric($roomid) || !isset($categorie)) {
             throw new Exception('error', 400);
         }
 
@@ -126,7 +126,7 @@ class NavigatorController extends DefaultController
         NavigatorPublic::insert([
             'room_id' => $roomid,
             'image_url' => $filePath,
-            'game' => $categorie == '1' ? '1' : '0',
+            'category_type' => $categorie,
             'enabled' => '1',
         ]);
 

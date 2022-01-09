@@ -46,6 +46,7 @@ $app->group('/api/v1', function() use($app) {
     });
 
     $app->post('/login', '\App\Controller\Auth\AuthController:post');
+    $app->post('/register', '\App\Controller\User\RegisterController:post');
     
     $app->get('/avatar-url/{username}', '\App\Controller\Utils\UtilController:getAvatarUrl');
     $app->get('/search-user/{username}', '\App\Controller\Utils\UtilController:getSearchUser');
@@ -55,7 +56,6 @@ $app->group('/api/v1', function() use($app) {
     $app->get('/profil-badges/{userId}', 'App\Controller\User\ProfilController:getBadges');
     $app->get('/group/{groupId}', '\App\Controller\Community\CommunityController:getGroupe');
 
-    $app->post('/register', '\App\Controller\User\RegisterController:post');
 
     $app->put('/forgot/{code}', '\App\Controller\Utils\ForgotController:verifForgot');
     $app->post('/forgot', '\App\Controller\Utils\ForgotController:postForgot');
@@ -73,8 +73,6 @@ $app->group('/api/v1', function() use($app) {
         $app->get('/news-list', '\App\Controller\Community\ArticleController:getNewList');
         $app->get('/news-last', '\App\Controller\Community\ArticleController:getNewLast');
     });
-
-    $app->post('/jobstaff', '\App\Controller\Community\JobStaffController:post');
 
     $app->group('/classement', function() use($app) {
         $app->get('/gamer', '\App\Controller\Ranking\RankingController:getTop');

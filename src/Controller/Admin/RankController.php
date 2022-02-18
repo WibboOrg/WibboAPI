@@ -67,7 +67,7 @@ class RankController extends DefaultController
                 ]);
                 break;
             case 'admin':
-                if ($user->rank < 12) {
+                if ($user->rank < 11) {
                     throw new Exception('permission', 403);
                 }
 
@@ -187,7 +187,7 @@ class RankController extends DefaultController
                     throw new Exception('permission', 400);
                 }
         
-                if ($user->rank < 12 && $userTarget->rank >= 8) {
+                if ($user->rank < 11 && $userTarget->rank >= 8) {
                     throw new Exception('permission', 403);
                 }
         

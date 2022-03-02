@@ -47,7 +47,7 @@ class EmailController extends DefaultController
 
         $data = json_decode(json_encode($input), false);
 
-        $this->requireData($data, ['mail', 'remail']);
+        $this->requireData($data, ['mail']);
 
         $user = User::select('username', 'mail', 'mail_valide')->where('id', $userId)->first();
 
@@ -88,10 +88,6 @@ class EmailController extends DefaultController
         }
 
         else if ($user->mail_valide == 1) {
-            
-            if ($email != $data->remail)
-                throw new Exception('mail.same', 400);
-
             if ($email == $user->mail)
                 throw new Exception('mail.idiot', 400);
 

@@ -40,7 +40,7 @@ class TransfertRoomController extends DefaultController
             throw new Exception('error', 400);
         }
 
-        if($user->rank < 12 && $room->owner != $user->username) {
+        if($user->rank < 11 && $room->owner != $user->username) { // Autorizhation, cf. JasonDhose
             throw new Exception('permission', 400);
         }
 

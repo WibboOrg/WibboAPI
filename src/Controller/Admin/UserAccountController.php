@@ -60,7 +60,7 @@ class UserAccountController extends DefaultController
         $users = null;
 
         if (empty($machineid)) {
-            $users = User::where('ip_last', $ip)->select('username', 'id', 'online', 'ipcountry')->get();
+            $users = User::where('ip_last', $ip)->select('username', 'id', 'online', 'ipcountry', 'rank')->get();
         } else {
             $users = User::where('ip_last', $ip)->orWhere('machine_id', $machineid)->select('username', 'id', 'online', 'ipcountry')->get();
         }
@@ -83,8 +83,8 @@ class UserAccountController extends DefaultController
             ]);
         }
 
-        foreach ($users as $user) {
-            if ($user->username == 'Seonsaengnim' || $user->username == 'Jason' || $user->username == 'Kodamas' || $user->rank < 11) {
+        foreach ($users as $userTarget) {
+            if ($userTarget->rank >= 11) {
                 throw new Exception('error', 400);
             }
         }

@@ -33,11 +33,17 @@ class AuthController extends DefaultController
 
         $user = $this->loginUser($data->username, $data->password);
 
+        LogLogin::insert([
+            'user_id' => $user->id,
+            'date' => time(),
+            'ip' => Utils::getUserIP(),
+            'user_agent' => $_SERVER['HTTP_USER_AGENT']
+        ]);
+
         $this->checkBan($data->username, $user->id, ($user->is_banned == '1'));
+        $this->checkIpStaff($user->id);
 
         $ipcountry = (!empty($_SERVER["HTTP_CF_IPCOUNTRY"]) ? $_SERVER["HTTP_CF_IPCOUNTRY"] : '');
-
-        $this->checkIpStaff($user->id);
 
         $token = [
             'sub' => $user->id,
@@ -52,13 +58,6 @@ class AuthController extends DefaultController
             'ip_last' => Utils::getUserIP(),
             'ipcountry' => $ipcountry,
             'langue' => 'fr'
-        ]);
-
-        LogLogin::insert([
-            'user_id' => $user->id,
-            'date' => time(),
-            'ip' => Utils::getUserIP(),
-            'user_agent' => $_SERVER['HTTP_USER_AGENT']
         ]);
 
         return JWT::encode($token, getenv('SECRET_KEY'));

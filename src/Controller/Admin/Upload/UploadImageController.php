@@ -55,6 +55,12 @@ class UploadImageController extends DefaultController
 			'url' => '//cdn.wibbo.org/uploads/' . $newFileName
         ];
 
+        LogStaff::insert([
+            'pseudo' => $user->username,
+            'action' => 'Ajout de l\'image: ' . $newFileName,
+            'date' => time()
+        ]);
+
         return $this->jsonResponse($response, $message);
     }
 }

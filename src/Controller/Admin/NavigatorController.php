@@ -57,7 +57,7 @@ class NavigatorController extends DefaultController
 
         LogStaff::insert([
             'pseudo' => $user->username,
-            'action' => 'Supression d\'un appart au navigateur: ' . $nav->id,
+            'action' => 'Supression d\'un appart au navigateur: ' . $id,
             'date' => time(),
 		]);
 		

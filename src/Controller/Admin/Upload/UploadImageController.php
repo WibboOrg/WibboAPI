@@ -3,6 +3,7 @@ namespace App\Controller\Admin\Upload;
 
 use App\Controller\DefaultController;
 use App\Models\User;
+use App\Models\LogStaff;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Exception;

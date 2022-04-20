@@ -50,13 +50,13 @@ class UploadFurniController extends DefaultController
         $sql = "";
         if ($type == '1') {
             $funi = '["s","' . $nombre . '","' . $codedumobis . '","0","0","1","1","","' . $titre . '","' . $desc . '","","-1","false","-1","false","-1","0","false","0","0","0"],';
-            $sql .= "INSERT INTO catalog_items VALUES ('" . $nombre . "', '7529', '" . $nombre . "', '" . $codedumobis . "', '25', '0', '0', '1', '0', '0', '0', '');";
-            $sql .= "INSERT INTO furniture VALUES ('" . $nombre . "', '" . $codedumobis . "', 's', '1', '1', '1', '0', '1', '0', '" . $nombre . "', '0', '1', '1', '1', '1', 'default', '1', '0', '0', '0', '0');";
+            $sql .= "INSERT INTO catalog_item VALUES ('" . $nombre . "', '7529', '" . $nombre . "', '" . $codedumobis . "', '25', '0', '0', '1', '0', '0', '0', '');";
+            $sql .= "INSERT INTO item_base VALUES ('" . $nombre . "', '" . $codedumobis . "', 's', '1', '1', '1', '0', '1', '0', '" . $nombre . "', '0', '1', '1', '1', '1', 'default', '1', '0', '0', '0', '0');";
         } else if ($type == '2') {
             $funi = '["i","' . $nombre . '","' . $codedumobis . '","0","0","0","0","","' . $titre . '","' . $desc . '","","-1","false","-1","false","-1","0","false","0","0","0"],';
 
-            $sql .= "INSERT INTO catalog_items VALUES ('" . $nombre . "', '7529', '" . $nombre . "', '" . $codedumobis . "', '25', '0', '0', '1', '0', '0', '0', '');";
-            $sql .= "INSERT INTO furniture VALUES ('" . $nombre . "', '" . $codedumobis . "', 'i', '1', '1', '1', '0', '0', '0', '" . $nombre . "', '0', '1', '1', '1', '1', 'default', '1', '0', '0', '0', '0');";
+            $sql .= "INSERT INTO catalog_item VALUES ('" . $nombre . "', '7529', '" . $nombre . "', '" . $codedumobis . "', '25', '0', '0', '1', '0', '0', '0', '');";
+            $sql .= "INSERT INTO item_base VALUES ('" . $nombre . "', '" . $codedumobis . "', 'i', '1', '1', '1', '0', '0', '0', '" . $nombre . "', '0', '1', '1', '1', '1', 'default', '1', '0', '0', '0', '0');";
         } else {
             throw new Exception('Erreur', 400);
         }

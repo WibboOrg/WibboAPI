@@ -145,7 +145,7 @@ class BanController extends DefaultController
             throw new Exception('permission', 403);
         }
 
-        $bans = Ban::orderBy('id', 'DESC')->limit(100)->get();
+        $bans = Ban::where('bantype', 'user')->orderBy('id', 'DESC')->limit(100)->get();
 		
 		$message = [
 			'bans' => $bans

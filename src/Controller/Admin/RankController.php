@@ -52,20 +52,20 @@ class RankController extends DefaultController
         $isDerank = false;
 
         switch ($poste) {
-            case 'co-gestion':
-                if ($user->rank < 12) {
-                    throw new Exception('permission', 403);
-                }
+            // case 'co-gestion':
+            //     if ($user->rank < 12) {
+            //         throw new Exception('permission', 403);
+            //     }
 
-                User::where('id', $userTarget->id)->update(['rank' => '11']);
-                Staff::insert(['userid' => $userTarget->id, 'rank' => '6', 'function' => '']); //mettre manuellement la fonction
-                StaffProtect::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
-                UserBadge::insert([
-                    'user_id' => $userTarget->id,
-                    'badge_id' => "ADM",
-                    'badge_slot' => '0',
-                ]);
-                break;
+            //     User::where('id', $userTarget->id)->update(['rank' => '11']);
+            //     Staff::insert(['userid' => $userTarget->id, 'rank' => '6', 'function' => '']); //mettre manuellement la fonction
+            //     StaffProtect::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
+            //     UserBadge::insert([
+            //         'user_id' => $userTarget->id,
+            //         'badge_id' => "ADM",
+            //         'badge_slot' => '0',
+            //     ]);
+            //     break;
             case 'admin':
                 if ($user->rank < 11) {
                     throw new Exception('permission', 403);
@@ -160,16 +160,16 @@ class RankController extends DefaultController
                     'badge_slot' => '0',
                 ]);
                 break;
-            case 'radio':
-                User::where('id', $userTarget->id)->update(['rank' => '3']);
-                Staff::insert(['userid' => $userTarget->id, 'rank' => '7', 'function' => '']); //mettre manuellement la fonction
-                StaffProtect::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
-                UserBadge::insert([
-                    'user_id' => $userTarget->id,
-                    'badge_id' => "ZEERSWS",
-                    'badge_slot' => '0',
-                ]);
-                break;
+            // case 'radio':
+            //     User::where('id', $userTarget->id)->update(['rank' => '3']);
+            //     Staff::insert(['userid' => $userTarget->id, 'rank' => '7', 'function' => '']); //mettre manuellement la fonction
+            //     StaffProtect::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
+            //     UserBadge::insert([
+            //         'user_id' => $userTarget->id,
+            //         'badge_id' => "ZEERSWS",
+            //         'badge_slot' => '0',
+            //     ]);
+            //     break;
 
             case 'communication':
                     User::where('id', $userTarget->id)->update(['rank' => '3']);
@@ -182,7 +182,7 @@ class RankController extends DefaultController
                     ]);
                 break;
                 
-            case 'joueur':
+            case 'user':
                 if ($userTarget->rank > 12) {
                     throw new Exception('permission', 400);
                 }

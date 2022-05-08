@@ -9,9 +9,7 @@ $app->group('/api/v1', function() use($app) {
         $app->get('/groupe/{groupe}', '\App\Controller\Community\CommunityController:getGroupe');
 
         $app->group('/client', function() use($app) {
-            $app->get('/config', '\App\Controller\Client\ClientController:getConfig');
             $app->get('/data', '\App\Controller\Client\ClientController:getData');
-            $app->get('/ssoticketweb', '\App\Controller\Client\ClientController:getSsoTicketWeb');
         });
 
         $app->group('/settings', function() use($app) {

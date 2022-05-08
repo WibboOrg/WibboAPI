@@ -110,14 +110,14 @@ class BanController extends DefaultController
             throw new Exception('error', 400);
         }
 
-        if (($ban->added_by == "Kodamas" || $ban->added_by == "Jason" || $ban->added_by == "Hollow") && $user->rank < 12) {
-            throw new Exception('permission', 400);
-
+        if (($ban->added_by == "Kodamas" || $ban->added_by == "Jason") && $user->rank < 11) {
             LogStaff::insert([
                 'pseudo' => $user->username,
                 'action' => 'Tentative de bannisement de ' . $name,
                 'date' => time(),
             ]);
+
+            throw new Exception('permission', 400);
         }
 
         Ban::where('value', $name)->where('bantype', 'user')->where('expire', '>', time())->update(['expire' => time()]);

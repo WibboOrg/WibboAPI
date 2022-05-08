@@ -17,7 +17,7 @@ class UploadCatalogueController extends DefaultController
         $user = User::where('id', $userId)->select('rank')->first();
         if(!$user) throw new Exception('disconnect', 401);
                 
-        if ($user->rank < 12) {
+        if ($user->rank < 11) {
             throw new Exception('permission', 403);
         }
 

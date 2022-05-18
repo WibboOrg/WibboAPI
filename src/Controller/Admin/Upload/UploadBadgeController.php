@@ -50,22 +50,24 @@ class UploadBadgeController extends DefaultController
 
         }
 
+        $badgeJson = array("badge_name_" . $code => $titre, "badge_desc_" . $code => $desc);
+
         $data = array(
             array(
                 'action' => 'upload',
-                'path' => 'dcr/c_images/album1584/' . $code . '.gif',
+                'path' => 'c_images/album1584/' . $code . '.gif',
                 'data' => base64_encode(file_get_contents($files['file']->file)),
             ),
             array(
-                'action' => 'add',
-                'path' => 'dcr/gamedata/texts_fr.txt',
-                'data' => "\nbadge_name_" . $code . "=" . $titre . "\nbadge_desc_" . $code . "=" . $desc,
+                'action' => 'json',
+                'path' => 'gamedata/BadgeTexts.json',
+                'data' => json_encode($badgeJson),
             ),
         );
 
         $options = array('http' => array('header' => "Content-type: application/x-www-form-urlencoded\r\n", 'method' => 'POST', 'content' => http_build_query($data)));
         $context = stream_context_create($options);
-        $result = file_get_contents('https://swf.wibbo.org/uploadApi.php?key=' . getenv('UPLOAD_API'), false, $context);
+        $result = file_get_contents('https://assets.wibbo.org/uploadApi.php?key=' . getenv('UPLOAD_API'), false, $context);
         if ($result === false || $result !== 'ok') {
             throw new Exception('error', 400);
         }

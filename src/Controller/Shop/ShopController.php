@@ -183,23 +183,24 @@ class ShopController extends DefaultController
         $image_data = ob_get_contents(); 
         ob_end_clean(); 
 
-        $uploadBadge = array(
-            'action' => 'upload',
-            'path' => 'dcr/c_images/album1584/' . $badgecode . '.gif',
-            'data' => base64_encode($image_data)
-        );
+        $badgeJson = array("badge_name_" . $badgecode => "Badge de " . $user->username, "badge_desc_" . $badgecode => $user->username);
 
-        $putText = array(
-            'action' => 'add',
-            'path' => "dcr/gamedata/texts_fr.txt",
-            'data' => "\nbadge_name_" . $badgecode . "=Badge de " . $user->username
+        $data = array(
+            array(
+                'action' => 'upload',
+                'path' => 'c_images/album1584/' . $badgecode . '.gif',
+                'data' => base64_encode($image_data)
+            ),
+            array(
+                'action' => 'json',
+                'path' => "gamedata/BadgeTexts.json",
+                'data' => json_encode($badgeJson)
+            )
         );
-
-        $data = array($uploadBadge, $putText);
 
         $options = array('http' => array('header'  => "Content-type: application/x-www-form-urlencoded\r\n", 'method'  => 'POST', 'content' => http_build_query($data)));
         $context  = stream_context_create($options);
-        $result = file_get_contents('https://swf.wibbo.org/uploadApi.php?key=' . getenv('UPLOAD_API'), false, $context);
+        $result = file_get_contents('https://assets.wibbo.org/uploadApi.php?key=' . getenv('UPLOAD_API'), false, $context);
         if ($result === FALSE || $result !== 'ok')
             throw new Exception('error', 400);
 

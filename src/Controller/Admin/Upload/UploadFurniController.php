@@ -27,63 +27,103 @@ class UploadFurniController extends DefaultController
 
         $files = $request->getUploadedFiles();
         $type = $data->type;
-        $titre = $data->title;
-        $desc = $data->desc;
+        $furniTitle = $data->title;
+        $furniDesc = $data->desc;
 
-        if (empty($files['file']) || empty($type) || empty($titre)) {
+        if (empty($files['file']) || empty($type) || empty($furniTitle)) {
             throw new Exception('error', 400);
         }
 
         $uploadFileName = $files['file']->getClientFilename();
 
         $extension_upload = substr(strrchr($uploadFileName, '.'), 1);
-        if ($extension_upload != 'swf') {
+        if ($extension_upload != 'nitro') {
             throw new Exception('error', 400);
 		}
 		
-        $codedumobis = str_replace('.swf', '', $uploadFileName);
+        $furniName = str_replace('.nitro', '', $uploadFileName);
 
         $nb_min = 10000000;
         $nb_max = 99999999;
-        $nombre = mt_rand($nb_min, $nb_max);
+        $furniId = mt_rand($nb_min, $nb_max);
 
         $sql = "";
         if ($type == '1') {
-            $funi = '["s","' . $nombre . '","' . $codedumobis . '","0","0","1","1","","' . $titre . '","' . $desc . '","","-1","false","-1","false","-1","0","false","0","0","0"],';
-            $sql .= "INSERT INTO catalog_item VALUES ('" . $nombre . "', '7529', '" . $nombre . "', '" . $codedumobis . "', '25', '0', '0', '0', '1', '0', '0', '0', '');";
-            $sql .= "INSERT INTO item_base VALUES ('" . $nombre . "', '" . $codedumobis . "', 's', '1', '1', '1', '0', '1', '0', '" . $nombre . "', '0', '1', '1', '1', '1', 'default', '1', '0', '0', '0', '0');";
+            $sql .= "INSERT INTO catalog_item VALUES ('" . $furniId . "', '7529', '" . $furniId . "', '" . $furniName . "', '25', '0', '0', '0', '1', '0', '0', '0', '');";
+            $sql .= "INSERT INTO item_base VALUES ('" . $furniId . "', '" . $furniName . "', 's', '1', '1', '1', '0', '1', '0', '" . $furniId . "', '0', '1', '1', '1', '1', 'default', '1', '0', '0', '0', '0');";
         } else if ($type == '2') {
-            $funi = '["i","' . $nombre . '","' . $codedumobis . '","0","0","0","0","","' . $titre . '","' . $desc . '","","-1","false","-1","false","-1","0","false","0","0","0"],';
-
-            $sql .= "INSERT INTO catalog_item VALUES ('" . $nombre . "', '7529', '" . $nombre . "', '" . $codedumobis . "', '25', '0', '0', '0', '1', '0', '0', '0', '');";
-            $sql .= "INSERT INTO item_base VALUES ('" . $nombre . "', '" . $codedumobis . "', 'i', '1', '1', '1', '0', '0', '0', '" . $nombre . "', '0', '1', '1', '1', '1', 'default', '1', '0', '0', '0', '0');";
+            $sql .= "INSERT INTO catalog_item VALUES ('" . $furniId . "', '7529', '" . $furniId . "', '" . $furniName . "', '25', '0', '0', '0', '1', '0', '0', '0', '');";
+            $sql .= "INSERT INTO item_base VALUES ('" . $furniId . "', '" . $furniName . "', 'i', '1', '1', '1', '0', '0', '0', '" . $furniId . "', '0', '1', '1', '1', '1', 'default', '1', '0', '0', '0', '0');";
         } else {
             throw new Exception('Erreur', 400);
         }
 
-        $product = '["' . $codedumobis . '","' . $titre . '","' . $desc . '"],';
+        $funidataCode = array(
+            "id" => intval($furniId),
+            "classname" => $furniName,
+            "revision" => 0,
+            "category" => "",
+            "name" => utf8_decode($furniTitle),
+            "description" => utf8_decode($furniDesc),
+            "adurl" >= "",
+            "offerid" => 0,
+            "buyout" => false,
+            "rentofferid" => 0,
+            "rentbuyout" =>  false,
+            "customparams" => "",
+            "specialtype" => 0,
+            "bc" => false,
+            "excludeddynamic" => false,
+            "furniline" => "",
+            "environment" => "",
+            "rare" => false
+        );
+        
+        if ($type == 's') {
+            $funidataCode = array_merge($funidataCode, array(
+                "defaultdir" => "0",
+                "xdim" => intval(0),
+                "ydim" => intval(0),
+                "partcolors" => array(),
+                "canstandon" => false,
+                "cansiton" => false,
+                "canlayon" => false
+            ));
+        }
+       
+        if($type == 's') $furnidata["roomitemtypes"]["furnitype"][] = $funidataCode;
+        else $furnidata["wallitemtypes"]["furnitype"][] = $funidataCode;
+
+        $productCode = array();
+        $productCode[0] = array('code' => $furniName, 'name' => $furniTitle, 'description' => $furniDesc);
+
+        $product = array(
+            "productdata" => array(
+                "product" => $productCode
+            )
+        );
 
         $data = array(
             array(
-                'action' => 'add',
-                'path' => 'dcr/gamedata/furnidata_fr.txt',
-                'data' => $funi,
+                'action' => 'json',
+                'path' => 'gamedata/FurnitureData.json',
+                'data' => json_encode($furnidata),
             ),
             array(
-                'action' => 'add',
-                'path' => 'dcr/gamedata/productdata_fr.txt',
-                'data' => $product,
+                'action' => 'json',
+                'path' => 'gamedata/ProductData.json',
+                'data' => json_encode($product),
             ),
             array(
                 'action' => 'upload',
-                'path' => 'dcr/dcr/hof_furni2/' . $uploadFileName,
+                'path' => 'bundled/furniture/' . $uploadFileName,
                 'data' => base64_encode(file_get_contents($files['file']->file)),
             ),
         );
 
         $options = array('http' => array('header' => "Content-type: application/x-www-form-urlencoded\r\n", 'method' => 'POST', 'content' => http_build_query($data)));
         $context = stream_context_create($options);
-        $result = file_get_contents('https://swf.wibbo.org/uploadApi.php?key=' . getenv('UPLOAD_API'), false, $context);
+        $result = file_get_contents('https://assets.wibbo.org/uploadApi.php?key=' . getenv('UPLOAD_API'), false, $context);
         if ($result === false || $result !== 'ok') {
             throw new Exception('error', 400);
         }

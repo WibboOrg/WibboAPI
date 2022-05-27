@@ -11,6 +11,7 @@ use Exception;
 class DefaultController
 {
     public Container $container;
+
     public Manager $db;
     public CacheService $cache;
     public MailService $mail;
@@ -20,20 +21,12 @@ class DefaultController
         $this->container = $container;
 
         $this->db = $container->get('db');
-
         $this->cache = $container->get('cacheService');
-
         $this->mail = $container->get('mailService');
     }
     
     public function jsonResponse(Response $response, array $message): Response
     {
-        /*$result = [
-            'code' => $code,
-            'status' => $status,
-            'message' => $message,
-        ];*/
-
         return $response->withJson($message, 200);
     }
 

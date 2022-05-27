@@ -27,11 +27,11 @@ class UploadBadgeController extends DefaultController
         }
 
         $files = $request->getUploadedFiles();
-        $code = $data->code;
-        $titre = $data->title;
-        $desc = $data->desc;
+        $badgeCode = $data->code;
+        $badgeTitle = $data->title;
+        $badgeDesc = $data->desc;
 
-        if (empty($files['file']) || empty($code) || empty($titre)) {
+        if (empty($files['file']) || empty($badgeCode) || empty($badgeTitle)) {
             throw new Exception('error', 400);
         }
 
@@ -40,22 +40,19 @@ class UploadBadgeController extends DefaultController
         $size = getimagesize($files['file']->file);
         if ($size[1] > 41 || $size[0] > 41) {
             throw new Exception('error', 400);
-            // throw new Exception('L\'image ne respect pas les dimensions habituelles (40X40)', 400);
         }
 
         $extension_upload = substr(strrchr($uploadFileName, '.'), 1);
         if ($extension_upload != 'gif') {
             throw new Exception('error', 400);
-            // throw new Exception('L\'image n\'est pas sous la format .gif...', 400);
-
         }
 
-        $badgeJson = array("badge_name_" . $code => $titre, "badge_desc_" . $code => $desc);
+        $badgeJson = array("badge_name_" . $badgeCode => $badgeTitle, "badge_desc_" . $badgeCode => $badgeDesc);
 
         $data = array(
             array(
                 'action' => 'upload',
-                'path' => 'c_images/album1584/' . $code . '.gif',
+                'path' => 'c_images/album1584/' . $badgeCode . '.gif',
                 'data' => base64_encode(file_get_contents($files['file']->file)),
             ),
             array(
@@ -74,11 +71,10 @@ class UploadBadgeController extends DefaultController
 
         LogStaff::insert([
             'pseudo' => $user->username,
-            'action' => 'Upload du badge: ' . $code,
+            'action' => 'Upload du badge: ' . $badgeCode,
             'date' => time(),
         ]);
 
         return $this->jsonResponse($response, []);
     }
-
 }

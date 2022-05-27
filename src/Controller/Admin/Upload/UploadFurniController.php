@@ -79,7 +79,7 @@ class UploadFurniController extends DefaultController
             "rare" => false
         );
         
-        if ($type == 's') {
+        if ($type == '1') {
             $funidataCode = array_merge($funidataCode, array(
                 "defaultdir" => "0",
                 "xdim" => intval(0),
@@ -91,7 +91,7 @@ class UploadFurniController extends DefaultController
             ));
         }
        
-        if($type == 's') $furnidata["roomitemtypes"]["furnitype"][] = $funidataCode;
+        if($type == '1') $furnidata["roomitemtypes"]["furnitype"][] = $funidataCode;
         else $furnidata["wallitemtypes"]["furnitype"][] = $funidataCode;
 
         $productCode = array();

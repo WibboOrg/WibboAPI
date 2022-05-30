@@ -15,10 +15,10 @@ class ForgotController extends DefaultController
 
     public function getForgot(Request $request, Response $response, array $args): Response
     {
-        $htmlText = file_get_contents('Mail/forgot.html');
+        $htmlText = file_get_contents('Mail/forgot_new.html');
         $htmlText = str_replace('{{url}}', 'https://wibbo.org', $htmlText);
         $htmlText = str_replace('{{username}}', 'Jason', $htmlText);
-        $htmlText = str_replace('{{email}}', 'contact@jason.be', $htmlText);
+        $htmlText = str_replace('{{email}}', 'jason@wibbo.be', $htmlText);
 
         return $this->jsonResponse($response, [$htmlText]);
     }
@@ -44,7 +44,7 @@ class ForgotController extends DefaultController
         $mdp = Utils::generateHash(10);
         $newpassword = md5($mdp);
 
-        $htmlText = "Salut " . $forgot->users . ", votre nouveau mot de passe est: " . $mdp . " s'il vous plaît changer le après VOTRE connection sur le site.";
+        $htmlText = "Salut " . $forgot->users . " ! Votre nouveau mot de passe est : " . $mdp . " s'il vous plaît changer le après VOTRE connexion sur le site.";
 
         if ($this->mail->sendMail($forgot->email, $htmlText, 'Ton nouveau mot de passe sur Wibbo!')) {
             User::where('username', $forgot->users)->update([

@@ -1,3 +1,4 @@
 vendor
 public/Cache
 .env
+.DS_Store

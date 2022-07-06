@@ -14,7 +14,7 @@ class UserDataController extends DefaultController
         $input = $request->getParsedBody();
         $userId = $input['decoded']->sub;
 
-        $user = User::select('id', 'username', 'motto', 'look', 'jetons', 'vip_points', 'rank', 'mail', 'block_newfriends', 'hide_online', 'hide_inroom', 'accept_trading', 'mazo', 'mazoscore', 'run_points_month', 'run_points', 'game_points_month', 'game_points')->where('id', $userId)->first();
+        $user = User::select('id', 'username', 'motto', 'look', 'jetons', 'vip_points', 'limit_coins', 'rank', 'mail', 'block_newfriends', 'hide_online', 'hide_inroom', 'accept_trading', 'mazo', 'mazoscore', 'run_points_month', 'run_points', 'game_points_month', 'game_points')->where('id', $userId)->first();
 
         if(!$user) 
             throw new Exception('disconnect', 401);

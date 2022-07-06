@@ -18,8 +18,8 @@ class Utils
     {
         $data = $command . chr(1) . $data;
         $connection = socket_create(AF_INET, SOCK_STREAM, getprotobyname('tcp'));
-        socket_connect($connection, getenv('MUS_IP'), getenv('MUS_PORT'));
-        if (!is_resource($connection)) {
+        
+        if (!socket_connect($connection, getenv('MUS_IP'), getenv('MUS_PORT'))) {
             socket_close($connection);
         
             return false;

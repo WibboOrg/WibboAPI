@@ -13,16 +13,6 @@ class ForgotController extends DefaultController
 {
     private int $timeExpire = 48 * 60 * 60;
 
-    public function getForgot(Request $request, Response $response, array $args): Response
-    {
-        $htmlText = file_get_contents('Mail/forgot_new.html');
-        $htmlText = str_replace('{{url}}', 'https://wibbo.org', $htmlText);
-        $htmlText = str_replace('{{username}}', 'Jason', $htmlText);
-        $htmlText = str_replace('{{email}}', 'jason@wibbo.be', $htmlText);
-
-        return $this->jsonResponse($response, [$htmlText]);
-    }
-
     public function verifForgot(Request $request, Response $response, array $args): Response
     {
         if (empty($args['code'])) {

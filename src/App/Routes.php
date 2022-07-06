@@ -24,6 +24,7 @@ $app->group('/api/v1', function() use($app) {
             $app->post('', '\App\Controller\Shop\ShopController:getJetons');
             $app->post('/premium', '\App\Controller\Shop\ShopController:buyPremium');
             $app->post('/points', '\App\Controller\Shop\ShopController:buyWibboPoint');
+            $app->post('/limitcoins', '\App\Controller\Shop\ShopController:buyLimitCoins');
             $app->post('/badgeperso', '\App\Controller\Shop\ShopController:buyBadgeperso');
         });
 
@@ -57,7 +58,6 @@ $app->group('/api/v1', function() use($app) {
 
     $app->put('/forgot/{code}', '\App\Controller\Utils\ForgotController:verifForgot');
     $app->post('/forgot', '\App\Controller\Utils\ForgotController:postForgot');
-    $app->get('/forgot', '\App\Controller\Utils\ForgotController:getForgot');
 
     $app->post('/callback_dedi', '\App\Controller\Shop\ShopController:verifDedipass');
 

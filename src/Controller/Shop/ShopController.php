@@ -28,25 +28,64 @@ class ShopController extends DefaultController
 
         if(!$user) throw new Exception('disconnect', 401);
 
-        $nombrePoints = floor(intval($data->count));
-        if (!is_numeric($nombrePoints) || $nombrePoints < 50 || $user->jetons < $nombrePoints) 
+        $priceJetons = floor(intval($data->count));
+        $countPoints = $priceJetons * 2;
+        if (!is_numeric($priceJetons) || $priceJetons < 50 || $user->jetons < $priceJetons) 
             throw new Exception('shop.jetons-missing', 400);
 
         LogShop::insert([
             'userid' => $userId,
             'date' => time(),
-            'prix' => $nombrePoints,
-            'achat' => 'Achat de ' . $nombrePoints . ' Points',
+            'prix' => $priceJetons,
+            'achat' => 'Achat de ' . $countPoints . ' WibboPoints',
             'type' => '5',
         ]);
 
-        User::where('id', $userId)->decrement('jetons', $nombrePoints);
-        User::where('id', $userId)->increment('vip_points', $nombrePoints);
+        User::where('id', $userId)->decrement('jetons', $priceJetons);
+        User::where('id', $userId)->increment('vip_points', $countPoints);
 
-        UserStats::where('id', $userId)->increment('achievement_score', $nombrePoints);
+        UserStats::where('id', $userId)->increment('achievement_score', $priceJetons);
 
-        Utils::sendMusCommand('updatepoints', $userId . chr(1) . $nombrePoints);
-        Utils::sendMusCommand('addwinwin', $userId . chr(1) . $nombrePoints);
+        Utils::sendMusCommand('updatepoints', $userId . chr(1) . $countPoints);
+        Utils::sendMusCommand('addwinwin', $userId . chr(1) . $priceJetons);
+
+        return $this->jsonResponse($response, []);
+    }
+
+    public function buyLimitCoins(Request $request, Response $response, array $args): Response
+    {
+        $input = $request->getParsedBody();
+
+        $data = json_decode(json_encode($input), false);
+
+        $this->requireData($data, ['count']);
+
+        $userId = $input['decoded']->sub;
+
+        $user = User::where('id', $userId)->select('jetons')->first();
+
+        if(!$user) throw new Exception('disconnect', 401);
+
+        $countPoints = floor(intval($data->count));
+        $priceJetons = $countPoints * 10;
+        if (!is_numeric($priceJetons) || $countPoints < 1 || $user->jetons < $priceJetons) 
+            throw new Exception('shop.jetons-missing', 400);
+
+        LogShop::insert([
+            'userid' => $userId,
+            'date' => time(),
+            'prix' => $priceJetons,
+            'achat' => 'Achat de ' . $countPoints . ' LimitPoints',
+            'type' => '13',
+        ]);
+
+        User::where('id', $userId)->decrement('jetons', $priceJetons);
+        User::where('id', $userId)->increment('limit_coins', $countPoints);
+
+        UserStats::where('id', $userId)->increment('achievement_score', $priceJetons);
+
+        Utils::sendMusCommand('updateltc', $userId . chr(1) . $countPoints);
+        Utils::sendMusCommand('addwinwin', $userId . chr(1) . $priceJetons);
 
         return $this->jsonResponse($response, []);
     }

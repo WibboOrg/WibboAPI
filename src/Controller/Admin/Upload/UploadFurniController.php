@@ -84,7 +84,7 @@ class UploadFurniController extends DefaultController
                 "defaultdir" => "0",
                 "xdim" => intval(0),
                 "ydim" => intval(0),
-                "partcolors" => array(),
+                // "partcolors" => array(),
                 "canstandon" => false,
                 "cansiton" => false,
                 "canlayon" => false

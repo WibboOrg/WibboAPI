@@ -83,7 +83,7 @@ class ForgotController extends DefaultController
         $url = "https://wibbo.org/forgot/" . $code;
         $sujet = "Mot de passe oublié";
 
-        $htmlText = file_get_contents('Mail/forgot.html');
+        $htmlText = file_get_contents('Mail/forgot_new.html');
         $htmlText = str_replace('{{url}}', $url, $htmlText);
         $htmlText = str_replace('{{username}}', $username, $htmlText);
         $htmlText = str_replace('{{email}}', $email, $htmlText);

@@ -205,7 +205,7 @@ class ShopController extends DefaultController
         if ($badge)
             throw new Exception('error', 400);
 
-        $avatarImg = Utils::getSslPage("https://cdn.wibbo.org/habbo-imaging/avatarimage?figure=" . $user->look . "&gesture=sml&head_direction=3");
+        $avatarImg = Utils::getSslPage("https://imaging.wibbo.org/?figure=" . $user->look . "&gesture=sml&head_direction=3");
 
         if(!!empty($avatarImg))
             throw new Exception('error', 400);

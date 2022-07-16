@@ -62,7 +62,7 @@ class UserAccountController extends DefaultController
         if (empty($machineid)) {
             $users = User::where('ip_last', $ip)->select('username', 'id', 'online', 'ipcountry', 'rank')->get();
         } else {
-            $users = User::where('ip_last', $ip)->orWhere('machine_id', $machineid)->select('username', 'id', 'online', 'ipcountry')->get();
+            $users = User::where('ip_last', $ip)->orWhere('machine_id', $machineid)->select('username', 'id', 'online', 'ipcountry', 'rank')->get();
         }
 
         if (!$users) {

@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\UserBadge;
 use App\Models\UserStats;
 use App\Models\UserPremium;
+use App\Models\LimitCoins;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use App\Helper\Utils;
@@ -52,6 +53,17 @@ class ShopController extends DefaultController
         return $this->jsonResponse($response, []);
     }
 
+    public function getLimitCoinStock(Request $request, Response $response, array $args): Response
+    {
+        $limitCoins = LimitCoins::select('amount')->first();
+
+        $message = [
+            'stock' => $limitCoins["amount"]
+        ];
+
+        return $this->jsonResponse($response, $message);
+    }
+
     public function buyLimitCoins(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
@@ -70,6 +82,13 @@ class ShopController extends DefaultController
         $priceJetons = $countPoints * 10;
         if (!is_numeric($priceJetons) || $countPoints < 1 || $user->jetons < $priceJetons) 
             throw new Exception('shop.jetons-missing', 400);
+
+        $limitCoins = LimitCoins::select('amount')->first();
+
+        if($countPoints > $limitCoins["amount"])
+            throw new Exception('shop.buy-error', 400);
+
+        LimitCoins::where('id', 1)->decrement('amount', $countPoints);
 
         LogShop::insert([
             'userid' => $userId,

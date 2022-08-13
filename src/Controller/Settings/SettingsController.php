@@ -65,14 +65,12 @@ class SettingsController extends DefaultController
         $online = ($data->online == "1") ? '0' : '1';
         $join = ($data->join == "1") ? '0' : '1';
         $troc = ($data->troc == "1") ? '1' : '0';
-        $profil = ($data->profil == "1") ? '1' : '0';
 
         User::where('id', $userId)->update([
             'block_newfriends' => $textamigo,
             'hide_online' => $online,
             'hide_inroom' => $join,
             'accept_trading' => $troc,
-            'hide_profil' => $profil,
         ]);
 
         return $this->jsonResponse($response, []);

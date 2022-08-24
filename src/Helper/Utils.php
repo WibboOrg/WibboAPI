@@ -120,7 +120,7 @@ class Utils
 
     public static function isVPN(string $ip, string $host)
     {
-        if($host === $ip || empty($host)) {
+        if(empty($host)) {
             return true;
         }
 

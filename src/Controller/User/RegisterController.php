@@ -46,17 +46,17 @@ class RegisterController extends DefaultController
             throw new Exception('register.condition', 400);
         }
 
-        $ipcountry = (!empty($_SERVER["HTTP_CF_IPCOUNTRY"]) ? $_SERVER["HTTP_CF_IPCOUNTRY"] : '');
-
+        
         if (getenv('RECAPTCHA') !== '') {
             $result = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=" . getenv('RECAPTCHA') . "&response=" . $data->recaptchaToken . "&remoteip=" . Utils::getUserIP());
-
+            
             $etat = json_decode($result);
             if ($etat->success != "1") {
                 throw new Exception('captcha', 400);
             }
         }
-
+        
+        $ipcountry = (!empty($_SERVER["HTTP_CF_IPCOUNTRY"]) ? $_SERVER["HTTP_CF_IPCOUNTRY"] : '');
         $userIP = Utils::getUserIP();
 
         if (!Utils::ipInRange($userIP, "45.33.128.0/20") && !Utils::ipInRange($userIP, "107.178.36.0/20")) {
@@ -66,13 +66,16 @@ class RegisterController extends DefaultController
             }
         }
 
-        $host = @gethostbyaddr($userIP);
-
         $isVpn = LogVpn::where('ip', $userIP)->select('id')->first(); /*->orWhere('host', $host)*/
+        if($isVpn) {
+            throw new Exception('register.vpn', 400);
+        }
 
-        if($isVpn || Utils::isVPN($userIP, $host)) {
+        $host = @gethostbyaddr($userIP);
+        if(Utils::isVPN($userIP, $host)) {
             LogVpn::insert([
                 "ip" => $userIP,
+                "ip_country" => $ipcountry,
                 "host" => $host,
                 "timestamp_created" => time()
             ]);

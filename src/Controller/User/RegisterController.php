@@ -66,21 +66,29 @@ class RegisterController extends DefaultController
             }
         }
 
-        $isVpn = LogVpn::where('ip', $userIP)->select('id')->first(); /*->orWhere('host', $host)*/
-        if($isVpn) {
+        $logVpn = LogVpn::where('ip', $userIP)->select('is_vpn')->first(); /*->orWhere('host', $host)*/
+        if($logVpn && $logVpn["is_vpn"] === '1') {
             throw new Exception('register.vpn', 400);
         }
 
-        $host = @gethostbyaddr($userIP);
-        if(Utils::isVPN($userIP, $host)) {
-            LogVpn::insert([
-                "ip" => $userIP,
-                "ip_country" => $ipcountry,
-                "host" => $host,
-                "timestamp_created" => time()
-            ]);
+        if (!$logVpn) {
+            $host = @gethostbyaddr($userIP);
 
-            throw new Exception('register.vpn', 400);
+            if (Utils::allowedFAI($host) === false) {
+
+                $isVpn = Utils::isVPN($userIP, $host);
+                
+                LogVpn::insert([
+                    "ip" => $userIP,
+                    "ip_country" => $ipcountry,
+                    "host" => $host,
+                    "timestamp_created" => time(),
+                    "is_vpn" => $isVpn ? "1" : "0"
+                ]);
+
+                if($isVpn)
+                    throw new Exception('register.vpn', 400);
+            }
         }
 
         $user = User::where('username', $data->username)->first();

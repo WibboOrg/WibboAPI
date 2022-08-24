@@ -110,6 +110,10 @@ class Utils
 
     public static function allowedFAI(string $host)
     {
+        if(empty($host)) {
+            return false;
+        }
+
 		$faiList = ['proxad', 'orange', 'wanadoo', 'sfr', 'club-internet', 'neuf', 'gaoland', 'bbox', 'bouyg', 'numericable', 'tele2', 'videotron', 'belgacom', 'bell.ca', 'wifirst', 'swisscom', 'telecomitalia', 'cloudmosa', 'voo'];
 		
         if (strlen(str_replace($faiList, '', $host)) !== strlen($host)) 
@@ -120,14 +124,6 @@ class Utils
 
     public static function isVPN(string $ip, string $host)
     {
-        if(empty($host)) {
-            return true;
-        }
-
-        if (Utils::allowedFAI($host) === true) {
-            return false;
-        }
-
         if (getenv('IPHUB_API') !== '') {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);

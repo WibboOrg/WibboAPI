@@ -101,10 +101,48 @@ class Utils
 
     public static function junkMail(string $mail): bool
     {
-        $domains = array('@wibbo.org', 'pjjkp.com', 'ephemail.com', 'ephemail.org', 'ephemail.net', 'jetable.org', 'jetable.net', 'jetable.com', 'haltospam.com', 'tempinbox.com', 'brefemail.com', '0-mail.com', 'link2mail.net', 'mailexpire.com', 'spambox.info', 'mytrashmail.com', 'mailinator.com', 'dontreg.com', 'maileater.com', 'brefemail.com', '0-mail.com', 'brefemail.com', 'ephemail.net', 'guerrillamail.com', 'guerrillamail.info', 'haltospam.com', 'iximail.com', 'jetable.net', 'jetable.org', 'kasmail.com', 'klassmaster.com', 'kleemail.com', 'link2mail.net', 'mailin8r.com', 'mailinator.com', 'mailinator.net', 'mailinator2.com', 'myamail.com', 'nyms.net', 'shortmail.net', 'sogetthis.com', 'spambox.us', 'spamday.com', 'Spamfr.com', 'spamgourmet.com', 'spammotel.com', 'tempinbox.com', 'yopmail.fr', 'guerrillamail.org', 'temporaryinbox.com', 'spamcorptastic.com', 'filzmail.com', 'lifebyfood.com', 'tempemail.net', 'spamfree24.org', 'spamfree24.com', 'spamfree24.net', 'spamfree24.de', 'spamfree24.eu', 'spamfree24.info', 'spamherelots.com', 'thisisnotmyrealemail.com', 'slopsbox.com', 'trashmail.net', 'myamail.com', 'tyldd.com', 'safetymail.info', 'brefmail.com', 'bofthew.com', 'trash-mail.com', 'wimsg.com', 'emailo.pro', 'boximail.com');
+        $domains = array('sfr.fr', 'orange.fr', 'gmail.com', 'live.fr', 'laposte.net', 'hotmail.com', 'hotmail.fr', 'yahoo.com', 'yahoo.fr', 'outlook.fr', 'outlook.com', 'free.fr', 'icloud.com', 'hotmail.ca', 'hotmail.be', 'live.com', 'live.be', 'neuf.fr', 'wanadoo.fr', 'numericable.fr', 'aliceadsl.fr', 'live.ca', 'outlook.be', 'gmx.fr');
 
         list($user, $domain) = explode('@', $mail);
 
-        return in_array($domain, $domains);
+        return !in_array($domain, $domains);
+    }
+
+    public static function allowedFAI(string $host)
+    {
+		$faiList = ['proxad', 'orange', 'wanadoo', 'sfr', 'club-internet', 'neuf', 'gaoland', 'bbox', 'bouyg', 'numericable', 'tele2', 'videotron', 'belgacom', 'bell.ca', 'wifirst', 'swisscom', 'telecomitalia', 'cloudmosa', 'voo'];
+		
+        if (strlen(str_replace($faiList, '', $host)) !== strlen($host)) 
+            return true;
+
+        return false;
+    }
+
+    public static function isVPN(string $ip, string $host)
+    {
+        if($host === $ip || empty($host)) {
+            return true;
+        }
+
+        if (Utils::allowedFAI($host) === true) {
+            return false;
+        }
+
+        if (getenv('IPHUB_API') !== '') {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_URL, 'http://v2.api.iphub.info/ip/' . $ip);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-Key: ' . getenv('IPHUB_API')));
+            $result = curl_exec($ch);
+            curl_close($ch);
+            $obj = json_decode($result, true);
+
+            if ($obj['block'] == "1") {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

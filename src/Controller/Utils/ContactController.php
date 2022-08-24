@@ -31,11 +31,13 @@ class ContactController extends DefaultController
             throw new Exception('forum.empty-message', 400);
         }
 
-        $result = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=" . getenv('RECAPTCHA') . "&response=" . $data->recaptchaToken . "&remoteip=" . Utils::getUserIP());
+        if (getenv('RECAPTCHA') !== '') {
+            $result = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=" . getenv('RECAPTCHA') . "&response=" . $data->recaptchaToken . "&remoteip=" . Utils::getUserIP());
 
-        $etat = json_decode($result);
-        if ($etat->success != "1") {
-            throw new Exception('captcha', 400);
+            $etat = json_decode($result);
+            if ($etat->success != "1") {
+                throw new Exception('captcha', 400);
+            }
         }
 
         $email = strtolower($data->email);

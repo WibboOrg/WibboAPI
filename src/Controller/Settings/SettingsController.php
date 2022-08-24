@@ -21,11 +21,11 @@ class SettingsController extends DefaultController
 
         $userId = $input['decoded']->sub;
 
-        $user = User::where('id', $userId)->select('mail_valide', 'password')->first();
+        $user = User::where('id', $userId)->select('mail', 'password')->first();
 
         if(!$user) throw new Exception('disconnect', 401);
 
-        if ($user->mail_valide == 0)
+        if (empty($user->mail))
             throw new Exception('settings-password.mail-valid', 400);
 
         if (empty($data->oldpassword))

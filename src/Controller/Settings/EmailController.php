@@ -49,11 +49,11 @@ class EmailController extends DefaultController
 
         $this->requireData($data, ['mail']);
 
-        $user = User::select('username', 'mail', 'mail_valide')->where('id', $userId)->first();
+        $user = User::select('username', 'mail')->where('id', $userId)->first();
 
         if(!$user) throw new Exception('disconnect', 401);
 
-        $email = $data->mail;
+        $email = strtolower($data->mail);
         $emailCheck = preg_match("/^[a-z0-9_\.-]+@([a-z0-9]+([\-]+[a-z0-9]+)*\.)+[a-z]{2,7}$/i", $email);
         if (strlen($email) < 6 || $emailCheck !== 1 || Utils::junkMail($email))
             throw new Exception('mail.invalid', 400);
@@ -64,9 +64,8 @@ class EmailController extends DefaultController
 
         $mail = null;
 
-        if ($user->mail_valide == 0) {
-
-            $userCheck = User::where('mail', $email)->where('mail_valide', '1')->select('id')->first();
+        if (empty($user->mail)) {
+            $userCheck = User::where('mail', $email)->select('id')->first();
             if ($userCheck)
                 throw new Exception('mail.exist', 400);
 
@@ -87,11 +86,11 @@ class EmailController extends DefaultController
             $mail = ['type' => 0, 'temps' => time(), 'email' => $email];
         }
 
-        else if ($user->mail_valide == 1) {
+        else {
             if ($email == $user->mail)
                 throw new Exception('mail.idiot', 400);
 
-            $userCheck = User::where('mail', '=', $email)->where('mail_valide', '=', '1')->select('id')->first();
+            $userCheck = User::where('mail', '=', $email)->select('id')->first();
             if ($userCheck)
                 throw new Exception('mail.exist', 400);
 
@@ -140,23 +139,23 @@ class EmailController extends DefaultController
         if ($args['code'] != $mails->codedevalidation)
             throw new Exception('mail.code-invalid', 400);
 
-        $userCheck = User::where('mail', $mails->email)->where('mail_valide', '1')->select('id')->first();
+        $userCheck = User::where('mail', $mails->email)->select('id')->first();
         if ($userCheck) {
             MailConfirm::where('user_id', '=', $userId)->delete();
 
             throw new Exception('mail.exist', 400);
         }
 
-        $user = User::select('mail_valide', 'username', 'online')->where('id', $userId)->first();
+        $user = User::select('mail', 'username', 'online')->where('id', $userId)->first();
 
         if(!$user) throw new Exception('disconnect', 401);
 
         $mail = null;
 
-        if ($user->mail_valide == 0) 
+        if (empty($user->mail))
         {
+            User::where('id', '=', $userId)->update(['mail' => $mails->email]);
             UserStats::where('id', '=', $userId)->increment('achievement_score', '200');
-            User::where('id', '=', $userId)->update(['mail' => $mails->email, 'mail_valide' => '1']);
 
             if($user->online) Utils::sendMusCommand('addwinwin', $userId . chr(1) . '200');
 

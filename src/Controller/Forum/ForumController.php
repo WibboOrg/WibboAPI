@@ -162,7 +162,7 @@ class ForumController extends DefaultController
 
         $userId = $input['decoded']->sub;
 
-        $user = User::where('id', $userId)->select('account_created', 'rank', 'username', 'mail_valide', 'look', 'motto')->first();
+        $user = User::where('id', $userId)->select('account_created', 'rank', 'username', 'mail', 'look', 'motto')->first();
 
         if(!$user) throw new Exception('disconnect', 401);
 
@@ -191,7 +191,7 @@ class ForumController extends DefaultController
             throw new Exception('forum.account-age', 400);
         }
 
-        if ($user->mail_valide == 0) {
+        if (empty($user->mail)) {
             throw new Exception('forum.mail-valid', 400);
         }
 
@@ -290,7 +290,7 @@ class ForumController extends DefaultController
 
         $userId = $input['decoded']->sub;
 
-        $user = User::where('id', $userId)->select('account_created', 'mail_valide', 'username', 'motto', 'look', 'rank')->first();
+        $user = User::where('id', $userId)->select('account_created', 'mail', 'username', 'motto', 'look', 'rank')->first();
 
         if(!$user) throw new Exception('disconnect', 401);
 
@@ -312,7 +312,7 @@ class ForumController extends DefaultController
             throw new Exception('forum.account-age', 400);
         }
 
-        if ($user->mail_valide == 0) {
+        if (empty($user->mail)) {
             throw new Exception('forum.mail-valid', 400);
         }
 

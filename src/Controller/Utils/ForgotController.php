@@ -71,7 +71,7 @@ class ForgotController extends DefaultController
             MailForgot::where('users', $data->username)->where('email', $data->email)->delete();
         }
 
-        $user = User::where('username', $data->username)->where('mail', $data->email)->where('mail_valide', '1')->first();
+        $user = User::where('username', $data->username)->where('mail', $data->email)->first();
         if (!$user) {
             throw new Exception('mail.deny', 400);
         }

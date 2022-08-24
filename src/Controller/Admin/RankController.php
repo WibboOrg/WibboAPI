@@ -36,7 +36,7 @@ class RankController extends DefaultController
             throw new Exception('error', 400);
         }
 
-        $userTarget = User::where('username', $username)->select('id', 'username', 'rank', 'mail_valide', 'look', 'account_created')->first();
+        $userTarget = User::where('username', $username)->select('id', 'username', 'rank', 'mail', 'look', 'account_created')->first();
         if (!$userTarget) {
             throw new Exception('admin.user-notfound', 400);
         }
@@ -45,7 +45,7 @@ class RankController extends DefaultController
             throw new Exception('error', 400);
         }
 
-        if ($userTarget->mail_valide == '0') {
+        if (empty($userTarget->mail)) {
             throw new Exception('error', 400);
         }
 

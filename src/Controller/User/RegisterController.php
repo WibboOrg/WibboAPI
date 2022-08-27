@@ -66,8 +66,8 @@ class RegisterController extends DefaultController
             }
         }
 
-        $logVpn = LogVpn::where('ip', $userIP)->select('is_vpn')->first(); /*->orWhere('host', $host)*/
-        if($logVpn && $logVpn["is_vpn"] === '1') {
+        $logVpn = LogVpn::where('ip', $userIP)->select('is_vpn')->first();
+        if($logVpn && $logVpn->is_vpn === '1') {
             throw new Exception('register.vpn', 400);
         }
 

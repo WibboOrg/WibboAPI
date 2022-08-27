@@ -114,7 +114,7 @@ class Utils
             return false;
         }
 
-		$faiList = ['sogetel', 'ttnet', 'proxad', 'orange', 'wanadoo', 'sfr', 'club-internet', 'neuf', 'gaoland', 'bbox', 'bouyg', 'numericable', 'tele2', 'videotron', 'belgacom', 'bell.ca', 'wifirst', 'swisscom', 'telecomitalia', 'cloudmosa', 'voo'];
+		$faiList = ['mobistar', 'sogetel', 'ttnet', 'proxad', 'orange', 'wanadoo', 'sfr', 'club-internet', 'neuf', 'gaoland', 'bbox', 'bouyg', 'numericable', 'tele2', 'videotron', 'belgacom', 'bell.ca', 'wifirst', 'swisscom', 'telecomitalia', 'cloudmosa', 'voo'];
 		
         if (strlen(str_replace($faiList, '', $host)) !== strlen($host)) 
             return true;

@@ -15,7 +15,7 @@ class RareController extends DefaultController
         ->leftJoin('item_stat', 'item_stat.base_id', 'catalog_item.item_id')
         ->leftJoin('item_base', 'item_base.id', 'catalog_item.item_id')
         ->where('item_stat.amount', '>=', 0)
-        ->where('catalog_item.catalog_name', 'like', 'wibboloot%')
+        ->whereIn('catalog_item.page_id', [1635463731, 1635463732, 1635463733, 1635463734])
         ->get();
 
         $message = [

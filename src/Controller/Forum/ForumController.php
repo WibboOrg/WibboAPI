@@ -421,7 +421,7 @@ class ForumController extends DefaultController
         if (!$sujet)
             throw new Exception('error', 400);
 
-        if ($user->rank < 10)
+        if ($user->rank < 8)
             throw new Exception('permission', 400);
 
         if ($sujet->type == 1 && $args['flag'] == "true") {

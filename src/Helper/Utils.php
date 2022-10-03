@@ -134,7 +134,7 @@ class Utils
             curl_close($ch);
             $obj = json_decode($result, true);
 
-            if ($obj['block'] == "1") {
+            if (!empty($obj['block']) && $obj['block'] == "1") {
                 return true;
             }
         }

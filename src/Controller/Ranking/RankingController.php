@@ -61,7 +61,7 @@ class RankingController extends DefaultController
         $cacheData = $this->cache->get(5);
         if(!empty($cacheData)) return $this->jsonResponse($response, $cacheData);
 
-        $month = User::where('game_points_month', '>', '0')->where('user.is_banned', '0')->orderBy('game_points_month', 'DESC')->limit(10)->select('user.id', 'username', 'look', 'game_points_month')->get();
+        $month = User::where('game_points_month', '>', '0')->where('user.is_banned', '0')->where('rank', '<', '6')->orderBy('game_points_month', 'DESC')->limit(10)->select('user.id', 'username', 'look', 'game_points_month')->get();
         $top = User::where('game_points', '>', '0')->where('user.last_online', '>', time() - $this->minimalTime)->where('user.is_banned', '0')->orderBy('game_points', 'DESC')->limit(5)->select('id', 'username', 'look', 'game_points')->get();
 
         $message = [
@@ -79,7 +79,7 @@ class RankingController extends DefaultController
         $cacheData = $this->cache->get(5);
         if(!empty($cacheData)) return $this->jsonResponse($response, $cacheData);
 
-        $month = User::where('run_points_month', '>', '0')->where('user.is_banned', '0')->orderBy('run_points_month', 'DESC')->limit(10)->select('user.id', 'username', 'look', 'run_points_month')->get();
+        $month = User::where('run_points_month', '>', '0')->where('user.is_banned', '0')->where('rank', '<', '6')->orderBy('run_points_month', 'DESC')->limit(10)->select('user.id', 'username', 'look', 'run_points_month')->get();
         $top = User::where('run_points', '>', '0')->where('user.last_online', '>', time() - $this->minimalTime)->where('user.is_banned', '0')->orderBy('run_points', 'DESC')->limit(5)->select('id', 'username', 'look', 'run_points')->get();
 
         $message = [

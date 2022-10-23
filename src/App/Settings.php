@@ -12,7 +12,7 @@ return [
             'username'  => getenv('DB_USERNAME'),
             'password'  => getenv('DB_PASSWORD'),
             'charset'   => 'utf8mb4',
-            'collation' => 'utf8_general_ci',
+            'collation' => 'utf8mb4_general_ci',
             'prefix'    => '',
         ],
     ],

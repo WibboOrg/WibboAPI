@@ -229,9 +229,11 @@ class ShopController extends DefaultController
         if(!!empty($avatarImg))
             throw new Exception('error', 400);
 
-        $im = imagecreate(40, 40);
-        $white = imagecolorallocate($im, 255, 255, 255);
-        imagecolortransparent($im, $white);
+        $im = imagecreatetruecolor(40, 40);
+        imagecolortransparent($im, imagecolorallocatealpha($im, 0, 0, 0, 127));
+        imagealphablending($im, false);
+        imagesavealpha($im, true);
+        
         $home = imagecreatefromstring($avatarImg);
         imagecopy($im, $home, -13, -19, 0, 0, 64, 110);
 

@@ -141,4 +141,26 @@ class Utils
 
         return false;
     }
+
+    public static function uploadApi(string $type, array $data): bool
+    {
+        if($type !== 'assets' && $type != 'cdn') {
+            return false;
+        }
+
+        $options = [
+            'http' => [
+                'header' => "Content-type: application/x-www-form-urlencoded\r\nUser-Agent: Mozilla/5.0 (compatible; Wibbo/1.0; +https://wibbo.org/)\r\n", 
+                'method'  => 'POST', 
+                'content' => http_build_query($data)
+            ]
+        ];
+		$context  = stream_context_create($options);
+		$result = file_get_contents('https://' . $type . '.wibbo.org/uploadApi.php?key=' . getenv('UPLOAD_API'), false, $context);
+		if ($result === FALSE || $result !== 'ok') {
+			return false;
+		}
+
+        return true;
+    }
 }

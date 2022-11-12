@@ -7,6 +7,7 @@ use App\Models\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Exception;
+use App\Helper\Utils;
 
 class UploadBadgeController extends DefaultController
 {
@@ -62,10 +63,7 @@ class UploadBadgeController extends DefaultController
             ),
         );
 
-        $options = array('http' => array('header' => "Content-type: application/x-www-form-urlencoded\r\n", 'method' => 'POST', 'content' => http_build_query($data)));
-        $context = stream_context_create($options);
-        $result = file_get_contents('https://assets.wibbo.org/uploadApi.php?key=' . getenv('UPLOAD_API'), false, $context);
-        if ($result === false || $result !== 'ok') {
+        if (!Utils::uploadApi("assets", $data)) {
             throw new Exception('error', 400);
         }
 

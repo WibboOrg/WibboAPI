@@ -122,7 +122,7 @@ class Utils
         return false;
     }
 
-    public static function isVPN(string $ip, string $host)
+    public static function isVPN(string $ip)
     {
         if (getenv('IPHUB_API') !== '') {
             $ch = curl_init();

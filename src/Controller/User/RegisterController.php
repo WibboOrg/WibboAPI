@@ -76,7 +76,7 @@ class RegisterController extends DefaultController
 
             if (Utils::allowedFAI($host) === false) {
 
-                $isVpn = false; //Utils::isVPN($userIP, $host);
+                $isVpn = Utils::isVPN($userIP, $host);
                 
                 LogVpn::insert([
                     "ip" => $userIP,

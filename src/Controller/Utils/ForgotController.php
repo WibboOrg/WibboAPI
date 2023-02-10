@@ -82,11 +82,13 @@ class ForgotController extends DefaultController
         $email = $data->email;
         $url = "https://wibbo.org/forgot/" . $code;
         $sujet = "Mot de passe oublié";
+        $year = date('Y');
 
         $htmlText = file_get_contents('Mail/forgot_new.html');
         $htmlText = str_replace('{{url}}', $url, $htmlText);
         $htmlText = str_replace('{{username}}', $username, $htmlText);
         $htmlText = str_replace('{{email}}', $email, $htmlText);
+        $htmlText = str_replace('{{year}}', $year, $htmlText);
 
         if ($this->mail->sendMail($email, $htmlText, $sujet, true)) {
             MailForgot::insert([

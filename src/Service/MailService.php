@@ -31,7 +31,7 @@ class MailService
         $mail->Subject = $sujet;
         $mail->Body = $htmlText;
         if ($logo) {
-            $mail->addEmbeddedImage('/Mail/images/illustration.png', 'illustration');
+            $mail->addEmbeddedImage('illustration.png', 'illustration');
             $mail->Encoding = "base64";
         }
 

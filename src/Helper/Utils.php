@@ -47,7 +47,20 @@ class Utils
 
     public static function ticketRefresh(): string
     {
-        return "ticket-" . md5(self::generateHash(rand(8, 12))) . "-ticket";
+        return "ticket-" . self::generateSalt(10) . "-ticket";
+    }
+
+    public static function generateSalt(int $length = 10)
+    {
+        $chars = '1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM';
+        $char_len = strlen($chars) - 1;
+
+        $output = '';
+        while (strlen($output) < $length) {
+            $output .= $chars[rand(0, $char_len)];
+        }
+
+        return hash('sha256', getenv('NONCE_SECRET') . $output);
     }
 
     public static function getSslPage(string $url): string

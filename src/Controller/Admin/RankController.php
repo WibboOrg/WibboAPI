@@ -237,13 +237,14 @@ class RankController extends DefaultController
 
         StaffProtect::where('id', $userTarget->id)->delete();
         Staff::where('userid', $userTarget->id)->delete();
-        UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'ADM')->delete();
-        UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'CRPOFFI')->delete();
-        UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'WIBARC')->delete();
-        UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'wibbo.helpeur')->delete();
-        UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'GPHWIB')->delete();
-        UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'ZEERSWS')->delete();
-        UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'PRWRD1')->delete();
+        UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_ADMIN')->delete();
+        UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_ANIMATEUR')->delete();
+        UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_ARCHITECTE')->delete();
+        UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_CASINO')->delete();
+        UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_GESTION')->delete();
+        UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_GRAPH')->delete();
+        UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_MODO')->delete();
+        UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_PROWIRED')->delete();
 
         LogStaff::insert([
             'pseudo' => $user->username,

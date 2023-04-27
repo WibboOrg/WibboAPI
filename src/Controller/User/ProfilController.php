@@ -17,7 +17,7 @@ class ProfilController extends DefaultController
         $cacheData = $this->cache->get(10);
         if(!empty($cacheData)) return $this->jsonResponse($response, $cacheData);
 
-        $profil = User::select('id', 'username', 'look', 'motto', 'online', 'jetons', 'vip_points', 'account_created', 'last_offline')->where('username', $args['name'])->first();
+        $profil = User::select('id', 'username', 'look', 'motto', 'online', 'limit_coins', 'vip_points', 'account_created', 'last_offline')->where('username', $args['name'])->first();
 
         if (!$profil) {
             throw new Exception('not-found', 404);

@@ -17,13 +17,13 @@ class RankingController extends DefaultController
         
         $winwin = User::join('user_stats', 'user.id', '=', 'user_stats.id')->where('user.last_online', '>', time() - $this->minimalTime)->where('user.is_banned', '0')->orderBy('user_stats.achievement_score', 'DESC')->limit(20)
                     ->select('user.id', 'user.username', 'user.look', 'user_stats.achievement_score')->get();
-        $jetons = User::orderBy('jetons', 'DESC')->where('user.last_online', '>', time() - $this->minimalTime)->where('user.is_banned', '0')->limit(20)->select('id', 'username', 'look', 'jetons')->get();
+        $ltc = User::orderBy('limit_coins', 'DESC')->where('user.last_online', '>', time() - $this->minimalTime)->where('user.is_banned', '0')->limit(20)->select('id', 'username', 'look', 'limit_coins')->get();
         $wibbopoint = User::orderBy('vip_points', 'DESC')->where('user.last_online', '>', time() - $this->minimalTime)->where('user.is_banned', '0')->limit(20)->select('id', 'username', 'look', 'vip_points')->get();
 
         $message = [
             'winwin' => $winwin,
             'wibbopoint' => $wibbopoint,
-            'jetons' => $jetons
+            'ltc' => $ltc
         ];
 
         $this->cache->save($message);

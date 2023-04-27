@@ -20,14 +20,13 @@ $app->group('/api/v1', function() use($app) {
             $app->put('/email/{code}', '\App\Controller\Settings\EmailController:getCode');
         });
 
-        $app->group('/shop', function() use($app) {
-            $app->post('', '\App\Controller\Shop\ShopController:getJetons');
-            $app->post('/premium', '\App\Controller\Shop\ShopController:buyPremium');
-            $app->post('/points', '\App\Controller\Shop\ShopController:buyWibboPoint');
-            $app->post('/limitcoins', '\App\Controller\Shop\ShopController:buyLimitCoins');
-            $app->get('/limitcoins', '\App\Controller\Shop\ShopController:getLimitCoinStock');
-            $app->post('/badgeperso', '\App\Controller\Shop\ShopController:buyBadgeperso');
-        });
+        // $app->group('/shop', function() use($app) {
+            // $app->post('/premium', '\App\Controller\Shop\ShopController:buyPremium');
+            // $app->post('/points', '\App\Controller\Shop\ShopController:buyWibboPoint');
+            // $app->post('/limitcoins', '\App\Controller\Shop\ShopController:buyLimitCoins');
+            // $app->get('/limitcoins', '\App\Controller\Shop\ShopController:getLimitCoinStock');
+            // $app->post('/badgeperso', '\App\Controller\Shop\ShopController:buyBadgeperso');
+        // });
 
         $app->group('/forum', function() use($app) {
             $app->post('/create', '\App\Controller\Forum\ForumController:postSujet');

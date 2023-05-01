@@ -48,10 +48,10 @@ class ShopController extends DefaultController
                 'type' => '1',
             ]);
 
-            UserStats::where('id', $userId)->increment('achievement_score', $virtual_currency);
+            UserStats::where('id', $userId)->increment('achievement_score', $virtual_currency * 10);
 
             Utils::sendMusCommand('updateltc', $userId . chr(1) . $virtual_currency);
-            Utils::sendMusCommand('addwinwin', $userId . chr(1) . $virtual_currency);
+            Utils::sendMusCommand('addwinwin', $userId . chr(1) . $virtual_currency * 10);
         }
 
         return $this->jsonResponse($response, []);

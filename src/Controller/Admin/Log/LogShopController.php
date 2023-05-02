@@ -22,7 +22,7 @@ class LogShopController extends DefaultController
 			throw new Exception('permission', 403);
         }
 
-        $shopLogs = LogShop::join('user', 'user.id', 'log_shop.userid')->orderBy('date', 'DESC')->select('user.username', 'log_shop.achat', 'log_shop.date')->limit(100)->get();
+        $shopLogs = LogShop::join('user', 'user.id', 'log_shop.user_id')->orderBy('date', 'DESC')->select('user.username', 'log_shop.content', 'log_shop.date')->limit(100)->get();
 	
 		$message = [
 			'achat' => $shopLogs
@@ -59,7 +59,7 @@ class LogShopController extends DefaultController
             throw new Exception('admin.user-notfound', 400);
         }
 
-		$achat = LogShop::where('userid', $userTarget->id)->orderBy('date', 'DESC')->get();
+		$achat = LogShop::where('user_id', $userTarget->id)->orderBy('date', 'DESC')->get();
 		
 		$message = [
             'achat' => $achat

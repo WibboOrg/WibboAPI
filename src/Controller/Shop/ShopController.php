@@ -41,10 +41,10 @@ class ShopController extends DefaultController
             User::where('id', $userId)->increment('limit_coins', $virtual_currency);
 
             LogShop::insert([
-                'userid' => $userId,
+                'user_id' => $userId,
                 'date' => time(),
-                'prix' => $virtual_currency,
-                'achat' => 'Achat de ' . $virtual_currency . ' LTC (Dedi)',
+                'price' => $virtual_currency,
+                'content' => 'Achat de ' . $virtual_currency . ' LTC (Dedi)',
                 'type' => '1',
             ]);
 

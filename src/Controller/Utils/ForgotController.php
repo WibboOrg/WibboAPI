@@ -36,7 +36,7 @@ class ForgotController extends DefaultController
 
         $htmlText = "Salut " . $forgot->users . " ! Votre nouveau mot de passe est : " . $mdp . " s'il vous plaît changer le après VOTRE connexion sur le site.";
 
-        if ($this->mail->sendMail($forgot->email, $htmlText, 'Ton nouveau mot de passe sur Wibbo!')) {
+        if ($this->mail->sendMail($forgot->email, $htmlText, "Ton nouveau mot de passe sur " . getenv('RETRO_NAME') . "!")) {
             User::where('username', $forgot->users)->update([
                 'password' => $newpassword,
             ]);
@@ -80,7 +80,7 @@ class ForgotController extends DefaultController
 
         $username = $data->username;
         $email = $data->email;
-        $url = "https://wibbo.org/forgot/" . $code;
+        $url = getenv('RETRO_URL') . "/forgot/" . $code;
         $sujet = "Mot de passe oublié";
         $year = date('Y');
 

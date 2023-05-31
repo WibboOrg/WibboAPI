@@ -15,7 +15,7 @@ class MailService
         $mail->Username = getenv('MAIL_USERNAME');
         $mail->Password = getenv('MAIL_PASSWORD');
         $mail->From = getenv('MAIL_USERNAME');
-        $mail->FromName = "Wibbo Hotel";
+        $mail->FromName = getenv('RETRO_NAME') . " Hotel";
         if($server)
         {
             $mail->AddAddress(getenv('MAIL_USERNAME'));

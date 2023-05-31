@@ -100,17 +100,6 @@ class RankController extends DefaultController
                 ]);
                 break;
 
-            // case 'helpeur':
-            //     User::where('id', $userTarget->id)->update(['rank' => '4']);
-            //     Staff::insert(['userid' => $userTarget->id, 'rank' => '2', 'function' => '']); 
-            //     StaffProtect::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
-            //     UserBadge::insert([
-            //         'user_id' => $userTarget->id,
-            //         'badge_id' => "wibbo.helpeur",
-            //         'badge_slot' => '0',
-            //     ]);
-            //     break;
-
             case 'graphiste':
                 User::where('id', $userTarget->id)->update(['rank' => '3']);
                 Staff::insert(['userid' => $userTarget->id, 'rank' => '4', 'function' => '']); 
@@ -154,17 +143,6 @@ class RankController extends DefaultController
                     'badge_slot' => '0',
                 ]);
                 break;
-
-            // case 'communication':
-            //         User::where('id', $userTarget->id)->update(['rank' => '3']);
-            //         Staff::insert(['userid' => $userTarget->id, 'rank' => '9', 'function' => '']); 
-            //         StaffProtect::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
-            //         UserBadge::insert([
-            //             'user_id' => $userTarget->id,
-            //             'badge_id' => "WIBBOCOM",
-            //             'badge_slot' => '0',
-            //         ]);
-            //     break;
                 
             case 'user':
                 if ($userTarget->rank > 12) {

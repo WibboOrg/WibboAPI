@@ -7,7 +7,7 @@ class CacheService
     {
         $url = strtok($_SERVER["REQUEST_URI"], '?');
         
-        $page = ($pageId > 0) ? '_' + $pageId : '';
+        $page = ($pageId > 0) ? '_' . $pageId : '';
 
         $cacheFile = 'Cache' . $url . $page . '.json';
 
@@ -32,7 +32,7 @@ class CacheService
     {
         $url = strtok($_SERVER["REQUEST_URI"], '?');
         
-        $page = ($pageId > 0) ? '_' + $pageId : '';
+        $page = ($pageId > 0) ? '_' . $pageId : '';
 
         $filepath = 'Cache' . $url . $page . '.json';
         
@@ -52,7 +52,7 @@ class CacheService
     {
         $url = strtok($_SERVER["REQUEST_URI"], '?');
         
-        $page = ($pageId > 0) ? '_' + $pageId : '';
+        $page = ($pageId > 0) ? '_' . $pageId : '';
 
         $filepath = 'Cache' . $url . $page . '.json';
         

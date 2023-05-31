@@ -71,9 +71,9 @@ class EmailController extends DefaultController
 
             $code = md5(Utils::generateHash(10));
             $expire = time() + $this->timeExpire;
-            $messageText = "Salut " . $user->username . ", va sur ce lien <a href=\"https://wibbo.org/settings/email/" . $code . "\">https://wibbo.org/settings/email/" . $code . "</a> pour valider ton email. Attention, la date limite pour utilisé ce code de validation est le " . date("d-m-Y à H:i:s", $expire);
+            $messageText = "Salut " . $user->username . ", va sur ce lien <a href=\"" . getenv('RETRO_URL') . "/settings/email/" . $code . "\">" . getenv('RETRO_URL') . "/settings/email/" . $code . "</a> pour valider ton email. Attention, la date limite pour utilisé ce code de validation est le " . date("d-m-Y à H:i:s", $expire);
 
-            if (!$this->mail->sendMail($email, $messageText, 'Active ton compte Wibbo'))
+            if (!$this->mail->sendMail($email, $messageText, 'Active ton compte ' . getenv('RETRO_NAME')))
                 throw new Exception('error', 400);
 
             MailConfirm::insert([
@@ -96,9 +96,9 @@ class EmailController extends DefaultController
 
             $code = md5(Utils::generateHash(10));
             $expire = time() + 60 * 60 * 4;
-            $messageText = "Salut " . $user->username . ", va sur ce lien <a href=\"https://wibbo.org/settings/email/" . $code . "\">https://wibbo.org/settings/email/" . $code . "</a> pour valider ton email. Attention ce code de validation est valide que jusqu'aux " . date("d-m-Y à H:i:s", $expire);
+            $messageText = "Salut " . $user->username . ", va sur ce lien <a href=\"" . getenv('RETRO_URL') . "/settings/email/" . $code . "\">" . getenv('RETRO_URL') . "/settings/email/" . $code . "</a> pour valider ton email. Attention ce code de validation est valide que jusqu'aux " . date("d-m-Y à H:i:s", $expire);
 
-            if (!$this->mail->sendMail($user->mail, $messageText, 'Active ton compte Wibbo')) 
+            if (!$this->mail->sendMail($user->mail, $messageText, 'Active ton compte ' . getenv('RETRO_NAME'))) 
                 throw new Exception('error', 400);
                 
             MailConfirm::insert([
@@ -167,9 +167,9 @@ class EmailController extends DefaultController
 
             $code = md5(Utils::generateHash(10));
             $expire = time() + $this->timeExpire;
-            $textHtml = "Salut " . $user->username . ", va sur ce lien <a href=\"https://wibbo.org/settings/email/" . $code . "\">https://wibbo.org/settings/email/" . $code . "</a> pour valider ton email. Attention ce code de validation est valide que jusqu'aux " . date("d-m-Y à H:i:s", $expire);
+            $textHtml = "Salut " . $user->username . ", va sur ce lien <a href=\"" . getenv('RETRO_URL') . "/settings/email/" . $code . "\">" . getenv('RETRO_URL') . "/settings/email/" . $code . "</a> pour valider ton email. Attention ce code de validation est valide que jusqu'aux " . date("d-m-Y à H:i:s", $expire);
 
-            if (!$this->mail->sendMail($mails->email, $textHtml, 'Active ton compte Wibbo'))
+            if (!$this->mail->sendMail($mails->email, $textHtml, 'Active ton compte ' . getenv('RETRO_NAME')))
                 throw new Exception('error', 400);
 
             MailConfirm::insert([

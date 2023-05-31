@@ -66,8 +66,6 @@ class ArticleController extends DefaultController
             throw new Exception('not-found', 404);
         }
 
-        $new->body = str_replace("http://wibbo.ogspy.net", "//cdn.wibbo.org", $new->body);
-
         $message = [
             'body' => $new
         ];

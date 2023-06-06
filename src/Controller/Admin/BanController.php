@@ -145,9 +145,24 @@ class BanController extends DefaultController
             throw new Exception('permission', 403);
         }
 
-        $bans = Ban::where('bantype', 'user')->orderBy('id', 'DESC')->limit(100)->get();
+        $limitPage = 100;
+        $total = Ban::where('bantype', 'user')->count();
+
+        $totalPage = ceil($total / $limitPage);
+        if (!empty($_GET['page']) && is_numeric($_GET['page'])) {
+            $currentPage = intval($_GET['page']);
+
+            if ($currentPage > $totalPage) {
+                $currentPage = $totalPage;
+            }
+        } else {
+            $currentPage = 1;
+        }
+
+        $bans = Ban::where('bantype', 'user')->orderBy('id', 'DESC')->forPage($currentPage, $limitPage)->get();
 		
 		$message = [
+            'totalPage' => $totalPage,
 			'bans' => $bans
         ];
 

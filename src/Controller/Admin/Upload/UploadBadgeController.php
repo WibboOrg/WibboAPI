@@ -39,7 +39,7 @@ class UploadBadgeController extends DefaultController
         $uploadFileName = $files['file']->getClientFilename();
 
         $size = getimagesize($files['file']->file);
-        if ($size[1] > 41 || $size[0] > 41) {
+        if ($size[1] > 40 || $size[0] > 40) {
             throw new Exception('error', 400);
         }
 

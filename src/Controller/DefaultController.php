@@ -11,7 +11,6 @@ use Exception;
 class DefaultController
 {
     public Container $container;
-
     public Manager $db;
     public CacheService $cache;
     public MailService $mail;

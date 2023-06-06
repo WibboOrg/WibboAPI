@@ -50,8 +50,6 @@ class StaffsController extends DefaultController
 
         $targetId = $data->userid;
         $function = $data->function;
-        $insta = $data->social_insta;
-        $discord = $data->social_discord;
 
         if (empty($targetId) || empty($function)) {
             throw new Exception('error', 400);
@@ -59,8 +57,6 @@ class StaffsController extends DefaultController
 
         Staff::where('userid', $targetId)->update([
             'function' => $function,
-            'social_insta' => $insta,
-            //'social_discord' => $discord,
         ]);
 
         LogStaff::insert([

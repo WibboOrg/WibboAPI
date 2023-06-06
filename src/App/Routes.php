@@ -85,7 +85,6 @@ $app->group('/api/v1', function() use($app) {
         $app->get('/global-shop', '\App\Controller\Admin\Log\LogShopController:get');
         
         $app->get('/stats', '\App\Controller\Admin\StatsController:get');
-        $app->post('/transfert-room', '\App\Controller\Admin\TransfertRoomController:post');
 
         $app->post('/roleplayitem', '\App\Controller\Admin\RoleplayItemController:post');
         $app->get('/roleplayitem', '\App\Controller\Admin\RoleplayItemController:get');
@@ -116,10 +115,7 @@ $app->group('/api/v1', function() use($app) {
         $app->delete('/rank/{username}', '\App\Controller\Admin\RankController:delete');
 
         $app->post('/upload-badge', '\App\Controller\Admin\Upload\UploadBadgeController:post');
-        $app->post('/upload-furni', '\App\Controller\Admin\Upload\UploadFurniController:post');
-        $app->post('/upload-catalogue', '\App\Controller\Admin\Upload\UploadCatalogueController:post');
         $app->post('/upload-mp3', '\App\Controller\Admin\Upload\UploadMp3Controller:post');
-        $app->post('/upload-page', '\App\Controller\Admin\Upload\UploadPageController:post');
         $app->post('/upload-image', '\App\Controller\Admin\Upload\UploadImageController:post');
     
         $app->post('/navigator', '\App\Controller\Admin\NavigatorController:post');

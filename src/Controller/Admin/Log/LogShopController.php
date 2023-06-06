@@ -22,9 +22,24 @@ class LogShopController extends DefaultController
 			throw new Exception('permission', 403);
         }
 
-        $shopLogs = LogShop::join('user', 'user.id', 'log_shop.user_id')->orderBy('date', 'DESC')->select('user.username', 'log_shop.content', 'log_shop.date')->limit(100)->get();
+        $limitPage = 100;
+        $total = LogShop::count();
+
+        $totalPage = ceil($total / $limitPage);
+        if (!empty($_GET['page']) && is_numeric($_GET['page'])) {
+            $currentPage = intval($_GET['page']);
+
+            if ($currentPage > $totalPage) {
+                $currentPage = $totalPage;
+            }
+        } else {
+            $currentPage = 1;
+        }
+
+        $shopLogs = LogShop::join('user', 'user.id', 'log_shop.user_id')->orderBy('date', 'DESC')->select('user.username', 'log_shop.content', 'log_shop.date')->forPage($currentPage, $limitPage)->get();
 	
 		$message = [
+            'totalPage' => $totalPage,
 			'achat' => $shopLogs
         ];
 

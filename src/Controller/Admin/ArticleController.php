@@ -23,9 +23,25 @@ class ArticleController extends DefaultController
             throw new Exception('permission', 403);
         }
 
-        $news = News::select('id', 'title', 'snippet')->orderBy('id', 'DESC')->limit(20)->get();
+        $limitPage = 100;
+        $newsCount = News::count();
+
+        $totalPage = ceil($newsCount / $limitPage);
+
+        if (!empty($_GET['page']) && is_numeric($_GET['page'])) {
+            $currentPage = intval($_GET['page']);
+
+            if ($currentPage > $totalPage) {
+                $currentPage = $totalPage;
+            }
+        } else {
+            $currentPage = 1;
+        }
+
+        $news = News::select('id', 'title', 'snippet', 'timestamp')->orderBy('id', 'DESC')->forPage($currentPage, $limitPage)->get();
 
         $message = [
+            'totalPage' => $totalPage,
             'news' => $news
         ];
 

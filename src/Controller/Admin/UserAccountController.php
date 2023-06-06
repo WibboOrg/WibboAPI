@@ -83,9 +83,11 @@ class UserAccountController extends DefaultController
             ]);
         }
 
-        foreach ($users as $userTarget) {
-            if ($userTarget->rank >= 11) {
-                throw new Exception('error', 400);
+        if ($user->rank < 11) {
+            foreach ($users as $userTarget) {
+                if ($userTarget->rank >= 11) {
+                    throw new Exception('error', 400);
+                }
             }
         }
 		

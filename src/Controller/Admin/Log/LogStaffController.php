@@ -22,9 +22,24 @@ class LogStaffController extends DefaultController
             throw new Exception('permission', 403);
         }
 
-        $logs = LogStaff::orderBy('id', 'DESC')->limit(100)->get();
+        $limitPage = 100;
+        $total = LogStaff::count();
+
+        $totalPage = ceil($total / $limitPage);
+        if (!empty($_GET['page']) && is_numeric($_GET['page'])) {
+            $currentPage = intval($_GET['page']);
+
+            if ($currentPage > $totalPage) {
+                $currentPage = $totalPage;
+            }
+        } else {
+            $currentPage = 1;
+        }
+
+        $logs = LogStaff::orderBy('id', 'DESC')->forPage($currentPage, $limitPage)->get();
 		
 		$message = [
+            'totalPage' => $totalPage,
 			'logs' => $logs
         ];
 

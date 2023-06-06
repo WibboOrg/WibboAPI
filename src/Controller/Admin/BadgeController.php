@@ -35,7 +35,6 @@ class BadgeController extends DefaultController
         }
 
         foreach (explode(' ', $pseudo) as $value) {
-
             $userTarget = User::where('username', $value)->select('id', 'username')->first();
 
             if (!$userTarget) {

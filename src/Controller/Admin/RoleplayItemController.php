@@ -23,9 +23,24 @@ class RoleplayItemController extends DefaultController
             throw new Exception('permission', 403);
         }
 
-        $items = RoleplayItem::get();
+        $limitPage = 100;
+        $total = RoleplayItem::count();
+
+        $totalPage = ceil($total / $limitPage);
+        if (!empty($_GET['page']) && is_numeric($_GET['page'])) {
+            $currentPage = intval($_GET['page']);
+
+            if ($currentPage > $totalPage) {
+                $currentPage = $totalPage;
+            }
+        } else {
+            $currentPage = 1;
+        }
+
+        $items = RoleplayItem::forPage($currentPage, $limitPage)->get();
 
 		$message = [
+            'totalPage' => $totalPage,
 			'items' => $items
         ];
 

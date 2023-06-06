@@ -41,15 +41,30 @@ class RankController extends DefaultController
             throw new Exception('admin.user-notfound', 400);
         }
 
-        if ($userTarget->rank > 2) {
-            throw new Exception('error', 400);
-        }
-
         if (empty($userTarget->mail)) {
             throw new Exception('error', 400);
         }
 
-        $isDerank = false;
+        if ($userTarget->rank > 12) {
+            throw new Exception('permission', 400);
+        }
+
+        if ($user->rank < 11 && $userTarget->rank >= 8) {
+            throw new Exception('permission', 403);
+        }
+
+        if ($userTarget->rank > 2) {
+            Staff::where('userid', $userTarget->id)->delete();
+            UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_ADMIN')->delete();
+            UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_ANIMATEUR')->delete();
+            UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_ARCHITECTE')->delete();
+            UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_CASINO')->delete();
+            UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_GESTION')->delete();
+            UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_GRAPH')->delete();
+            UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_MODO')->delete();
+            UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_PROWIRED')->delete();
+            StaffProtect::where('id', $userTarget->id)->delete();
+        }
 
         switch ($poste) {
             case 'admin':
@@ -143,35 +158,11 @@ class RankController extends DefaultController
                     'badge_slot' => '0',
                 ]);
                 break;
-                
-            case 'user':
-                if ($userTarget->rank > 12) {
-                    throw new Exception('permission', 400);
-                }
-        
-                if ($user->rank < 11 && $userTarget->rank >= 8) {
-                    throw new Exception('permission', 403);
-                }
-        
-                User::where('id', $userTarget->id)->update(['rank' => '1']);
-                Staff::where('userid', $userTarget->id)->delete();
-                UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_ADMIN')->delete();
-                UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_ANIMATEUR')->delete();
-                UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_ARCHITECTE')->delete();
-                UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_CASINO')->delete();
-                UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_GESTION')->delete();
-                UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_GRAPH')->delete();
-                UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_MODO')->delete();
-                UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_PROWIRED')->delete();
-                StaffProtect::where('id', $userTarget->id)->delete();
-
-                $isDerank = true;
-                break;
         }
 
         LogStaff::insert([
             'pseudo' => $user->username,
-            'action' => ((!$isDerank) ? 'Rank' : 'Derank') . ' de l\'utilisateur: ' . $username,
+            'action' => 'Rank de l\'utilisateur: ' . $username,
             'date' => time(),
         ]);
 

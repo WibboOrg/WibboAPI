@@ -22,7 +22,7 @@ class LogCommandController extends DefaultController
             throw new Exception('permission', 403);
         }
 
-        $limitPage = 500;
+        $limitPage = 100;
         $total = LogCommand::count();
 
         $totalPage = ceil($total / $limitPage);
@@ -73,7 +73,7 @@ class LogCommandController extends DefaultController
         $timestamp = strtotime($startdate);
         $timestampEnd = strtotime($enddate);
 
-        $cmd = LogCommand::where('user_name', $username)->where('timestamp', '>', $timestamp)->where('timestamp', '<', $timestampEnd)->orderBy('timestamp', 'DESC')->limit(100)->get();
+        $cmd = LogCommand::where('user_name', $username)->where('timestamp', '>', $timestamp)->where('timestamp', '<', $timestampEnd)->orderBy('timestamp', 'DESC')->get();
 	
 		$message = [
 			'cmd' => $cmd

@@ -57,6 +57,7 @@ class RankController extends DefaultController
             Staff::where('userid', $userTarget->id)->delete();
             UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_ADMIN')->delete();
             UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_ANIMATEUR')->delete();
+            UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_EVENT')->delete();
             UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_ARCHITECTE')->delete();
             UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_CASINO')->delete();
             UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_GESTION')->delete();
@@ -78,6 +79,17 @@ class RankController extends DefaultController
                 UserBadge::insert([
                     'user_id' => $userTarget->id,
                     'badge_id' => "STAFF_ADMIN",
+                    'badge_slot' => '0',
+                ]);
+                break;
+                
+            case 'event':
+                User::where('id', $userTarget->id)->update(['rank' => '7']);
+                Staff::insert(['userid' => $userTarget->id, 'rank' => '9', 'function' => '']); 
+                StaffProtect::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
+                UserBadge::insert([
+                    'user_id' => $userTarget->id,
+                    'badge_id' => "STAFF_EVENT",
                     'badge_slot' => '0',
                 ]);
                 break;
@@ -208,6 +220,7 @@ class RankController extends DefaultController
         Staff::where('userid', $userTarget->id)->delete();
         UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_ADMIN')->delete();
         UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_ANIMATEUR')->delete();
+        UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_EVENT')->delete();
         UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_ARCHITECTE')->delete();
         UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_CASINO')->delete();
         UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_GESTION')->delete();

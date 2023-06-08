@@ -2,6 +2,7 @@
 namespace App\Controller\Admin;
 
 use App\Controller\DefaultController;
+use App\Models\LogStaff;
 use App\Models\RoleplayItem;
 use App\Models\User;
 use Slim\Http\Request;
@@ -114,6 +115,12 @@ class RoleplayItemController extends DefaultController
             'category' => $category,
         ]);
 
+        LogStaff::insert([
+            'pseudo' => $user->username,
+            'action' => 'Création d\'un item rôleplay: ' . $id,
+            'date' => time(),
+        ]);
+
         return $this->jsonResponse($response, []);
     }
 
@@ -162,6 +169,12 @@ class RoleplayItemController extends DefaultController
             'value' => $value,
             'allowstack' => $allowstack,
             'category' => $category,
+        ]);
+
+        LogStaff::insert([
+            'pseudo' => $user->username,
+            'action' => 'Modification d\'un item rôleplay: ' . $id,
+            'date' => time(),
         ]);
 
         return $this->jsonResponse($response, []);

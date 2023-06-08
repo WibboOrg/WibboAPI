@@ -99,6 +99,8 @@ $app->group('/api/v1', function() use($app) {
         $app->post('/ban', '\App\Controller\Admin\BanController:post');
         $app->delete('/ban/{username}', '\App\Controller\Admin\BanController:delete');
 
+        $app->get('/flagme', '\App\Controller\Admin\FlagmeController:get');
+
         $app->get('/last-users', '\App\Controller\Admin\LastUsersController:get');
     
         $app->get('/ipstaff', '\App\Controller\Admin\IpstaffController:get');

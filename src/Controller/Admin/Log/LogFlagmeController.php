@@ -32,10 +32,9 @@ class LogFlagmeController extends DefaultController
             throw new Exception('error', 400);
         }
 
-        $logs = LogFlagme::where('newusername', $username)->orWhere('oldusername', $username)->orderBy('time', 'DESC')->get();
+        LogFlagme::where('newusername', $username)->orWhere('oldusername', $username)->orderBy('time', 'DESC')->get();
 		
 		$message = [
-			'logs' => $logs
         ];
 
         return $this->jsonResponse($response, $message);

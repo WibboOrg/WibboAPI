@@ -2,6 +2,7 @@
 namespace App\Controller\Admin\Upload;
 
 use App\Controller\DefaultController;
+use App\Models\LogStaff;
 use App\Models\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -50,6 +51,12 @@ class UploadMp3Controller extends DefaultController
         if (!Utils::uploadApi("cdn", $data)) {
             throw new Exception('error', 400);
         }
+
+        LogStaff::insert([
+            'pseudo' => $user->username,
+            'action' => 'Ajout de mp3: ' . $uploadFileName,
+            'date' => time()
+        ]);
 
         return $this->jsonResponse($response, []);
     }

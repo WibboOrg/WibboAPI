@@ -50,13 +50,15 @@ class UploadImageController extends DefaultController
             throw new Exception('error', 400);
         }
 
+        $url = '//cdn.wibbo.org/uploads/' . $newFileName;
+
         $message = [
-			'url' => '//cdn.wibbo.org/uploads/' . $newFileName
+			'url' => $url
         ];
 
         LogStaff::insert([
             'pseudo' => $user->username,
-            'action' => 'Ajout de l\'image: ' . $newFileName,
+            'action' => 'Ajout de l\'image: ' . $url,
             'date' => time()
         ]);
 

@@ -18,7 +18,7 @@ class LogChatController extends DefaultController
         
         $data = json_decode(json_encode($input), false);
         
-        $this->requireData($data, ['username', 'startdate', 'enddate']);
+        $this->requireData($data, ['username', 'roomid', 'startdate', 'enddate']);
         
         $user = User::where('id', $userId)->select('rank', 'username')->first();
         if(!$user) throw new Exception('disconnect', 401);
@@ -28,6 +28,7 @@ class LogChatController extends DefaultController
         }
 
         $username = $data->username;
+        $roomId = $data->roomid;
         $startdate = $data->startdate;
         $enddate = $data->enddate;
 
@@ -37,15 +38,19 @@ class LogChatController extends DefaultController
             'date' => time()
         ]);
 
-        if (empty($username) || empty($startdate) || !strtotime($startdate) || empty($enddate) || !strtotime($enddate)) {
+        if (empty($username) || !is_numeric($roomId) || empty($startdate) || !strtotime($startdate) || empty($enddate) || !strtotime($enddate)) {
             throw new Exception('error', 400);
         }
 
         $timestamp = strtotime($startdate);
         $timestampEnd = strtotime($enddate);
 
-        $chatlogs = LogChat::where('user_name', $username)->where('timestamp', '>', $timestamp)->where('timestamp', '<', $timestampEnd)->orderBy('timestamp', 'DESC')->get();
-		
+        if ($roomId >= 0) {
+            $chatlogs = LogChat::where('user_name', $username)->where('room_id', $roomId)->where('timestamp', '>', $timestamp)->where('timestamp', '<', $timestampEnd)->orderBy('timestamp', 'DESC')->get();
+        } else {
+            $chatlogs = LogChat::where('user_name', $username)->where('timestamp', '>', $timestamp)->where('timestamp', '<', $timestampEnd)->orderBy('timestamp', 'DESC')->get();
+        }
+
 		$message = [
 			'chatlogs' => $chatlogs
         ];

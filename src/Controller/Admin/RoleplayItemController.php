@@ -83,6 +83,10 @@ class RoleplayItemController extends DefaultController
 
         $uploadFileName = $files['file']->getClientFilename();
 
+        if (!preg_match('/^[a-z0-9_]+\.png$/', $uploadFileName)) {
+            throw new Exception('error', 400);
+        }
+
         $extension_upload = substr(strrchr($uploadFileName, '.'), 1);
         if ($extension_upload != 'png') {
             throw new Exception('error', 400);

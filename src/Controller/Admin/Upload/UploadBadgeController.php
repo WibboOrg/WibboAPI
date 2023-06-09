@@ -36,6 +36,10 @@ class UploadBadgeController extends DefaultController
             throw new Exception('error', 400);
         }
 
+        if (!preg_match('/^[a-z0-9_]+\.gif$/', $badgeCode)) {
+            throw new Exception('error', 400);
+        }
+
         $uploadFileName = $files['file']->getClientFilename();
 
         $size = getimagesize($files['file']->file);

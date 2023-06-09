@@ -45,7 +45,7 @@ class LogChatController extends DefaultController
         $timestamp = strtotime($startdate);
         $timestampEnd = strtotime($enddate);
 
-        if (!empty($username) && $roomId >= 0)
+        if (empty($username) && $roomId >= 0)
         {
             $chatlogs = LogChat::where('room_id', $roomId)->where('timestamp', '>', $timestamp)->where('timestamp', '<', $timestampEnd)->orderBy('timestamp', 'DESC')->get();
         } 

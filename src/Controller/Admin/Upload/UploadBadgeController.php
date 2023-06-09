@@ -36,7 +36,7 @@ class UploadBadgeController extends DefaultController
             throw new Exception('error', 400);
         }
 
-        if (!preg_match('/^[a-zA-Z0-9_]+\.gif$/', $badgeCode)) {
+        if (!preg_match('/^[a-zA-Z0-9_]+/', $badgeCode)) {
             throw new Exception('error', 400);
         }
 

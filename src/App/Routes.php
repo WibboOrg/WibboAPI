@@ -88,13 +88,13 @@ $app->group('/api/v1', function() use($app) {
 
         $app->post('/roleplayitem', '\App\Controller\Admin\RoleplayItemController:post');
         $app->get('/roleplayitem', '\App\Controller\Admin\RoleplayItemController:get');
-        $app->patch('/roleplayitem/{id}', '\App\Controller\Admin\RoleplayItemController:patch');
+        $app->put('/roleplayitem/{id}', '\App\Controller\Admin\RoleplayItemController:put');
     
         $app->post('/article', '\App\Controller\Admin\ArticleController:post');
         $app->get('/article', '\App\Controller\Admin\ArticleController:get');
         $app->get('/article/{id}', '\App\Controller\Admin\ArticleController:getNew');
         $app->delete('/article/{id}', '\App\Controller\Admin\ArticleController:delete');
-        $app->patch('/article/{id}', '\App\Controller\Admin\ArticleController:patch');
+        $app->put('/article/{id}', '\App\Controller\Admin\ArticleController:put');
 
         $app->post('/ban', '\App\Controller\Admin\BanController:post');
         $app->delete('/ban/{username}', '\App\Controller\Admin\BanController:delete');

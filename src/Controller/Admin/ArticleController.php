@@ -131,7 +131,7 @@ class ArticleController extends DefaultController
         return $this->jsonResponse($response, []);
     }
 
-    public function patch(Request $request, Response $response, array $args): Response
+    public function put(Request $request, Response $response, array $args): Response
     {
         $input = $request->getParsedBody();
         $userId = $input['decoded']->sub;

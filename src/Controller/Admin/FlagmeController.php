@@ -44,20 +44,20 @@ class FlagmeController extends DefaultController
             throw new Exception('admin.user-notfound', 400);
         }
 
-        if ($userTarget->rank > 1 || !empty($userTarget->mail) || $userTarget->last_online < time() - $twoYear) {
+        if ($userTarget->rank > 1 || !empty($userTarget->mail) || $userTarget->last_online > time() - $twoYear) {
             throw new Exception('permission', 400);
         }
 
-        $newUserame = 'old-' . time();
+        $newUsername = 'old-' . time();
 
-        User::where('id', $userTarget->id)->update(['username' => $newUserame]);
-        Room::where('owner', $userTarget->username)->update(['owner' => $newUserame]);
-        ForumPost::where('author', $userTarget->username)->update(['author' => $newUserame]);
-        ForumThread::where('author', $userTarget->username)->update(['author' => $newUserame]);
+        User::where('id', $userTarget->id)->update(['username' => $newUsername]);
+        Room::where('owner', $userTarget->username)->update(['owner' => $newUsername]);
+        ForumPost::where('author', $userTarget->username)->update(['author' => $newUsername]);
+        ForumThread::where('author', $userTarget->username)->update(['author' => $newUsername]);
         LogFlagme::insert([
             'user_id' => $userTarget->id,
             'oldusername' => $userTarget->username,
-            'newusername' => $newUserame,
+            'newusername' => $newUsername,
             'time' => time()
         ]);
 

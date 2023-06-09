@@ -2,9 +2,10 @@
 namespace App\Controller\Admin;
 
 use App\Controller\DefaultController;
+use App\Models\ForumPost;
+use App\Models\ForumThread;
 use App\Models\LogFlagme;
 use App\Models\Room;
-use App\Models\StaffProtect;
 use App\Models\LogStaff;
 use App\Models\User;
 use Slim\Http\Request;
@@ -47,9 +48,12 @@ class FlagmeController extends DefaultController
             throw new Exception('permission', 400);
         }
 
-        $newUserame = '';
+        $newUserame = 'old-' . time();
 
+        User::where('id', $userTarget->id)->update(['username' => $newUserame]);
         Room::where('owner', $userTarget->username)->update(['owner' => $newUserame]);
+        ForumPost::where('author', $userTarget->username)->update(['author' => $newUserame]);
+        ForumThread::where('author', $userTarget->username)->update(['author' => $newUserame]);
         LogFlagme::insert([
             'user_id' => $userTarget->id,
             'oldusername' => $userTarget->username,

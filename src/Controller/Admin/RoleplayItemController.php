@@ -57,7 +57,7 @@ class RoleplayItemController extends DefaultController
 
         $this->requireData($data, ['name', 'desc', 'price', 'value', 'allowstack', 'type', 'category']);
 
-        $user = User::where('id', $userId)->select('rank')->first();
+        $user = User::where('id', $userId)->select('rank', 'username')->first();
         if(!$user) throw new Exception('disconnect', 401);
                 
         if ($user->rank < 8) {
@@ -81,7 +81,7 @@ class RoleplayItemController extends DefaultController
             throw new Exception('error', 400);
         }
 
-        if (!preg_match('/^[a-z0-9_]+\.png$/', $nom)) {
+        if (!preg_match('/^[a-zA-Z0-9_]+/', $nom)) {
             throw new Exception('error', 400);
         }
 

@@ -32,12 +32,6 @@ class LogChatController extends DefaultController
         $startdate = $data->startdate;
         $enddate = $data->enddate;
 
-        LogStaff::insert([
-            'pseudo' => $user->username,
-            'action' => 'Recherche chatlog de: ' . $username,
-            'date' => time()
-        ]);
-
         if (!is_numeric($roomId) || empty($startdate) || !strtotime($startdate) || empty($enddate) || !strtotime($enddate)) {
             throw new Exception('error', 400);
         }
@@ -56,6 +50,12 @@ class LogChatController extends DefaultController
                 $chatlogs = LogChat::where('user_name', $username)->where('timestamp', '>', $timestamp)->where('timestamp', '<', $timestampEnd)->orderBy('timestamp', 'DESC')->get();
             }
         }
+
+        LogStaff::insert([
+            'pseudo' => $user->username,
+            'action' => 'Recherche chatlog de: ' . $username . ' dans l\'appart ID: ' . $roomId,
+            'date' => time()
+        ]);
 
 		$message = [
 			'chatlogs' => $chatlogs

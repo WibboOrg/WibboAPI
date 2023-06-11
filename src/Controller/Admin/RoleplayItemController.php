@@ -74,18 +74,17 @@ class RoleplayItemController extends DefaultController
         $category = $data->category;
 
         if (empty($files['file']) || $nom == "" || $desc == "" || $price == "" || $value == "" || $allowstack == "" || $type == "" || $category == "") {
-            throw new Exception('error !', 400);
+            throw new Exception('error', 400);
         }
 
         if (!is_numeric($price) || !is_numeric($value) || !is_numeric($allowstack)) {
             throw new Exception('error', 400);
         }
 
-        
         if (!preg_match('/^[a-z0-9_]+\.png$/', $nom)) {
             throw new Exception('error', 400);
         }
-        
+
         $uploadFileName = $files['file']->getClientFilename();
 
         $extension_upload = substr(strrchr($uploadFileName, '.'), 1);

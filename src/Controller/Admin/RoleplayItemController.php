@@ -137,7 +137,7 @@ class RoleplayItemController extends DefaultController
 
         $this->requireData($data, ['desc', 'price', 'value', 'allowstack', 'type', 'category']);
 
-        $user = User::where('id', $userId)->select('rank')->first();
+        $user = User::where('id', $userId)->select('rank', 'username')->first();
         if(!$user) throw new Exception('disconnect', 401);
                 
         if ($user->rank < 8) {

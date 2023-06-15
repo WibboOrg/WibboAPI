@@ -36,7 +36,7 @@ class LogShopController extends DefaultController
             $currentPage = 1;
         }
 
-        $shopLogs = LogShop::join('user', 'user.id', 'log_shop.user_id')->orderBy('date', 'DESC')->select('user.username', 'log_shop.content', 'log_shop.date')->forPage($currentPage, $limitPage)->get();
+        $shopLogs = LogShop::join('user', 'user.id', 'log_shop.user_id')->orderBy('date', 'DESC')->select('user.username', 'log_shop.content', 'log_shop.price', 'log_shop.date')->forPage($currentPage, $limitPage)->get();
 	
 		$message = [
             'totalPage' => $totalPage,

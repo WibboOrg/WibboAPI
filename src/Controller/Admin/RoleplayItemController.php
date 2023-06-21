@@ -121,7 +121,7 @@ class RoleplayItemController extends DefaultController
 
         LogStaff::insert([
             'pseudo' => $user->username,
-            'action' => 'Création d\'un item rôleplay: ' . $id,
+            'action' => 'Création d\'un item roleplay: ' . $id,
             'date' => time(),
         ]);
 
@@ -177,7 +177,7 @@ class RoleplayItemController extends DefaultController
 
         LogStaff::insert([
             'pseudo' => $user->username,
-            'action' => 'Modification d\'un item rôleplay: ' . $id,
+            'action' => 'Modification d\'un item roleplay: ' . $id,
             'date' => time(),
         ]);
 

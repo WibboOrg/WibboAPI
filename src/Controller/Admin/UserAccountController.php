@@ -50,20 +50,13 @@ class UserAccountController extends DefaultController
             }
             
             $ip = $userTarget->ip_last;
-            $machineid = $userTarget->machine_id;
         }
 
         if (empty($ip)) {
             throw new Exception('error', 400);
         }
 
-        $users = null;
-
-        if (empty($machineid)) {
-            $users = User::where('ip_last', $ip)->select('username', 'id', 'online', 'ipcountry', 'rank')->get();
-        } else {
-            $users = User::where('ip_last', $ip)->orWhere('machine_id', $machineid)->select('username', 'id', 'online', 'ipcountry', 'rank')->get();
-        }
+        $users = User::where('ip_last', $ip)->select('username', 'id', 'online', 'ipcountry', 'rank')->get();
 
         if (!$users) {
             throw new Exception('error', 400);

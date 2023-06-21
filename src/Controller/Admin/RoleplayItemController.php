@@ -153,8 +153,8 @@ class RoleplayItemController extends DefaultController
         $type = $data->type;
         $category = $data->category;
 
-        if (!isset($desc) || !isset($price) || !isset($value) || !isset($allowstack) || !isset($type) || !isset($category)) {
-            throw new Exception('error !', 400);
+        if (empty($desc) || empty($price) || empty($value) || empty($allowstack) || empty($type) || empty($category)) {
+            throw new Exception('error', 400);
         }
 
         if (!is_numeric($id) || !is_numeric($price) || !is_numeric($value) || !is_numeric($allowstack)) {

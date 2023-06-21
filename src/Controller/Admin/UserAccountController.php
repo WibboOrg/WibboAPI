@@ -37,12 +37,12 @@ class UserAccountController extends DefaultController
         else {
             $username = $search; 
         }
-		
+
         if (empty($ip) && empty($username)) {
             throw new Exception('error', 400);
         }
 
-        if (isset($username)) {
+        if (!empty($username)) {
             $userTarget = User::where('username', $username)->select('ip_last', 'machine_id')->first();
             if (!$userTarget) {
                 throw new Exception('admin.user-notfound', 400);
@@ -61,7 +61,7 @@ class UserAccountController extends DefaultController
             throw new Exception('error', 400);
         }
 
-        if (isset($username)) {
+        if (!empty($username)) {
             LogStaff::insert([
                 'pseudo' => $user->username,
                 'action' => 'Recherche les doubles compte de : ' . $username,

@@ -87,7 +87,7 @@ class NavigatorController extends DefaultController
         $roomid = $data->roomid;
         $categorie = $data->category;
 
-        if (!is_numeric($roomid) || !isset($categorie)) {
+        if (!is_numeric($roomid) || empty($categorie)) {
             throw new Exception('error', 400);
         }
 

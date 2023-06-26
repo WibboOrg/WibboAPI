@@ -153,7 +153,7 @@ class RoleplayItemController extends DefaultController
         $type = $data->type;
         $category = $data->category;
 
-        if (empty($desc) || empty($price) || empty($value) || empty($allowstack) || empty($type) || empty($category)) {
+        if ($desc == "" || $price == "" || $value == "" || $allowstack == "" || $type == "" || $category == "") {
             throw new Exception('error', 400);
         }
 

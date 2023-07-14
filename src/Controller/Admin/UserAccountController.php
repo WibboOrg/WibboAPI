@@ -43,7 +43,7 @@ class UserAccountController extends DefaultController
         }
 
         if (!empty($username)) {
-            $userTarget = User::where('username', $username)->select('ip_last', 'machine_id')->first();
+            $userTarget = User::where('username', $username)->select('ip_last', 'machine_id', 'rank')->first();
             if (!$userTarget) {
                 throw new Exception('admin.user-notfound', 400);
             }

@@ -119,6 +119,7 @@ $app->group('/api/v1', function() use($app) {
         $app->post('/upload-badge', '\App\Controller\Admin\Upload\UploadBadgeController:post');
         $app->post('/upload-mp3', '\App\Controller\Admin\Upload\UploadMp3Controller:post');
         $app->post('/upload-image', '\App\Controller\Admin\Upload\UploadImageController:post');
+        $app->post('/upload-page', '\App\Controller\Admin\Upload\UploadPageController:post');
     
         $app->post('/navigator', '\App\Controller\Admin\NavigatorController:post');
         $app->get('/navigator', '\App\Controller\Admin\NavigatorController:get');

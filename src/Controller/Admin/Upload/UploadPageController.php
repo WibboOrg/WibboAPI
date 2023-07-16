@@ -16,7 +16,7 @@ class UploadPageController extends DefaultController
         $input = $request->getParsedBody();
         $userId = $input['decoded']->sub;
         
-        $user = User::where('id', $userId)->select('rank')->first();
+        $user = User::where('id', $userId)->select('username', 'rank')->first();
         if(!$user) throw new Exception('disconnect', 401);
                 
         if ($user->rank < 8) {

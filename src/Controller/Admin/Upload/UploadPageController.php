@@ -3,6 +3,7 @@ namespace App\Controller\Admin\Upload;
 
 use App\Controller\DefaultController;
 use App\Helper\Utils;
+use App\Models\LogStaff;
 use App\Models\User;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -45,6 +46,12 @@ class UploadPageController extends DefaultController
 		$message = [
 			'url' => $link
         ];
+
+        LogStaff::insert([
+            'pseudo' => $user->username,
+            'action' => 'Ajout de page HTML: ' . $link,
+            'date' => time()
+        ]);
 
         return $this->jsonResponse($response, $message);
     }

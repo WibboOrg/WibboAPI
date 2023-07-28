@@ -40,6 +40,7 @@ $app->group('/api/v1', function() use($app) {
     $app->post('/register', '\App\Controller\User\RegisterController:post');
     
     $app->get('/search-user/{username}', '\App\Controller\Utils\UtilController:getSearchUser');
+    $app->get('/user-info/{id}', '\App\Controller\Utils\UtilController:getUserInfo');
     
     $app->get('/room/{roomId}', '\App\Controller\Utils\RoomController:get');
     $app->get('/profil/{name}', 'App\Controller\User\ProfilController:get');

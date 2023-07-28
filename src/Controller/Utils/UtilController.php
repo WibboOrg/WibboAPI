@@ -23,4 +23,15 @@ class UtilController extends DefaultController
       
         return $this->jsonResponse($response, $message);
     }
+
+    public function getUserInfo(Request $request, Response $response, array $args): Response
+    {
+        $user = User::where('id', $args['id'])->select('username', 'look', 'rank')->limit(1)->first();
+
+        $message = [
+            'user' => $user
+        ];
+      
+        return $this->jsonResponse($response, $message);
+    }
 }

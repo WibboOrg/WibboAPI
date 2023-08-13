@@ -99,7 +99,7 @@ class BanController extends DefaultController
             throw new Exception('error', 400);
         }
 
-        $userTarget = User::where('username', $name)->select('id')->first();
+        $userTarget = User::where('username', $name)->select('id', 'ip_last')->first();
 
         if (!$userTarget) {
             throw new Exception('admin.user-notfound', 400);
@@ -121,6 +121,7 @@ class BanController extends DefaultController
         }
 
         Ban::where('value', $name)->where('bantype', 'user')->where('expire', '>', time())->update(['expire' => time()]);
+        Ban::where('value', $userTarget->ip_last)->where('bantype', 'ip')->where('expire', '>', time())->update(['expire' => time()]);
 
         User::where('id', $userTarget->id)->update(['is_banned' => '0']);
 

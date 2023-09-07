@@ -57,14 +57,14 @@ class SettingsController extends DefaultController
 
         $data = json_decode(json_encode($input), false);
 
-        $this->requireData($data, ['textamigo', 'online', 'join', 'troc', 'profil']);
+        $this->requireData($data, ['textamigo', 'online', 'join', 'troc']);
 
         $userId = $input['decoded']->sub;
 
-        $textamigo = ($data->textamigo == "1") ? '0' : '1';
-        $online = ($data->online == "1") ? '0' : '1';
-        $join = ($data->join == "1") ? '0' : '1';
-        $troc = ($data->troc == "1") ? '1' : '0';
+        $textamigo = ($data->textamigo == 1) ? 0 : 1;
+        $online = ($data->online == 1) ? 0 : 1;
+        $join = ($data->join == 1) ? 0 : 1;
+        $troc = ($data->troc == 1) ? 1 : 0;
 
         User::where('id', $userId)->update([
             'block_newfriends' => $textamigo,

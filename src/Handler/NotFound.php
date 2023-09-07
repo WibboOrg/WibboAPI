@@ -10,7 +10,7 @@ final class NotFound extends \Slim\Handlers\NotFound
     {
         $statusCode = 404;
         $data = [
-            'message' => "404: Not found",
+            'message' => "404: Not found: " . $request->getUri()->getPath(),
             'status' => 'notfound',
             'code' => $statusCode,
         ];

@@ -9,22 +9,13 @@ use Slim\Http\Response;
 
 class MapController extends DefaultController
 {
-    public function getArticles(Request $request, Response $response, array $args): Response
+    public function get(Request $request, Response $response, array $args): Response
     {
-        $lastNews = News::select('id', 'link_keyword', 'topstory_image', 'title', 'snippet', 'timestamp')->get();
+        $lastNews = News::select('id', 'link_keyword', 'topstory_image', 'title', 'snippet', 'timestamp')->orderBy('timestamp', 'DESC')->get();
+        $posts = ForumThread::select('id', 'lastpost_date')->orderBy('lastpost_date', 'DESC')->limit(50000)->get();
 
         $message = [
-            'lastNews' => $lastNews
-        ];
-
-        return $this->jsonResponse($response, $message);
-    }
-
-    public function getForums(Request $request, Response $response, array $args): Response
-    {
-        $posts = ForumThread::select('id')->orderBy('lastpost_date', 'DESC')->limit(50000)->get();
-
-        $message = [
+            'lastNews' => $lastNews,
             'posts' => $posts
         ];
 

@@ -31,10 +31,7 @@ $app->group('/api/v1', function() use($app) {
         });
     })->add(new AuthMiddleware($app->getContainer()));
 
-    $app->group('/map', function() use($app) {
-        $app->get('/articles', '\App\Controller\Map\MapController:getArticles');
-        $app->get('/forums', '\App\Controller\Map\MapController:getForums');
-    });
+    $app->get('/map/data', '\App\Controller\Map\MapController:get');
 
     $app->post('/login', '\App\Controller\Auth\AuthController:post');
     $app->post('/register', '\App\Controller\User\RegisterController:post');

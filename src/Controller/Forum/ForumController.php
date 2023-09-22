@@ -204,7 +204,7 @@ class ForumController extends DefaultController
         }
 
         $last = ForumThread::orderBy('date', 'DESC')->limit(1)->first();
-        if ($last->author == $user->username && $user->rank < 6) {
+        if ($last != null && $last->author == $user->username && $user->rank < 6) {
             throw new Exception('forum.wait', 400);
         }
 

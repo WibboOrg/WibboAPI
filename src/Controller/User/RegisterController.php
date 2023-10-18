@@ -46,7 +46,7 @@ class RegisterController extends DefaultController
             throw new Exception('register.condition', 400);
         }
 
-        $badNames = ["4wh3y", "4whey", "awh3y", "awh3y", "ahw3y", "4hw3y", "4w3y", "4w3y", "awhe4y", "cm1", "caimelle", "cxl", "m4tyou", "m4ty0u", "maty0u", "mxtyou", "mxty0u", "mvty0u", "mvtyou", "w1bbo", "wibb0", "w1bb0", "ouibeau", "ouibo", "wibo", "ouibbo", "ouibbeau", "sl4ske", "sl4sk3", "slask3", "slxsk3", "slxske", "slvsk3", "slvske", "w3mb", "w3mb4nyama", "w3mb4ny4m4", "p1ute", "pxt3", "pxte", "pvt3", "pvte", "suce", "svc3", "svce", "sxc3", "sxce", "s3xe", "s3x3", "nud3s", "nioudes", "nxdes", "nxd3s", "nudeuse", "nudeur", "nxde", "nxd3ur", "nvd3ur", "nxd3us3", "nvd3us3", "nvd3use", "nxd3use", "leak", "l34k", "le4k", "l3ak", "rpx", "run4way", "run4w4y", "tyb0", "t3ih0", "te1h0", "t31ho", "t3iho", "teih0", "d3sna", "d3sn4", "st4ff", "l1berer", "lib3rer", "lib3r3r", "l1b3r3r", "l1b3rer", "l1ber3r", "l1berez", "lib3rez", "lib3r3z", "l1b3r3z", "l1b3rez", "l1ber3z", "d1sc0rd", "disc0rd", "onlyfan", "0nlyf4n", "0nlyfan", "onlyf4n", "h4bb0c1t1", "m3rd3", "merd3", "m3rde", "p3d4l", "p3dal", "sxlope", "salope", "sal0p3", "sal0pe", "salop3", "sxl0pe", "sxlop3", "sxl0p3", "sa1ope", "sa1op3", "svlope", "svl0p3", "svl0pe", "svlop3", "doppio", "d0ppi0", "d0pio", "d0pi0", "doppi0", "dopi0", "blacklist", "bl4cklist", "blxcklist", "blackl1st", "bl4ckl1st", "b1acklist", "b14ckl1st", "b14cklist", "bl4cklist", "wemb", "doppio", "awey", "ahwey", "awhey", "cml", "matyou", "wibbo", "slaske", "wembanyama", "sexe", "nude", "rpx", "awd", "runaway", "tybo", "teiho", "desna", "staff", "liberer", "liberez", "discord", "h4bb0c1t1", "m3rd3", "pedale"];
+        $badNames = ["p1ute", "pxt3", "pxte", "pvt3", "pvte", "suce", "svc3", "svce", "sxc3", "sxce", "s3xe", "s3x3", "nud3s", "nioudes", "nxdes", "nxd3s", "nudeuse", "nudeur", "nxde", "nxd3ur", "nvd3ur", "nxd3us3", "nvd3us3", "nvd3use", "nxd3use", "leak", "l34k", "le4k", "l3ak", "rpx", "st4ff", "l1berer", "lib3rer", "lib3r3r", "l1b3r3r", "l1b3rer", "l1ber3r", "l1berez", "lib3rez", "lib3r3z", "l1b3r3z", "l1b3rez", "l1ber3z", "d1sc0rd", "disc0rd", "onlyfan", "0nlyf4n", "0nlyfan", "onlyf4n", "h4bb0c1t1", "m3rd3", "merd3", "m3rde", "p3d4l", "p3dal", "sxlope", "salope", "sal0p3", "sal0pe", "salop3", "sxl0pe", "sxlop3", "sxl0p3", "sa1ope", "sa1op3", "svlope", "svl0p3", "svl0pe", "svlop3", "blacklist", "bl4cklist", "blxcklist", "blackl1st", "bl4ckl1st", "b1acklist", "b14ckl1st", "b14cklist", "bl4cklist", "sexe", "nude", "rpx", "staff", "liberer", "liberez", "discord", "h4bb0c1t1", "m3rd3", "pedale"];
         $nameCheck = strtolower($data->username);
         foreach ($badNames as $bad) {
             if (strpos($nameCheck, $bad) !== false) {
@@ -78,9 +78,7 @@ class RegisterController extends DefaultController
             throw new Exception('register.vpn', 400);
         }
 
-        if($_SERVER["HTTP_CF_IPCOUNTRY"] != 'FR' && $_SERVER["HTTP_CF_IPCOUNTRY"] != 'BE' && $_SERVER["HTTP_CF_IPCOUNTRY"] != 'CA' 
-        && $_SERVER["HTTP_CF_IPCOUNTRY"] != 'DZ' && $_SERVER["HTTP_CF_IPCOUNTRY"] != 'RE' && $_SERVER["HTTP_CF_IPCOUNTRY"] != 'TR'
-        && $_SERVER["HTTP_CF_IPCOUNTRY"] != 'MA') {
+        if($ipcountry != '' && $ipcountry != 'FR' && $ipcountry != 'BE' && $ipcountry != 'CA' && $ipcountry != 'DZ' && $ipcountry != 'RE' && $ipcountry != 'TR' && $ipcountry != 'MA') {
             throw new Exception('register.vpn', 400);
         }
 

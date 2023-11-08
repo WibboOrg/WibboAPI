@@ -110,7 +110,7 @@ class BanController extends DefaultController
             throw new Exception('error', 400);
         }
 
-        if (($ban->added_by == "Kodamas" || $ban->added_by == "Jason") && $user->rank < 8) {
+        if (($ban->added_by == "Kodamas" || $ban->added_by == "Jason") && $user->rank < 11) {
             LogStaff::insert([
                 'pseudo' => $user->username,
                 'action' => 'Tentative de bannisement de ' . $name,

@@ -64,6 +64,7 @@ class RankController extends DefaultController
             UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_GRAPH')->delete();
             UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_MODO')->delete();
             UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_PROWIRED')->delete();
+            UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_HELPER')->delete();
             StaffProtect::where('id', $userTarget->id)->delete();
         }
 
@@ -134,6 +135,17 @@ class RankController extends DefaultController
                 UserBadge::insert([
                     'user_id' => $userTarget->id,
                     'badge_id' => "STAFF_GRAPH",
+                    'badge_slot' => '0',
+                ]);
+                break;
+
+            case 'helper':
+                User::where('id', $userTarget->id)->update(['rank' => '4']);
+                Staff::insert(['userid' => $userTarget->id, 'rank' => '1', 'function' => '']); 
+                StaffProtect::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
+                UserBadge::insert([
+                    'user_id' => $userTarget->id,
+                    'badge_id' => "STAFF_HELPER",
                     'badge_slot' => '0',
                 ]);
                 break;
@@ -227,6 +239,7 @@ class RankController extends DefaultController
         UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_GRAPH')->delete();
         UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_MODO')->delete();
         UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_PROWIRED')->delete();
+        UserBadge::where('user_id', $userTarget->id)->where('badge_id', 'STAFF_HELPER')->delete();
 
         LogStaff::insert([
             'pseudo' => $user->username,

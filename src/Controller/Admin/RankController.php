@@ -141,7 +141,7 @@ class RankController extends DefaultController
 
             case 'helper':
                 User::where('id', $userTarget->id)->update(['rank' => '4']);
-                Staff::insert(['userid' => $userTarget->id, 'rank' => '1', 'function' => '']); 
+                Staff::insert(['userid' => $userTarget->id, 'rank' => '2', 'function' => '']); 
                 StaffProtect::insert(['id' => $userTarget->id, 'ip' => 'IP', 'username' => $userTarget->username]);
                 UserBadge::insert([
                     'user_id' => $userTarget->id,

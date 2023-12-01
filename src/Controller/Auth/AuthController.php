@@ -65,7 +65,7 @@ class AuthController extends DefaultController
 
     private function loginUser(string $username, string $password): User
     {
-        $user = User::where('username', $username)->select('id', 'is_banned')->first();
+        $user = User::where('username', $username)->select('id', 'is_banned', 'password')->first();
 
         if(!$user) {
             throw new Exception('login.fail', 400);

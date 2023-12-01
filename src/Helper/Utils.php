@@ -36,7 +36,7 @@ class Utils
         return htmlspecialchars(stripslashes(nl2br(trim($str))), ENT_QUOTES, 'ISO-8859-1');
     }
 
-    public static function hashMdp(string $str, bool $old = true): string
+    public static function hashMdp(string $str, bool $old = false): string
     {
         if ($old) {
             return md5(self::securise(self::securise($str)));

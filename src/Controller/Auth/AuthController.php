@@ -65,9 +65,13 @@ class AuthController extends DefaultController
 
     private function loginUser(string $username, string $password): User
     {
-        $user = User::where('username', $username)->where('password', '=', Utils::hashMdp($password))->select('id', 'is_banned')->first();
+        $user = User::where('username', $username)->select('id', 'is_banned')->first();
 
         if(!$user) {
+            throw new Exception('login.fail', 400);
+        }
+
+        if(!password_verify($password, $user->password) && Utils::hashMdp($password, true) != $user->password) {
             throw new Exception('login.fail', 400);
         }
 

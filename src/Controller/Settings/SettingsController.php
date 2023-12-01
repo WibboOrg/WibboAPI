@@ -31,7 +31,7 @@ class SettingsController extends DefaultController
         if (empty($data->oldpassword))
             throw new Exception('settings-password.empty-password', 400);
 
-        if (Utils::hashMdp($data->oldpassword) != $user->password)
+        if (!password_verify($data->oldpassword, $user->password) && Utils::hashMdp($data->oldpassword, true) != $user->password)
             throw new Exception('settings-password.empty-password', 400);
 
         if (empty($data->newpassword))
@@ -46,7 +46,7 @@ class SettingsController extends DefaultController
         if ($data->newpassword != $data->repassword) 
             throw new Exception('settings-password.same-password', 400);
 
-        User::where('id', $userId)->update(['password' => Utils::hashMdp($data->newpassword)]);
+        User::where('id', $userId)->update(['password' => utils::hashMdp($data->newpassword)]);
         
         return $this->jsonResponse($response, []);
     }

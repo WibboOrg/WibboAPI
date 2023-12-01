@@ -120,7 +120,7 @@ class RegisterController extends DefaultController
 
         $id = User::insertGetId([
             'username' => $data->username,
-            'password' => Utils::hashMdp($data->password),
+            'password' => utils::hashMdp($data->password),
             'rank' => 1,
             'gender' => 'M',
             'motto' => '',

@@ -88,7 +88,7 @@ class Utils
 
     public static function getUserIP(): string
     {
-        if ($_SERVER['REMOTE_ADDR'] == '178.33.7.19' || $_SERVER['REMOTE_ADDR'] == '127.0.0.1') {
+        if ($_SERVER['REMOTE_ADDR'] == '127.0.0.1') {
             $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
 
             $ip = explode(",", $forward)[0];

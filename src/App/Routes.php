@@ -41,6 +41,7 @@ $app->group('/api/v1', function() use($app) {
     
     $app->get('/room/{roomId}', '\App\Controller\Utils\RoomController:get');
     $app->get('/profil/{name}', 'App\Controller\User\ProfilController:get');
+    $app->get('/profil/id/{id}', 'App\Controller\User\ProfilController:get');
     $app->get('/profil-badges/{userId}', 'App\Controller\User\ProfilController:getBadges');
     $app->get('/group/{groupId}', '\App\Controller\Community\CommunityController:getGroupe');
 

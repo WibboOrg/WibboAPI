@@ -14,11 +14,18 @@ class ProfilController extends DefaultController
 {
     public function get(Request $request, Response $response, array $args): Response
     {
+        $userName = $args['name'] ?? "";
+        $userId = $args['id'] ?? "";
+
         $cacheData = $this->cache->get(10);
         if(!empty($cacheData)) return $this->jsonResponse($response, $cacheData);
 
-        $profil = User::select('id', 'username', 'look', 'motto', 'online', 'limit_coins', 'vip_points', 'account_created', 'last_offline')->where('username', $args['name'])->first();
-
+        $profil = null;
+        if(!empty($userName))
+            $profil = User::select('id', 'username', 'look', 'motto', 'online', 'limit_coins', 'vip_points', 'account_created', 'last_offline')->where('username', $userName)->first();
+        else if(!empty($userId) && is_numeric($userId))
+            $profil = User::select('id', 'username', 'look', 'motto', 'online', 'limit_coins', 'vip_points', 'account_created', 'last_offline')->where('id', $userId)->first();
+        
         if (!$profil) {
             throw new Exception('not-found', 404);
         }

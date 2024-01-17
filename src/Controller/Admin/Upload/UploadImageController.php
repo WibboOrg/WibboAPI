@@ -31,12 +31,12 @@ class UploadImageController extends DefaultController
 
         $uploadFileName = $files['file']->getClientFilename();
 
-        $extension_upload = substr(strrchr($uploadFileName, '.'), 1);
-        if ($extension_upload != 'png' && $extension_upload != 'gif' && $extension_upload != 'jpeg') {
+        $extensionUpload = substr(strrchr($uploadFileName, '.'), 1);
+        if ($extensionUpload != 'png' && $extensionUpload != 'gif' && $extensionUpload != 'jpeg') {
             throw new Exception('error', 400);
         }
 
-        $newFileName = time() . '.' . $extension_upload;
+        $newFileName = time() . '.' . $extensionUpload;
 
         $data = array(
             array(

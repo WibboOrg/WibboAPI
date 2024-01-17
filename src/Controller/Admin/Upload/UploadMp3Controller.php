@@ -35,8 +35,8 @@ class UploadMp3Controller extends DefaultController
             throw new Exception('error', 400);
         }
 
-        $extension_upload = substr(strrchr($uploadFileName, '.'), 1);
-        if ($extension_upload != 'mp3') {
+        $extensionUpload = substr(strrchr($uploadFileName, '.'), 1);
+        if ($extensionUpload != 'mp3') {
             throw new Exception('error', 400);
         }
 

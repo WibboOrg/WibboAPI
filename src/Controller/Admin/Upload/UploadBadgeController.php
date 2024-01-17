@@ -43,12 +43,12 @@ class UploadBadgeController extends DefaultController
         $uploadFileName = $files['file']->getClientFilename();
 
         $size = getimagesize($files['file']->file);
-        if ($size[1] =! 40 || $size[0] != 40) {
+        if ($size[1] != 40 || $size[0] != 40) {
             throw new Exception('error', 400);
         }
 
-        $extension_upload = substr(strrchr($uploadFileName, '.'), 1);
-        if ($extension_upload != 'gif') {
+        $extensionUpload = substr(strrchr($uploadFileName, '.'), 1);
+        if ($extensionUpload != 'gif') {
             throw new Exception('error', 400);
         }
 

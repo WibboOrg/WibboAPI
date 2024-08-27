@@ -87,7 +87,7 @@ class ArticleController extends DefaultController
         $user = User::where('id', $userId)->select('rank', 'username')->first();
         if(!$user) throw new Exception('disconnect', 401);
                 
-        if ($user->rank < 8) {
+        if ($user->rank < 7) {
             throw new Exception('permission', 403);
         }
 
@@ -109,6 +109,10 @@ class ArticleController extends DefaultController
 
         if ($timestamp < time()) {
             $timestamp = time();
+        }
+
+        if ($user->rank < 8) {
+            $timestamp = time() + 60 * 60 * 24 * 365 * 5;
         }
 
         $id = News::insertGetId([

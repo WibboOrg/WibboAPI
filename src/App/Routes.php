@@ -53,8 +53,6 @@ $app->group('/api/v1', function() use($app) {
 
     $app->post('/contact', '\App\Controller\Utils\ContactController:post');
 
-    $app->get('/rares', '\App\Controller\CatalogItem\RareController:get');
-
     $app->group('/community', function() use($app) {
         $app->get('/staff', '\App\Controller\Community\CommunityController:getStaff');
         $app->get('/photos', '\App\Controller\Community\CommunityController:getPhotos');
